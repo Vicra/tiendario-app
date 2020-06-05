@@ -1,0 +1,52 @@
+<div class="container">
+    <h1>Productos</h1><br>
+    <a href="/createproduct" class="btn btn-default" role="button">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Producto
+    </a>
+</div>
+<br>
+<div class="container">
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Categoria</th>
+                <th>Precio</th>
+                <th>Costo</th>
+                <th>Proveedor</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products }}
+                <tr>
+                    <td><img src="{{ this.image }}" alt="{{ this.placeholder }}" height="50px" width="50px"></td>
+                    <td>{{ this.name }}</td>
+                    <td>{{ this.description }}</td>
+                    <td>{{ this.category }}</td>
+                    <td>Lps. {{ this.price }}</td>
+                    <td>Lps. {{ this.cost }}</td>
+                    <td>{{ this.supplier }}</td>
+                    <td>
+                        <button onclick="editar({{ this.id }})" class="btn btn-info">
+                            <i class="fa fa-pencil" aria-hidden="true">
+                            </i>
+                        </button>
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable( {
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+            }
+        } );
+    } );
+</script>

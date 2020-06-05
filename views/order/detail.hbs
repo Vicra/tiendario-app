@@ -1,0 +1,48 @@
+<div class="container">
+    <h1>Detalle de Pedido</h1>
+    <br>
+    <p><strong>Cliente:</strong> {{order.customer}}</p>
+    <p><strong>Tipo:</strong> {{order.type}}</p>
+    <p><strong>Metodo de Pago:</strong> {{order.paymentMethod}}</p>
+    <p><strong>Fecha:</strong> {{order.createdDate}}</p>
+    {{#if order.address}}
+        <p><strong>Direccion:</strong> {{order.address}}</p>
+
+        {{#if order.reference}}
+            <p><strong>Referencia:</strong> {{order.reference}}</p>
+        {{/if}}
+    {{/if}}
+
+    <br>
+    <h3>Productos</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Sub Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each order.items }}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.amount}}</td>
+                    <td>Lps. {{this.price}}</td>
+                    <td>Lps. {{this.subprice}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <br>
+    <h3>Total: Lps.{{order.total}}</h3>
+
+    <a href="/approve-order/{{order.id}}" class="btn btn-info" role="button">
+        <i class="fa fa-check" aria-hidden="true"></i> Aprobar
+    </a>
+
+    <a href="/deliver-order/{{order.id}}" class="btn btn-success" role="button">
+        <i class="fa fa-check" aria-hidden="true"></i> Entregar
+    </a>
+</div>

@@ -1,0 +1,47 @@
+<div class="container">
+    <h1>Proveedores</h1><br>
+    <a href="/createsupplier" class="btn btn-default" role="button">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Proveedor
+    </a>
+</div>
+<br>
+<div class="container">
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Telefono</th>
+                <th>Celular</th>
+                <th>Direccion</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each suppliers }}
+                <tr>
+                    <td>{{ this.name }}</td>
+                    <td>{{ this.description }}</td>
+                    <td>{{ this.phone }}</td>
+                    <td>{{ this.cellphone }}</td>
+                    <td>{{ this.address }}</td>
+                    <td>
+                        <a href="/edit-supplier/{{this.id}}" class="btn btn-info" role="button">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable( {
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+            }
+        } );
+    } );
+</script>

@@ -1,0 +1,119 @@
+<br>
+<div class="container">
+    <h1>Crear Producto</h1>
+
+    <form action="/submitproduct" name="submitproduct" method="POST">
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="producto">
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
+                Ingrese el nombre.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Descripcion</label>
+            <input type="text" class="form-control" id="description" name="description" placeholder="descripcion">
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterDescription">
+                Ingrese la descripcion.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Categoria</label>
+            <select class="form-control" id="category" name="categoryId">
+                {{#each categories }}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="supplier">Proveedor</label>
+            <select class="form-control" id="supplier" name="supplierId">
+                {{#each suppliers }}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="costo" class="col-2 col-form-label">Costo</label>
+            <div class="col-10">
+                <input class="form-control" type="number" id="cost" name="cost">
+            </div>
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterCost">
+                Ingrese el costo.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="price" class="col-2 col-form-label">Precio</label>
+            <div class="col-10">
+                <input class="form-control" type="number" id="price" name="price">
+            </div>
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterPrice">
+                Ingrese el precio.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="url" class="col-2 col-form-label">URL Imagen</label>
+            <div class="col-10">
+                <input class="form-control" type="url" placeholder="https://getbootstrap.com/img.png" id="url" name="url"> 
+            </div>
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterUrl">
+                Ingrese un link para la imagen.
+            </div>
+        </div>
+
+        <div class="text-right">
+            <a onclick="validate();" 
+                type="button" class="btn btn-success">Crear</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function validate(){
+        const delay = 6000;//6seconds
+        const addressLength = 10;
+
+        let params = {};
+        params.name = $('#name').val();
+        params.description = $('#description').val();
+        params.category = $('#category').val();
+        params.supplier = $('#supplier').val();
+        params.cost = $('#cost').val();
+        params.price = $('#price').val();
+        params.url = $('#url').val();
+        
+
+        let hasError = false;
+        if(!params.name){
+            hasError = true;
+            $('#enterName').fadeIn().delay(delay).fadeOut();
+        }
+        if(!params.cost){
+            hasError = true;
+            $('#enterCost').fadeIn().delay(delay).fadeOut();
+        }
+        if(!params.price){
+            hasError = true;
+            $('#enterPrice').fadeIn().delay(delay).fadeOut();
+        }
+        if(!params.url){
+            hasError = true;
+            $('#enterUrl').fadeIn().delay(delay).fadeOut();
+        }
+
+        if(!hasError){
+            $("form[name='submitproduct']").submit();
+        }
+    }
+</script>

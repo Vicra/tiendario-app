@@ -1,0 +1,102 @@
+<div class="wrapper">
+    <h1 style="font-size:6vw;">{{title}}</h1>
+
+    <form action="/placeorder/" name="placeorder" method="POST">
+        <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
+            Ingrese el nombre.
+        </div>
+        <p>Nombre</p>
+        <input type="text" class="form-control" name="name" id="name"><br>
+        
+        <div class="alert alert-danger" role="alert" style="display: none;" id="enterPhone">
+            Ingrese el numero de telefono.
+        </div>
+        <p>Numero de Telefono</p>
+        <input type="text" class="responsiveInput" name="phone" id="phone" placeholder="99493461"><br>
+
+        <div class="radioButtons">
+            <div class="custom-control custom-radio">
+            <input type="radio" id="delivery" name="deliveryRadio" class="custom-control-input">
+            <label class="custom-control-label" style="font-size:2vw;"  for="delivery">A domicilio</label>
+            </div>
+
+            <div class="custom-control custom-radio">
+            <input type="radio" id="pickup" name="deliveryRadio" class="custom-control-input" checked="true">
+            <label class="custom-control-label" style="font-size:2vw;" for="pickup">Recoger en establecimiento</label>
+            </div>
+        </div>
+
+        <div id="addressBox" style="display: none;">
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterAddress">
+                Ingrese la direccion.
+            </div>
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="addressValid">
+                La direccion debe tener almenos 10 caracteres.
+            </div>
+            <p>Direccion</p>
+            <textarea id="address" class="form-control" style="resize: none;" 
+            rows="4" cols="50"
+            placeholder="7 calle 20 ave Barrio Rio Piedras"></textarea>
+            <br>
+        </div>
+
+        <div class="text-right">
+            <a onclick="validate();" 
+                type="button" class="btn btn-success">Realizar Pedido</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    $( 'input[name="deliveryRadio"]' ).change(function() {
+        var radioValue = $("input[name='deliveryRadio']:checked").attr('id');
+        if(radioValue === "delivery"){
+            $('#addressBox').fadeIn();
+        }
+        else{
+            $('#addressBox').fadeOut();
+        }
+    });
+
+    function validate(){
+        const delay = 3000;//3seconds
+        const addressLength = 10;
+
+        let params = {};
+        params.name = $('#name').val();
+        params.phone = $('#phone').val();
+        params.deliveryType = $("input[name='deliveryRadio']:checked").attr('id');
+        if(params.deliveryType === "delivery"){
+            params.address = $('#address').val();
+        }
+        $("input[name='deliveryRadio']").val(params.deliveryType);
+
+        let hasError = false;
+        if(!params.name){
+            hasError = true;
+            $('#enterName').fadeIn().delay(delay).fadeOut();
+        }
+        if(!params.phone){
+            hasError = true;
+            $('#enterPhone').fadeIn().delay(delay).fadeOut();
+        }
+
+
+        if(params.deliveryType === "delivery"){
+            if(!params.address){
+                hasError = true;
+                $('#enterAddress').fadeIn().delay(delay).fadeOut();
+            }
+            else if(params.address.length < addressLength){
+                hasError = true;
+                $('#addressValid').fadeIn().delay(delay).fadeOut();
+            }
+
+        }
+        console.log(hasError);
+        if(!hasError){
+            $("form[name='placeorder']").submit();
+        }
+    }
+</script>
