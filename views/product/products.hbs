@@ -21,32 +21,39 @@
         </thead>
         <tbody>
             {{#each products }}
-                <tr>
-                    <td><img src="{{ this.image }}" alt="{{ this.placeholder }}" height="50px" width="50px"></td>
-                    <td>{{ this.name }}</td>
-                    <td>{{ this.description }}</td>
-                    <td>{{ this.category }}</td>
-                    <td>Lps. {{ this.price }}</td>
-                    <td>Lps. {{ this.cost }}</td>
-                    <td>{{ this.supplier }}</td>
-                    <td>
-                        <button onclick="editar({{ this.id }})" class="btn btn-info">
-                            <i class="fa fa-pencil" aria-hidden="true">
-                            </i>
-                        </button>
-                    </td>
-                </tr>
+            <tr>
+                <td><img id="image{{this.id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');"
+                        height="50px" width="50px"></td>
+                <td>{{ this.name }}</td>
+                <td>{{ this.description }}</td>
+                <td>{{ this.category }}</td>
+                <td>Lps. {{ this.price }}</td>
+                <td>Lps. {{ this.cost }}</td>
+                <td>{{ this.supplier }}</td>
+                <td>
+                    <button onclick="editar({{ this.id }})" class="btn btn-info">
+                        <i class="fa fa-pencil" aria-hidden="true">
+                        </i>
+                    </button>
+                </td>
+            </tr>
             {{/each}}
         </tbody>
     </table>
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#example').DataTable( {
+    $(document).ready(function () {
+        $('#example').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
             }
-        } );
-    } );
+        });
+    });
+</script>
+
+<script>
+    function hasError(id, source) {
+        document.getElementById(`image${id}`).src = source;
+    }
 </script>

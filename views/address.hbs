@@ -7,7 +7,7 @@
         </div>
         <p>Nombre</p>
         <input type="text" class="form-control" name="name" id="name"><br>
-        
+
         <div class="alert alert-danger" role="alert" style="display: none;" id="enterPhone">
             Ingrese el numero de telefono.
         </div>
@@ -16,13 +16,14 @@
 
         <div class="radioButtons">
             <div class="custom-control custom-radio">
-            <input type="radio" id="delivery" name="deliveryRadio" class="custom-control-input">
-            <label class="custom-control-label" style="font-size:2vw;"  for="delivery">A domicilio</label>
+                <input type="radio" id="delivery" name="deliveryRadio" class="custom-control-input">
+                <label class="custom-control-label" style="font-size:2vw;" for="delivery">A domicilio</label>
             </div>
 
             <div class="custom-control custom-radio">
-            <input type="radio" id="pickup" name="deliveryRadio" class="custom-control-input" checked="true">
-            <label class="custom-control-label" style="font-size:2vw;" for="pickup">Recoger en establecimiento</label>
+                <input type="radio" id="pickup" name="deliveryRadio" class="custom-control-input" checked="true">
+                <label class="custom-control-label" style="font-size:2vw;" for="pickup">Recoger en
+                    establecimiento</label>
             </div>
         </div>
 
@@ -35,31 +36,29 @@
                 La direccion debe tener almenos 10 caracteres.
             </div>
             <p>Direccion</p>
-            <textarea id="address" class="form-control" style="resize: none;" 
-            rows="4" cols="50"
-            placeholder="7 calle 20 ave Barrio Rio Piedras"></textarea>
+            <textarea id="address" class="form-control" style="resize: none;" rows="4" cols="50"
+                placeholder="7 calle 20 ave Barrio Rio Piedras"></textarea>
             <br>
         </div>
 
         <div class="text-right">
-            <a onclick="validate();" 
-                type="button" class="btn btn-success">Realizar Pedido</a>
+            <a onclick="validate();" type="button" class="btn btn-success">Realizar Pedido</a>
         </div>
     </form>
 </div>
 
 <script>
-    $( 'input[name="deliveryRadio"]' ).change(function() {
+    $('input[name="deliveryRadio"]').change(function () {
         var radioValue = $("input[name='deliveryRadio']:checked").attr('id');
-        if(radioValue === "delivery"){
+        if (radioValue === "delivery") {
             $('#addressBox').fadeIn();
         }
-        else{
+        else {
             $('#addressBox').fadeOut();
         }
     });
 
-    function validate(){
+    function validate() {
         const delay = 3000;//3seconds
         const addressLength = 10;
 
@@ -67,35 +66,34 @@
         params.name = $('#name').val();
         params.phone = $('#phone').val();
         params.deliveryType = $("input[name='deliveryRadio']:checked").attr('id');
-        if(params.deliveryType === "delivery"){
+        if (params.deliveryType === "delivery") {
             params.address = $('#address').val();
         }
         $("input[name='deliveryRadio']").val(params.deliveryType);
 
         let hasError = false;
-        if(!params.name){
+        if (!params.name) {
             hasError = true;
             $('#enterName').fadeIn().delay(delay).fadeOut();
         }
-        if(!params.phone){
+        if (!params.phone) {
             hasError = true;
             $('#enterPhone').fadeIn().delay(delay).fadeOut();
         }
 
 
-        if(params.deliveryType === "delivery"){
-            if(!params.address){
+        if (params.deliveryType === "delivery") {
+            if (!params.address) {
                 hasError = true;
                 $('#enterAddress').fadeIn().delay(delay).fadeOut();
             }
-            else if(params.address.length < addressLength){
+            else if (params.address.length < addressLength) {
                 hasError = true;
                 $('#addressValid').fadeIn().delay(delay).fadeOut();
             }
 
         }
-        console.log(hasError);
-        if(!hasError){
+        if (!hasError) {
             $("form[name='placeorder']").submit();
         }
     }

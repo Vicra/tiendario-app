@@ -3,35 +3,39 @@
   <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Rio Piedras</p>
 </div>
 
-{{!-- <div class="buttons">
-  <button class="grid-view on"><i class="fa fa-th"></i></button>
-  <button class="list-view"><i class="fa fa-bars"></i></button>  
-</div> --}}
 <div class="container grid">
   {{#if products}}
-    {{#each products }}
-      <div class="item">
-        <br>
-        <img src="{{ this.image }}" alt="{{ this.placeholder }}" height="200px" width="200px" style="background-size:cover;">
-        <div class="details">
-            <h3>{{ this.name }}</h3>
-            {{#if this.description}}
-                <p class="description">{{{this.description}}}</p>
-            {{else}}
-                <p class="description"><i>Sin descripcion</i></p>
-            {{/if}}
-            
-            <div class="clearfix">
-              <div class="price pull-left"><i class="fa fa-tag" aria-hidden="true"></i> {{ this.price }} Lps</div>
-              <div class="price pull-right">
-                <a href="/add/{{ this.id }}" class="btn btn-default pull-right" role="button"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Agregar</a>
-              </div>
-            </div>
+  {{#each products }}
+  <div class="item">
+    <br>
+    <img id="image{{id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px"
+      width="200px" style="background-size:cover;">
+    <div class="details">
+      <h3>{{ this.name }}</h3>
+      {{#if this.description}}
+      <p class="description">{{{this.description}}}</p>
+      {{else}}
+      <p class="description"><i>Sin descripcion</i></p>
+      {{/if}}
+
+      <div class="clearfix">
+        <div class="price pull-left"><i class="fa fa-tag" aria-hidden="true"></i> {{ this.price }} Lps</div>
+        <div class="price pull-right">
+          <a href="/add/{{ this.id }}" class="btn btn-default pull-right" role="button"><i class="fa fa-shopping-cart"
+              aria-hidden="true"></i> Agregar</a>
         </div>
-        <br>
       </div>
-    {{/each}}
+    </div>
+    <br>
+  </div>
+  {{/each}}
   {{else}}
-    <i>No hay productos en este momento</i>
+  <i>No hay productos en este momento</i>
   {{/if}}
 </div>
+
+<script>
+  function hasError(id, source) {
+    document.getElementById(`image${id}`).src = source;
+  }
+</script>

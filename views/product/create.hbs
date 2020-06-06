@@ -25,7 +25,7 @@
             <label for="category">Categoria</label>
             <select class="form-control" id="category" name="categoryId">
                 {{#each categories }}
-                    <option value="{{this.id}}">{{this.name}}</option>
+                <option value="{{this.id}}">{{this.name}}</option>
                 {{/each}}
             </select>
         </div>
@@ -34,7 +34,16 @@
             <label for="supplier">Proveedor</label>
             <select class="form-control" id="supplier" name="supplierId">
                 {{#each suppliers }}
-                    <option value="{{this.id}}">{{this.name}}</option>
+                <option value="{{this.id}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="brand">Marca</label>
+            <select class="form-control" id="brand" name="brandId">
+                {{#each brands }}
+                <option value="{{this.id}}">{{this.name}}</option>
                 {{/each}}
             </select>
         </div>
@@ -64,7 +73,8 @@
         <div class="form-group">
             <label for="url" class="col-2 col-form-label">URL Imagen</label>
             <div class="col-10">
-                <input class="form-control" type="url" placeholder="https://getbootstrap.com/img.png" id="url" name="url"> 
+                <input class="form-control" type="url" placeholder="https://getbootstrap.com/img.png" id="url"
+                    name="url">
             </div>
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterUrl">
@@ -73,14 +83,13 @@
         </div>
 
         <div class="text-right">
-            <a onclick="validate();" 
-                type="button" class="btn btn-success">Crear</a>
+            <a onclick="validate();" type="button" class="btn btn-success">Crear</a>
         </div>
     </form>
 </div>
 
 <script>
-    function validate(){
+    function validate() {
         const delay = 6000;//6seconds
         const addressLength = 10;
 
@@ -92,27 +101,27 @@
         params.cost = $('#cost').val();
         params.price = $('#price').val();
         params.url = $('#url').val();
-        
+
 
         let hasError = false;
-        if(!params.name){
+        if (!params.name) {
             hasError = true;
             $('#enterName').fadeIn().delay(delay).fadeOut();
         }
-        if(!params.cost){
+        if (!params.cost) {
             hasError = true;
             $('#enterCost').fadeIn().delay(delay).fadeOut();
         }
-        if(!params.price){
+        if (!params.price) {
             hasError = true;
             $('#enterPrice').fadeIn().delay(delay).fadeOut();
         }
-        if(!params.url){
+        if (!params.url) {
             hasError = true;
             $('#enterUrl').fadeIn().delay(delay).fadeOut();
         }
 
-        if(!hasError){
+        if (!hasError) {
             $("form[name='submitproduct']").submit();
         }
     }

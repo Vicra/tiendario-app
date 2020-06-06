@@ -5,6 +5,7 @@ const orderService = require('../services/orderService');
 
 const supplierService = require('../services/supplierService');
 const categoryService = require('../services/categoryService');
+const brandService = require('../services/brandService');
 
 let Cart = require('../models/cart');
 
@@ -16,19 +17,19 @@ let products = [];
 })();
 
 router.get('/', function (req, res, next) {
-  res.render('index', 
-  { 
-    title: AppName,
-    products: products,
-    type: 1
-  }
+  res.render('index',
+    {
+      title: AppName,
+      products: products,
+      type: 1
+    }
   );
 });
 
-router.get('/add/:id', function(req, res, next) {
+router.get('/add/:id', function (req, res, next) {
   let productId = req.params.id;
   let cart = new Cart(req.session.cart ? req.session.cart : {});
-  let product = products.filter(function(item) {
+  let product = products.filter(function (item) {
     return item.id == productId;
   });
   cart.add(product[0], productId);
@@ -36,7 +37,7 @@ router.get('/add/:id', function(req, res, next) {
   res.redirect('/');
 });
 
-router.get('/cart', function(req, res, next) {
+router.get('/cart', function (req, res, next) {
   if (!req.session.cart) {
     return res.render('cart', {
       products: null,
@@ -52,7 +53,7 @@ router.get('/cart', function(req, res, next) {
   });
 });
 
-router.get('/remove/:id', function(req, res, next) {
+router.get('/remove/:id', function (req, res, next) {
   let productId = req.params.id;
   let cart = new Cart(req.session.cart ? req.session.cart : {});
 
@@ -61,7 +62,7 @@ router.get('/remove/:id', function(req, res, next) {
   res.redirect('/cart');
 });
 
-router.get('/address', function(req, res, next) {
+router.get('/address', function (req, res, next) {
   if (!req.session.cart) {
     return res.render('address', {
       products: null,
@@ -77,7 +78,7 @@ router.get('/address', function(req, res, next) {
   });
 });
 
-router.post('/placeorder', function(req, res, next) {
+router.post('/placeorder', function (req, res, next) {
 
   let params = req.body;
   let cart = new Cart(req.session.cart);
@@ -88,8 +89,8 @@ router.post('/placeorder', function(req, res, next) {
   })();
   req.session.cart = new Cart({});
 
-  res.render('index', 
-    { 
+  res.render('index',
+    {
       title: AppName,
       products: products,
       type: 1
@@ -97,15 +98,15 @@ router.post('/placeorder', function(req, res, next) {
   );
 });
 
-router.get('/admin', function(req, res, next) {
-  
+router.get('/admin', function (req, res, next) {
+
   res.render('admin', {
     title: AppName
   });
 });
 
-router.get('/products', function(req, res, next) {
-  
+router.get('/products', function (req, res, next) {
+
   (async () => {
     let products = await productService.getProducts();
     res.render('product/products', {
@@ -115,22 +116,25 @@ router.get('/products', function(req, res, next) {
   })();
 });
 
-router.get('/createproduct', function(req, res, next) {
+router.get('/createproduct', function (req, res, next) {
   let suppliers = [];
   let categories = [];
+  let brands = [];
   (async () => {
     categories = await categoryService.getCategories();
     suppliers = await supplierService.getSuppliers();
+    brands = await brandService.getBrands();
 
     res.render('product/create', {
       title: AppName,
       suppliers: suppliers,
-      categories: categories
+      categories: categories,
+      brands: brands
     });
   })();
 });
 
-router.post('/submitproduct', function(req, res, next) {
+router.post('/submitproduct', function (req, res, next) {
 
   let params = req.body;
 
@@ -140,8 +144,8 @@ router.post('/submitproduct', function(req, res, next) {
   })();
 });
 
-router.get('/suppliers', function(req, res, next) {
-  
+router.get('/suppliers', function (req, res, next) {
+
   (async () => {
     let suppliers = await supplierService.getSuppliers();
     res.render('supplier/suppliers', {
@@ -151,8 +155,8 @@ router.get('/suppliers', function(req, res, next) {
   })();
 });
 
-router.get('/createsupplier', function(req, res, next) {
-  
+router.get('/createsupplier', function (req, res, next) {
+
   (async () => {
     res.render('supplier/create', {
       title: AppName
@@ -160,8 +164,8 @@ router.get('/createsupplier', function(req, res, next) {
   })();
 });
 
-router.get('/orders', function(req, res, next) {
-  
+router.get('/orders', function (req, res, next) {
+
   (async () => {
     let orders = await orderService.getNewOrders();
     res.render('order/orders', {
@@ -171,8 +175,8 @@ router.get('/orders', function(req, res, next) {
   })();
 });
 
-router.get('/catalog', function(req, res, next) {
-  
+router.get('/catalog', function (req, res, next) {
+
   (async () => {
     let categoriesCatalog = await productService.getProductsByCategory();
 
@@ -184,12 +188,12 @@ router.get('/catalog', function(req, res, next) {
   })();
 });
 
-router.get('/view-order/:id', function(req, res, next) {
+router.get('/view-order/:id', function (req, res, next) {
   let orderId = req.params.id;
   (async () => {
     let order = await orderService.getOrderById(orderId);
     order.total = 0;
-    order.items.forEach(element => 
+    order.items.forEach(element =>
       order.total += element.subprice
     );
     res.render('order/detail', {

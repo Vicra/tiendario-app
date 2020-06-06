@@ -1,15 +1,15 @@
 const axios = require('axios');
 
-class CategoryService {
+class BrandService {
     constructor() {
         this.host = "http://localhost:3000/api";
     }
 
-    async getCategories() {
+    async getBrands() {
         try {
-            const response = await axios.get(`${this.host}/category`);
-            let categories = response.data.data;
-            return categories;
+            const response = await axios.get(`${this.host}/brand`);
+            let brands = response.data.data;
+            return brands;
         } catch (error) {
             if (error.response)
                 console.log(error.response.body);
@@ -18,4 +18,4 @@ class CategoryService {
     }
 }
 
-module.exports = new CategoryService();
+module.exports = new BrandService();

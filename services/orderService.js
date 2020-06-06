@@ -2,7 +2,7 @@ const axios = require('axios');
 // const request = require('request');
 
 class OrderService {
-    constructor(){
+    constructor() {
         this.host = "http://localhost:3000/api";
     }
 
@@ -12,9 +12,9 @@ class OrderService {
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 _items.push({
-                    id:item.item.id,
-                    amount:item.quantity,
-                    price:item.price
+                    id: item.item.id,
+                    amount: item.quantity,
+                    price: item.price
                 });
             }
 
@@ -22,41 +22,40 @@ class OrderService {
                 items: _items,
                 name: params.name,
                 phone: params.phone,
-                observations : params.observations || "",
+                observations: params.observations || "",
                 type: params.deliveryRadio,
                 address: params.address || ""
             });
-            console.log(response);
             return;
         } catch (error) {
             console.log(error);
-            if(error.response)
+            if (error.response)
                 console.log(error.response.body);
             return;
         }
     }
 
-    async getNewOrders(){
-        try{
+    async getNewOrders() {
+        try {
             let response = await axios.get(`${this.host}/order/newOrders`);
             return response.data.data;
         }
-        catch(error){
+        catch (error) {
             console.log(error);
-            if(error.response)
+            if (error.response)
                 console.log(error.response.body);
             return [];
         }
     }
 
-    async getOrderById(id){
-        try{
+    async getOrderById(id) {
+        try {
             let response = await axios.get(`${this.host}/order/${id}`);
             return response.data.data;
         }
-        catch(error){
+        catch (error) {
             console.log(error);
-            if(error.response)
+            if (error.response)
                 console.log(error.response.body);
             return [];
         }
