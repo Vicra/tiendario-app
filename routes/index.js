@@ -17,13 +17,28 @@ let products = [];
 })();
 
 router.get('/', function (req, res, next) {
-  res.render('index',
-    {
+  console.log(products.length);
+  if(!products.length){
+    (async () => {
+      products = await productService.getProducts();
+    })();
+    res.render('index', 
+    { 
       title: AppName,
       products: products,
       type: 1
     }
-  );
+    );
+  }
+  else{
+    res.render('index', 
+      { 
+        title: AppName,
+        products: products,
+        type: 1
+      }
+    );
+  }
 });
 
 router.get('/add/:id', function (req, res, next) {
