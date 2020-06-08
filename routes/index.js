@@ -106,10 +106,12 @@ router.get('/admin', function (req, res, next) {
 router.get('/products', function (req, res, next) {
 
   (async () => {
-    let products = await productService.getProducts();
+    let products = await productService.getLatestProducts();
     res.render('product/products', {
       title: AppName,
-      products: products
+      products: products,
+      success: req.query.s,
+      updated: req.query.u
     });
   })();
 });
@@ -127,7 +129,8 @@ router.get('/create-product', function (req, res, next) {
       title: AppName,
       suppliers: suppliers,
       categories: categories,
-      brands: brands
+      brands: brands,
+      message: req.query.m
     });
   })();
 });
@@ -137,8 +140,13 @@ router.post('/submit-product', function (req, res, next) {
   let params = req.body;
 
   (async () => {
-    await productService.postProduct(params);
-    res.redirect('/products');
+    let response = await productService.postProduct(params);
+    if(response.code != 200){
+      res.redirect(`/create-product?m=${response.data.message}`);
+    }
+    else {
+      res.redirect('/products?s=1');
+    }
   })();
 });
 
@@ -156,7 +164,8 @@ router.get('/edit-product/:id', function (req, res, next) {
       suppliers: suppliers,
       categories: categories,
       brands: brands,
-      product: product
+      product: product,
+      message: req.query.m
     });
   })();
 });
@@ -167,8 +176,13 @@ router.post('/update-product', function (req, res, next) {
   (params.available == "on")  ? params.available = 1 : params.available = 0;
   
   (async () => {
-    await productService.putProduct(params);
-    res.redirect('/products');
+    let response = await productService.putProduct(params);
+    if(response.code != 200){
+      res.redirect(`/edit-product/${params.id}?m=${response.data.message}`);
+    }
+    else {
+      res.redirect('/products?u=1');
+    }
   })();
 });
 
@@ -176,10 +190,12 @@ router.post('/update-product', function (req, res, next) {
 router.get('/suppliers', function (req, res, next) {
 
   (async () => {
-    let suppliers = await supplierService.getSuppliers();
+    let suppliers = await supplierService.getLatestSuppliers();
     res.render('supplier/suppliers', {
       title: AppName,
-      suppliers: suppliers
+      suppliers: suppliers,
+      success: req.query.s,
+      updated: req.query.u
     });
   })();
 });
@@ -190,6 +206,48 @@ router.get('/create-supplier', function (req, res, next) {
     res.render('supplier/create', {
       title: AppName
     });
+  })();
+});
+
+router.post('/submit-supplier', function (req, res, next) {
+
+  let params = req.body;
+
+  (async () => {
+    let response = await supplierService.postSupplier(params);
+    if(response.code != 200){
+      res.redirect(`/create-supplier?m=${response.data.message}`);
+    }
+    else {
+      res.redirect('/suppliers?s=1');
+    }
+  })();
+});
+
+router.get('/edit-supplier/:id', function (req, res, next) {
+  let supplierId = req.params.id;
+  (async () => {
+    let supplier = await supplierService.getSupplierById(supplierId);
+    res.render('supplier/edit', {
+      title: AppName,
+      supplier: supplier,
+      message: req.query.m
+    });
+  })();
+});
+
+router.post('/update-supplier', function (req, res, next) {
+
+  let params = req.body;
+  
+  (async () => {
+    let response = await supplierService.putSupplier(params);
+    if(response.code != 200){
+      res.redirect(`/edit-supplier/${params.id}?m=${response.data.message}`);
+    }
+    else {
+      res.redirect('/suppliers?u=1');
+    }
   })();
 });
 

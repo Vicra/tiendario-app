@@ -1,3 +1,5 @@
+<br>
+
 {{#if message}}
   <div class="container">
     <div class="alert alert-danger" role="alert">
@@ -7,12 +9,13 @@
 {{/if}}
 
 <div class="container">
-    <h1>Crear Proveedor</h1>
+    <h1>Editar Proveedor</h1>
 
-    <form action="/submit-supplier" name="submitsupplier" method="POST">
+    <form action="/update-supplier" name="updatesupplier" method="POST">
+        <input type="number" hidden="true" value="{{supplier.id}}" name="id">
         <div class="form-group">
-            <label for="name">Nombre Empresa</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Proveedor">
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{supplier.name}}">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
                 Ingrese el nombre.
@@ -20,18 +23,18 @@
         </div>
 
         <div class="form-group">
-            <label for="name">Nombre Contacto</label>
-            <input type="text" class="form-control" id="description" name="description" placeholder="descripcion">
+            <label for="name">Descripcion</label>
+            <input type="text" class="form-control" id="description" name="description" value="{{supplier.description}}">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterDescription">
-                Ingrese la nombre contacto.
+                Ingrese la descripcion.
             </div>
         </div>
 
         <div class="form-group">
-            <label for="phone" class="col-2 col-form-label">Numero de Telefono</label>
+            <label for="phone" class="col-2 col-form-label">Telefono</label>
             <div class="col-10">
-                <input class="form-control" type="number" id="phone" name="phone">
+                <input class="form-control" type="number" id="phone" name="phone" value="{{supplier.phone}}">
             </div>
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterPhone">
@@ -42,17 +45,19 @@
         <div class="form-group">
             <label for="cellphone" class="col-2 col-form-label">Celular</label>
             <div class="col-10">
-                <input class="form-control" type="number" id="cellphone" name="cellphone">
+                <input class="form-control" type="number" id="cellphone" name="cellphone" value="{{supplier.cellphone}}">
             </div>
         </div>
 
         <div class="form-group">
             <label for="address" class="col-2 col-form-label">Direccion</label>
-            <input type="text" class="form-control" id="address" name="address" placeholder="7 calle 20 ave">
+            <div class="col-10">
+                <input class="form-control" type="text" id="address" name="address" value="{{supplier.address}}">
+            </div>
         </div>
 
         <div class="text-right">
-            <a onclick="validate();" type="button" class="btn btn-success">Crear</a>
+            <a onclick="validate();" type="button" class="btn btn-success">Actualizar</a>
         </div>
     </form>
 </div>
@@ -60,6 +65,7 @@
 <script>
     function validate() {
         const delay = 6000;//6seconds
+        const addressLength = 10;
 
         let params = {};
         params.name = $('#name').val();
@@ -83,7 +89,7 @@
         }
 
         if (!hasError) {
-            $("form[name='submitsupplier']").submit();
+            $("form[name='updatesupplier']").submit();
         }
     }
 </script>

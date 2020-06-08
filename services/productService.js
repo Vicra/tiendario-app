@@ -17,10 +17,11 @@ class ProductService {
         }
     }
 
-    async postProduct(product) {
+    async getLatestProducts() {
         try {
-            const response = await axios.post(`${this.host}/product`, product);
-            return response.data.data;
+            const response = await axios.get(`${this.host}/product/latest`);
+            let products = response.data.data;
+            return products;
         } catch (error) {
             if (error.response)
                 console.log(error.response.body);
@@ -28,16 +29,23 @@ class ProductService {
         }
     }
 
+    async postProduct(product) {
+        try {
+            const response = await axios.post(`${this.host}/product`, product);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return error.response;
+        }
+    }
+
     async putProduct(product){
-        console.log(product);
         try {
             const response = await axios.put(`${this.host}/product/${product.id}`, product);
-            console.log(response);
-            return response.data.data;
+            return response.data;
         } catch (error) {
-            if (error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 

@@ -5,6 +5,23 @@
     </a>
 </div>
 <br>
+
+{{#if success}}
+  <div class="container">
+    <div class="alert alert-success" role="alert">
+        Proveedor Creado
+    </div>
+  </div>
+{{/if}}
+
+{{#if updated}}
+  <div class="container">
+    <div class="alert alert-success" role="alert">
+        Proveedor Actualizado
+    </div>
+  </div>
+{{/if}}
+
 <div class="container">
     <table id="example" class="display" style="width:100%">
         <thead>
