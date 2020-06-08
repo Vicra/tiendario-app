@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="col-xs-2">
+    <div class="col-xs-3">
         <div class="pull-left">
             <a href="/">
                 <i class="fa fa-home" aria-hidden="true"></i> 
@@ -7,14 +7,14 @@
             </a>
         </div>
     </div>
-    <div class="col-xs-2">
+    {{!-- <div class="col-xs-2">
         <div class="pull-left">
             <a href="/">
                 <i class="fa fa-list" aria-hidden="true"></i> 
                 Pedir Por Formulario
             </a>
         </div>
-    </div>
+    </div> --}}
     <div class="col-xs-2">
         <div class="pull-left">
             <a href="/catalog">
@@ -23,7 +23,12 @@
             </a>
         </div>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-4">
+        <div class="pull-middle">
+            <img src="tiendario.png" onerror="hasError()" id="logo">
+        </div>
+    </div>
+    <div class="col-xs-3">
         <div class="dropdown pull-right">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i> Carrito
@@ -59,3 +64,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    function hasError() {
+        document.getElementById(`logo`).src = "../tiendario.png";
+    }
+</script>

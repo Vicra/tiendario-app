@@ -28,10 +28,35 @@ class ProductService {
         }
     }
 
+    async putProduct(product){
+        console.log(product);
+        try {
+            const response = await axios.put(`${this.host}/product/${product.id}`, product);
+            console.log(response);
+            return response.data.data;
+        } catch (error) {
+            if (error.response)
+                console.log(error.response.body);
+            return [];
+        }
+    }
+
     async getProductsByCategory() {
         try {
             const response = await axios.get(`${this.host}/product/catalog`);
             return response.data.data;
+        } catch (error) {
+            if (error.response)
+                console.log(error.response.body);
+            return [];
+        }
+    }
+
+    async getProductById(id){
+        try {
+            const response = await axios.get(`${this.host}/product/${id}`);
+            let product = response.data.data;
+            return product;
         } catch (error) {
             if (error.response)
                 console.log(error.response.body);

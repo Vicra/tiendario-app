@@ -3,6 +3,17 @@
   <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Rio Piedras</p>
 </div>
 
+{{#if success}}
+  <div class="container">
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">Orden creada!</h4>
+      <p>Nos pondremos en contanto contigo dentro de pronto.</p>
+      <hr>
+      <p class="mb-0">En caso de tener consultas puede llamar al +(504) 9930-60999.</p>
+    </div>
+  </div>
+{{/if}}
+
 <div class="container grid">
   {{#if products}}
   {{#each products }}

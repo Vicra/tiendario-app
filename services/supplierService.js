@@ -8,7 +8,6 @@ class SupplierService {
     async getSuppliers() {
         try {
           const response = await axios.get(`${this.host}/supplier`);
-          console.log(response.data.data);
           let suppliers = response.data.data;
           return suppliers;
         } catch (error) {

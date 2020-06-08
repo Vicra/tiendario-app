@@ -1,11 +1,12 @@
 <br>
 <div class="container">
-    <h1>Crear Producto</h1>
+    <h1>Editar Producto</h1>
 
-    <form action="/submit-product" name="submitproduct" method="POST">
+    <form action="/update-product" name="submitproduct" method="POST">
+        <input type="number" hidden="true" value="{{product.id}}" name="id">
         <div class="form-group">
             <label for="name">Nombre</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="producto">
+            <input type="text" class="form-control" id="name" name="name" value="{{product.name}}">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
                 Ingrese el nombre.
@@ -14,7 +15,7 @@
 
         <div class="form-group">
             <label for="name">Descripcion</label>
-            <input type="text" class="form-control" id="description" name="description" placeholder="descripcion">
+            <input type="text" class="form-control" id="description" name="description" value="{{product.description}}">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterDescription">
                 Ingrese la descripcion.
@@ -24,8 +25,9 @@
         <div class="form-group">
             <label for="category">Categoria</label>
             <select class="form-control" id="category" name="categoryId">
+                <option value=""><i></i></option>
                 {{#each categories }}
-                <option value="{{this.id}}">{{this.name}}</option>
+                    <option value="{{this.id}}">{{this.name}}</option>
                 {{/each}}
             </select>
         </div>
@@ -33,8 +35,9 @@
         <div class="form-group">
             <label for="supplier">Proveedor</label>
             <select class="form-control" id="supplier" name="supplierId">
+                <option value=""><i></i></option>
                 {{#each suppliers }}
-                <option value="{{this.id}}">{{this.name}}</option>
+                    <option value="{{this.id}}">{{this.name}}</option>
                 {{/each}}
             </select>
         </div>
@@ -42,8 +45,9 @@
         <div class="form-group">
             <label for="brand">Marca</label>
             <select class="form-control" id="brand" name="brandId">
+                <option value=""><i></i></option>
                 {{#each brands }}
-                <option value="{{this.id}}">{{this.name}}</option>
+                    <option value="{{this.id}}">{{this.name}}</option>
                 {{/each}}
             </select>
         </div>
@@ -51,7 +55,7 @@
         <div class="form-group">
             <label for="costo" class="col-2 col-form-label">Costo</label>
             <div class="col-10">
-                <input class="form-control" type="number" id="cost" name="cost">
+                <input class="form-control" type="number" id="cost" name="cost" value="{{product.cost}}">
             </div>
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterCost">
@@ -62,7 +66,7 @@
         <div class="form-group">
             <label for="price" class="col-2 col-form-label">Precio</label>
             <div class="col-10">
-                <input class="form-control" type="number" id="price" name="price">
+                <input class="form-control" type="number" id="price" name="price" value="{{product.price}}">
             </div>
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterPrice">
@@ -73,8 +77,8 @@
         <div class="form-group">
             <label for="url" class="col-2 col-form-label">URL Imagen</label>
             <div class="col-10">
-                <input class="form-control" type="url" placeholder="https://getbootstrap.com/img.png" id="url"
-                    name="url">
+                <input class="form-control" type="url" id="url"
+                    name="url" value="{{product.image}}">
             </div>
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterUrl">
@@ -82,13 +86,27 @@
             </div>
         </div>
 
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="available" name="available">
+            <label class="form-check-label" for="available">Disponible</label>
+        </div>
+
         <div class="text-right">
-            <a onclick="validate();" type="button" class="btn btn-success">Crear</a>
+            <a onclick="validate();" type="button" class="btn btn-success">Actualizar</a>
         </div>
     </form>
 </div>
 
 <script>
+    $(function() {
+        $("#category").val({{product.categoryId}});
+        $("#supplier").val({{product.supplierId}});
+        $("#brand").val({{product.brandId}});
+        
+        if({{product.available}})
+            $('#available').prop('checked', true);
+    });
+
     function validate() {
         const delay = 6000;//6seconds
         const addressLength = 10;
@@ -101,7 +119,6 @@
         params.cost = $('#cost').val();
         params.price = $('#price').val();
         params.url = $('#url').val();
-
 
         let hasError = false;
         if (!params.name) {

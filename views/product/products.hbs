@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Productos</h1><br>
-    <a href="/createproduct" class="btn btn-default" role="button">
+    <a href="/create-product" class="btn btn-default" role="button">
         <i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Producto
     </a>
 </div>
@@ -12,6 +12,7 @@
                 <th>Imagen</th>
                 <th>Nombre</th>
                 <th>Descripcion</th>
+                <th>Marca</th>
                 <th>Categoria</th>
                 <th>Precio</th>
                 <th>Costo</th>
@@ -26,15 +27,15 @@
                         height="50px" width="50px"></td>
                 <td>{{ this.name }}</td>
                 <td>{{ this.description }}</td>
+                <td>{{ this.brand }}</td>
                 <td>{{ this.category }}</td>
                 <td>Lps. {{ this.price }}</td>
                 <td>Lps. {{ this.cost }}</td>
                 <td>{{ this.supplier }}</td>
                 <td>
-                    <button onclick="editar({{ this.id }})" class="btn btn-info">
-                        <i class="fa fa-pencil" aria-hidden="true">
-                        </i>
-                    </button>
+                    <a href="/edit-product/{{ this.id }}" class="btn btn-info" role="button">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
                 </td>
             </tr>
             {{/each}}

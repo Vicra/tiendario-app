@@ -17,28 +17,17 @@ let products = [];
 })();
 
 router.get('/', function (req, res, next) {
-  console.log(products.length);
-  if(!products.length){
-    (async () => {
-      products = await productService.getProducts();
-    })();
-    res.render('index', 
-    { 
-      title: AppName,
-      products: products,
-      type: 1
-    }
-    );
-  }
-  else{
+  (async () => {
+    products = await productService.getProducts();
     res.render('index', 
       { 
         title: AppName,
         products: products,
-        type: 1
+        type: 1,
+        success: req.query.s
       }
     );
-  }
+  })();
 });
 
 router.get('/add/:id', function (req, res, next) {
@@ -104,13 +93,7 @@ router.post('/placeorder', function (req, res, next) {
   })();
   req.session.cart = new Cart({});
 
-  res.render('index',
-    {
-      title: AppName,
-      products: products,
-      type: 1
-    }
-  );
+  res.redirect('/?s=1');
 });
 
 router.get('/admin', function (req, res, next) {
@@ -131,7 +114,7 @@ router.get('/products', function (req, res, next) {
   })();
 });
 
-router.get('/createproduct', function (req, res, next) {
+router.get('/create-product', function (req, res, next) {
   let suppliers = [];
   let categories = [];
   let brands = [];
@@ -149,7 +132,7 @@ router.get('/createproduct', function (req, res, next) {
   })();
 });
 
-router.post('/submitproduct', function (req, res, next) {
+router.post('/submit-product', function (req, res, next) {
 
   let params = req.body;
 
@@ -158,6 +141,37 @@ router.post('/submitproduct', function (req, res, next) {
     res.redirect('/products');
   })();
 });
+
+router.get('/edit-product/:id', function (req, res, next) {
+  let productId = req.params.id;
+
+  (async () => {
+    let product = await productService.getProductById(productId);
+    let categories = await categoryService.getCategories();
+    let suppliers = await supplierService.getSuppliers();
+    let brands = await brandService.getBrands();
+
+    res.render('product/edit', {
+      title: AppName,
+      suppliers: suppliers,
+      categories: categories,
+      brands: brands,
+      product: product
+    });
+  })();
+});
+
+router.post('/update-product', function (req, res, next) {
+
+  let params = req.body;
+  (params.available == "on")  ? params.available = 1 : params.available = 0;
+  
+  (async () => {
+    await productService.putProduct(params);
+    res.redirect('/products');
+  })();
+});
+
 
 router.get('/suppliers', function (req, res, next) {
 
@@ -170,7 +184,7 @@ router.get('/suppliers', function (req, res, next) {
   })();
 });
 
-router.get('/createsupplier', function (req, res, next) {
+router.get('/create-supplier', function (req, res, next) {
 
   (async () => {
     res.render('supplier/create', {
