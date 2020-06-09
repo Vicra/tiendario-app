@@ -31,9 +31,9 @@
     <div class="details">
       <h3>{{ this.name }}</h3>
       {{#if this.description}}
-      <p class="description">{{{this.description}}}</p>
+      <p class="description">{{this.description}}</p>
       {{else}}
-      <br>
+      <p class="description"><i>Sin descripcion</i></p>
       {{/if}}
 
       <div class="clearfix">
