@@ -1,9 +1,8 @@
 <div class="container">
-    <h1>Proveedores</h1><br>
-    <a href="/create-supplier" class="btn btn-default" role="button">
-        <i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Proveedor
+    <h1>Categorias</h1><br>
+    <a href="/create-category" class="btn btn-default" role="button">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Categoria
     </a>
-
     <a href="/admin" class="btn btn-info" role="button">
         <i class="fa fa-home" aria-hidden="true"></i> Admin
     </a>
@@ -13,7 +12,7 @@
 {{#if success}}
   <div class="container">
     <div class="alert alert-success" role="alert">
-        Proveedor Creado
+        Categoria Creada
     </div>
   </div>
 {{/if}}
@@ -21,7 +20,7 @@
 {{#if updated}}
   <div class="container">
     <div class="alert alert-success" role="alert">
-        Proveedor Actualizado
+        Categoria Actualizada
     </div>
   </div>
 {{/if}}
@@ -30,24 +29,20 @@
     <table id="example" class="display" style="width:100%">
         <thead>
             <tr>
+                <th>Imagen</th>
                 <th>Nombre</th>
                 <th>Descripcion</th>
-                <th>Telefono</th>
-                <th>Celular</th>
-                <th>Direccion</th>
                 <th>Editar</th>
             </tr>
         </thead>
         <tbody>
-            {{#each suppliers }}
+            {{#each categories }}
                 <tr>
+                    <td><img src="{{ this.image }}" height="50px" width="50px"></td>
                     <td>{{ this.name }}</td>
                     <td>{{ this.description }}</td>
-                    <td>{{ this.phone }}</td>
-                    <td>{{ this.cellphone }}</td>
-                    <td>{{ this.address }}</td>
                     <td>
-                        <a href="/edit-supplier/{{this.id}}" class="btn btn-info" role="button">
+                        <a href="/edit-category/{{this.id}}" class="btn btn-info" role="button">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </a>
                     </td>

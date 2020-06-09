@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken')
+
 const productService = require('../services/productService');
 const orderService = require('../services/orderService');
-
 const supplierService = require('../services/supplierService');
 const categoryService = require('../services/categoryService');
 const brandService = require('../services/brandService');
+const userService = require('../services/userService');
 
 let Cart = require('../models/cart');
 
@@ -15,6 +17,50 @@ let products = [];
 (async () => {
   products = await productService.getProducts();
 })();
+
+async function login(req, res) {
+  let response = {
+      success: true,
+      message: 'success',
+      code: 200,
+  }
+
+  if (await userService.isValidUser(req.body)) {
+      const payload = {
+          check: true
+      };
+      const token = jwt.sign(payload, "miclaveultrasecreta123", {
+          expiresIn: "12h"
+      });
+
+      response.data = token;
+      res.status(response.code).send(response);
+  }
+  else {
+      response.code = 401;
+      res.status(response.code).send(response);
+  }
+}
+
+const validarToken = express.Router();
+validarToken.use((req, res, next) => {
+    const token = req.headers['access-token'];
+
+    if (token) {
+        jwt.verify(token, app.get('llave'), (err, decoded) => {
+            if (err) {
+                return res.json({ mensaje: 'Token inválida' });
+            } else {
+                req.decoded = decoded;
+                next();
+            }
+        });
+    } else {
+        res.send({
+            mensaje: 'Token no proveída.'
+        });
+    }
+});
 
 router.get('/', function (req, res, next) {
   (async () => {
@@ -287,6 +333,134 @@ router.get('/view-order/:id', function (req, res, next) {
       title: AppName,
       order: order
     });
+  })();
+});
+
+router.get('/categories', function (req, res, next) {
+  (async () => {
+    let categories = await categoryService.getCategories();
+    res.render('category/categories', {
+      title: AppName,
+      categories: categories,
+      success: req.query.s,
+      updated: req.query.u
+    });
+  })();
+});
+
+router.get('/create-category', function (req, res, next) {
+
+  (async () => {
+    res.render('category/create', {
+      title: AppName,
+      message: req.query.m
+    });
+  })();
+});
+
+router.post('/submit-category', function (req, res, next) {
+
+  let params = req.body;
+
+  (async () => {
+    let response = await categoryService.postCategory(params);
+    if(response.code != 200){
+      res.redirect(`/create-category?m=${response.data.message}`);
+    }
+    else {
+      res.redirect('/categories?s=1');
+    }
+  })();
+});
+
+router.get('/edit-category/:id', function (req, res, next) {
+  let categoryId = req.params.id;
+  (async () => {
+    let category = await categoryService.getCategoryById(categoryId);
+    res.render('category/edit', {
+      title: AppName,
+      category: category,
+      message: req.query.m
+    });
+  })();
+});
+
+router.post('/update-category', function (req, res, next) {
+
+  let params = req.body;
+  
+  (async () => {
+    let response = await categoryService.putCategory(params);
+    if(response.code != 200){
+      res.redirect(`/edit-category/${params.id}?m=${response.data.message}`);
+    }
+    else {
+      res.redirect('/categories?u=1');
+    }
+  })();
+});
+
+router.get('/brands', function (req, res, next) {
+  (async () => {
+    let brands = await brandService.getBrands();
+    res.render('brand/brands', {
+      title: AppName,
+      brands: brands,
+      success: req.query.s,
+      updated: req.query.u
+    });
+  })();
+});
+
+router.get('/create-brand', function (req, res, next) {
+
+  (async () => {
+    res.render('brand/create', {
+      title: AppName,
+      message: req.query.m
+    });
+  })();
+});
+
+router.post('/submit-brand', function (req, res, next) {
+
+  let params = req.body;
+
+  (async () => {
+    let response = await brandService.postBrand(params);
+    if(response.code != 200){
+      res.redirect(`/create-brand?m=${response.data.message}`);
+    }
+    else {
+      res.redirect('/brands?s=1');
+    }
+  })();
+});
+
+router.get('/edit-brand/:id', function (req, res, next) {
+  let brandId = req.params.id;
+  (async () => {
+    let brand = await brandService.getBrandById(brandId);
+    res.render('brand/edit', {
+      title: AppName,
+      brand: brand,
+      message: req.query.m
+    });
+  })();
+});
+
+router.post('/update-brand', function (req, res, next) {
+
+  let params = req.body;
+  
+  (async () => {
+    let response = await brandService.putBrand(params);
+    if(response.code != 200){
+      res.redirect(`/edit-brand/${params.id}?m=${response.data.message}`);
+    }
+    else {
+      res.redirect('/brands?u=1');
+    }
   })();
 });
 

@@ -19,21 +19,32 @@
   {{#each products }}
   <div class="item">
     <br>
-    <img id="image{{id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px"
-      width="200px" style="background-size:cover;">
+    {{#if this.available}}
+      <div>
+        <img id="image{{id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px" width="200px" style="background-size:cover;">
+      </div>
+    {{else}}
+      <div class="unavailableWrapper">
+        <img class="unavailableImage" id="image{{id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px" width="200px" style="background-size:cover;">
+      </div>
+    {{/if}}
     <div class="details">
       <h3>{{ this.name }}</h3>
       {{#if this.description}}
       <p class="description">{{{this.description}}}</p>
       {{else}}
-      <p class="description"><i>Sin descripcion</i></p>
+      <br>
       {{/if}}
 
       <div class="clearfix">
         <div class="price pull-left"><i class="fa fa-tag" aria-hidden="true"></i> {{ this.price }} Lps</div>
         <div class="price pull-right">
-          <a href="/add/{{ this.id }}" class="btn btn-default pull-right" role="button"><i class="fa fa-shopping-cart"
+          {{#if this.available}}
+            <a href="/add/{{ this.id }}" class="btn btn-default pull-right" role="button"><i class="fa fa-shopping-cart"
               aria-hidden="true"></i> Agregar</a>
+          {{else}}
+            <span class="badge badge-danger">Agotado</span>
+          {{/if}}
         </div>
       </div>
     </div>

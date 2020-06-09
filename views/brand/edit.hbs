@@ -1,0 +1,48 @@
+<br>
+
+{{#if message}}
+  <div class="container">
+    <div class="alert alert-danger" role="alert">
+        {{message}}
+    </div>
+  </div>
+{{/if}}
+
+<div class="container">
+    <h1>Editar Marca</h1>
+
+    <form action="/update-brand" name="updatebrand" method="POST">
+        <input type="number" hidden="true" value="{{brand.id}}" name="id">
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{brand.name}}">
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
+                Ingrese el nombre.
+            </div>
+        </div>
+
+        <div class="text-right">
+            <a onclick="validate();" type="button" class="btn btn-success">Actualizar</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function validate() {
+        const delay = 6000;//6seconds
+
+        let params = {};
+        params.name = $('#name').val();
+
+        let hasError = false;
+        if (!params.name) {
+            hasError = true;
+            $('#enterName').fadeIn().delay(delay).fadeOut();
+        }
+
+        if (!hasError) {
+            $("form[name='updatebrand']").submit();
+        }
+    }
+</script>
