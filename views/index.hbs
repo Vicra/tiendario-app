@@ -19,7 +19,57 @@
 </div>
 {{/if}}
 
-<div class="container grid">
+{{#if products}}
+    <div id="container">
+        <div class="buttons">
+            <ul class="grid">
+                {{#each products }}
+                    <li class="grid-group-item d-flex bd-highlight">
+                        {{#if this.available}}
+                        <div>
+                            <img id="image{{id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px"
+                                width="200px" style="background-size:cover;">
+                        </div>
+                        {{else}}
+                        <div class="unavailableWrapper">
+                            <img class="unavailableImage" id="image{{id}}" src="{{ this.image }}"
+                                onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px" width="200px"
+                                style="background-size:cover;">
+                        </div>
+                        {{/if}}
+                        <h3>{{ this.name }}</h3>
+                        
+                        <p>{{ this.price }} Lps </p>
+                        {{#if this.available}}
+                        <a href="/add/{{ this.id }}" class="btn btn-default" role="button"><i
+                                class="fa fa-shopping-cart" aria-hidden="true"></i> Agregar</a>
+                        {{else}}
+                        <span class="badge badge-danger">Agotado</span>
+                        {{/if}}
+
+                    {{!-- <div class="clearfix">
+                        <div class="price pull-left">
+                            <i class="fa fa-tag" aria-hidden="true"></i> {{ this.price }} Lps
+                        </div>
+                        <div class="price pull-right">
+                            {{#if this.available}}
+                            <a href="/add/{{ this.id }}" class="btn btn-default pull-right" role="button"><i
+                                    class="fa fa-shopping-cart" aria-hidden="true"></i> Agregar</a>
+                            {{else}}
+                            <span class="badge badge-danger">Agotado</span>
+                            {{/if}}
+                        </div>
+                    </div> --}}
+                    </li>
+                {{/each}}    
+            </ul>
+        </div>
+    </div>
+{{else}}
+<i>No hay productos en este momento</i>
+{{/if}}
+
+{{!-- <div class="container grid">
     {{#if products}}
     {{#each products }}
     <div class="item">
@@ -38,11 +88,6 @@
         {{/if}}
         <div class="details">
             <h3>{{ this.name }}</h3>
-            {{!-- {{#if this.description}}
-            <p class="description">{{this.description}}</p>
-            {{else}}
-            <p class="description"><i>Sin descripcion</i></p>
-            {{/if}} --}}
 
             <div class="clearfix">
                 <div class="price pull-left"><i class="fa fa-tag" aria-hidden="true"></i> {{ this.price }} Lps</div>
@@ -62,7 +107,7 @@
     {{else}}
     <i>No hay productos en este momento</i>
     {{/if}}
-</div>
+</div> --}}
 
 <script>
     function hasError(id, source) {

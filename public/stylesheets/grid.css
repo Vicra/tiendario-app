@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto);
+/* @import url(https://fonts.googleapis.com/css?family=Roboto);
  body {
 	 background-color: #eee;
 }
@@ -45,7 +45,7 @@
 	width: 900px;
 	margin: 10px auto;
 	padding: 20px 20px 0;
-	/* background-color: #ddd; */
+	
 	font-family: Roboto;
 	position: relative;
 }
@@ -54,7 +54,6 @@
 	 width: 900px;
 	 margin: 10px auto 40px;
 	 padding: 20px 20px 0;
-	 /* background-color: #ddd; */
 	 font-family: Roboto;
 	 position: relative;
 	 overflow: hidden;
@@ -138,15 +137,92 @@
  .grid .details p {
 	 margin-top: 8px;
 }
+ */
 
 .unavailableImage {
     opacity: 0.4;
-    filter: alpha(opacity=40); /* msie */
+    filter: alpha(opacity=40);
 }
-
-/* or */
 
 .unavailableWrapper {
     opacity: 0.4;
-    filter: alpha(opacity=40); /* msie */
+    filter: alpha(opacity=40);
+}
+
+body {
+    background-color: #eee;
+}
+#container {
+    margin: 10px auto;
+    padding: 10px;
+    width: 100%;
+    max-width: 1200px;
+    min-width: 480px;
+    background-color: #fff;
+}
+#container .buttons {
+    margin-bottom: 20px;
+}
+#container .buttons button {
+    padding: 8px;
+}
+#container ul {
+    list-style: none;
+    border: 1px solid #eee;
+    padding: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+#container ul li {
+    flex-wrap: wrap;
+    justify-content: center;
+    transition: all 0.2s ease-in;
+}
+#container ul li a {
+    border: 1px solid grey;
+    text-decoration: none;
+    text-align: center;
+    padding: 8px;
+    flex-grow: 8;
+}
+#container ul li a:hover {
+    text-decoration: none;
+}
+#container ul li button {
+    padding: 0px;
+    font-size: 10px;
+    margin-left: 10px;
+}
+#container .list li {
+    width: 100%;
+    border-bottom: 1px dotted #999;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    align-items: center;
+}
+#container .list li a {
+    text-align: left;
+}
+#container .list li a:hover {
+    color: red;
+}
+
+#container .list li .zip {
+    flex-grow: 3;
+}
+#container .list li .bkup {
+    flex-grow: 1;
+}
+#container .grid li {
+    min-width: 200px;
+    width: 20%;
+    height: auto;
+    padding: 20px;
+    margin: 3px;
+    background-color: #eee;;
+}
+#container .grid li a {
+    margin-bottom: 20px;
+    color: #000;
 }
