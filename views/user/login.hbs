@@ -1,0 +1,65 @@
+<div class="container">
+    <h1>Iniciar Sesi&oacute;n</h1>
+    Aun no tienes cuenta&#63;
+    <a href="/register" class="btn btn-info" role="button">
+        <i class="fa fa-user" aria-hidden="true"></i> Registrarse
+    </a>
+</div>
+
+{{#if message}}
+  <div class="container">
+    <div class="alert alert-danger" role="alert">
+        {{message}}
+    </div>
+  </div>
+{{/if}}
+
+<div class="container">
+    <form action="/login" method="POST" name="login">
+        <div class="form-group">
+            <label for="email">Correo Electr&oacute;nico</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="email@gmail.com" value="honvramirez@gmail.com">
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterEmail">
+                Ingrese el email.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contrase&ntilde;a</label>
+            <input type="password" class="form-control" id="password" name="password" value="Test123**">
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterPassword">
+                Ingrese la contrase&ntilde;a.
+            </div>
+        </div>
+
+        <div class="text-left">
+            <a onclick="validate();" type="button" class="btn btn-success">Iniciar Sesi&oacute;n</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function validate() {
+        const delay = 6000;//6seconds
+
+        let params = {};
+        params.email = $('#email').val();
+        params.password = $('#password').val();
+
+        let hasError = false;
+        if (!params.email) {
+            hasError = true;
+            $('#enterEmail').fadeIn().delay(delay).fadeOut();
+        }
+        if (!params.password) {
+            hasError = true;
+            $('#enterPassword').fadeIn().delay(delay).fadeOut();
+        }
+
+        if (!hasError) {
+            $("form[name='login']").submit();
+        }
+    }
+</script>

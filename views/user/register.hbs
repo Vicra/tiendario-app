@@ -1,0 +1,147 @@
+<div class="container">
+    <h1>Registrarse</h1>
+    Ya tienes cuenta?
+    <a href="/login" class="btn btn-info" role="button">
+        <i class="fa fa-user" aria-hidden="true"></i> Inicia Sesión
+    </a>
+</div>
+
+{{#if message}}
+  <div class="container">
+    <div class="alert alert-danger" role="alert">
+        {{message}}
+    </div>
+  </div>
+{{/if}}
+
+<div class="container">
+    <form action="/register" method="POST" name="register">
+        <div class="form-group">
+            <label for="name">Nombre Completo</label>
+            <input type="text" class="form-control" id="name" name="name" value="Victor Ramirez">
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
+                Ingrese el nombre.
+            </div>
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="emailFormat">
+                Correo electronico no tiene un formato correcto.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Correo Electronico</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="email@gmail.com" value="honvramirez@gmail.com">
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterEmail">
+                Ingrese el email.
+            </div>
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="emailFormat">
+                Correo electronico no tiene un formato correcto.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contrasena</label>
+            <input type="password" class="form-control" id="password" name="password" value="Test123">
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterPassword">
+                Ingrese la contrasena.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password2">Confirmar Contrasena</label>
+            <input type="password" class="form-control" id="password2" name="password2" value="Test123">
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterPassword2">
+                Ingrese la confirmacion de contrasena.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Numero de telefono</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="99493461">
+
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterPhone">
+                Ingrese el numero de telefono.
+            </div>
+        </div>
+
+        <div class="alert alert-danger" role="alert" style="display: none;" id="samePasswords">
+            Las contrasenas deben ser iguales.
+        </div>
+
+        <div class="alert alert-danger" role="alert" style="display: none;" id="minPassword">
+            La contrasena debe tener un minimo de 6 caracteres.
+        </div>
+
+        <div class="text-left">
+            <a onclick="validate();" type="button" class="btn btn-success">Registrarse</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    function validate() {
+        const delay = 4;//4seconds
+
+        let params = {};
+        params.name = $('#name').val();
+        params.email = $('#email').val();
+        params.password = $('#password').val();
+        params.password2 = $('#password2').val();
+        params.phone = $('#phone').val();
+
+        let hasError = false;
+        /*
+        if (!params.name) {
+            hasError = true;
+            $('#enterName').fadeIn().delay(delay).fadeOut();
+        }
+
+        if (!params.phone) {
+            hasError = true;
+            $('#enterPhone').fadeIn().delay(delay).fadeOut();
+        }
+
+        if (!params.email) {
+            hasError = true;
+            $('#enterEmail').fadeIn().delay(delay).fadeOut();
+        }
+        else if(!validateEmail(params.email)){
+            hasError = true;
+            $('#emailFormat').fadeIn().delay(delay).fadeOut();
+        }
+
+        if (!params.password) {
+            hasError = true;
+            $('#enterPassword').fadeIn().delay(delay).fadeOut();
+        }
+        else if (params.password.length < 6) {
+            hasError = true;
+            $('#minPassword').fadeIn().delay(delay).fadeOut();
+        }
+
+        if (!params.password2) {
+            hasError = true;
+            $('#enterPassword2').fadeIn().delay(delay).fadeOut();
+        }
+
+        if (params.password2 !== params.password) {
+            hasError = true;
+            $('#samePasswords').fadeIn().delay(delay).fadeOut();
+        }
+        */
+
+        if (!hasError) {
+            $("form[name='register']").submit();
+        }
+    }
+
+    function validateEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+</script>
