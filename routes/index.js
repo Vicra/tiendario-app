@@ -144,13 +144,6 @@ router.post('/placeorder', function (req, res, next) {
     res.redirect('/?s=1');
 });
 
-router.get('/admin', function (req, res, next) {
-
-    res.render('admin', {
-        title: AppName
-    });
-});
-
 router.get('/products', function (req, res, next) {
 
     (async () => {
@@ -203,6 +196,7 @@ router.get('/edit-product/:id', function (req, res, next) {
 
     (async () => {
         let product = await productService.getProductById(productId);
+        console.log(product);
         let categories = await categoryService.getCategories();
         let suppliers = await supplierService.getSuppliers();
         let brands = await brandService.getBrands();
@@ -221,8 +215,8 @@ router.get('/edit-product/:id', function (req, res, next) {
 router.post('/update-product', function (req, res, next) {
 
     let params = req.body;
-    (params.available == "on") ? params.available = 1 : params.available = 0;
-
+    (params.available == "on") ? params.available = 1 : params.available = "";
+    (params.showSite == "on") ? params.showSite = 1 : params.showSite = "";
     (async () => {
         let response = await productService.putProduct(params);
         if (response.code != 200) {
@@ -323,6 +317,18 @@ router.get('/catalog', function (req, res, next) {
         });
     })();
 });
+
+
+router.get('/contact', function (req, res, next) {
+    (async () => {
+        res.render('catalog', {
+            title: AppName
+            ,type: 1
+            ,user: req.session.user
+        });
+    })();
+});
+
 
 router.get('/view-order/:id', function (req, res, next) {
     let orderId = req.params.id;

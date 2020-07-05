@@ -40,6 +40,7 @@ class ProductService {
     }
 
     async putProduct(product){
+        console.log(product);
         try {
             const response = await axios.put(`${this.host}/product/${product.id}`, product);
             return response.data;

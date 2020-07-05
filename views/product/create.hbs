@@ -60,7 +60,7 @@
         <div class="form-group">
             <label for="costo" class="col-2 col-form-label">Costo</label>
             <div class="col-10">
-                <input class="form-control" type="number" id="cost" name="cost">
+                <input class="form-control" type="number" id="cost" name="cost" value="0">
             </div>
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterCost">
@@ -71,7 +71,7 @@
         <div class="form-group">
             <label for="price" class="col-2 col-form-label">Precio</label>
             <div class="col-10">
-                <input class="form-control" type="number" id="price" name="price">
+                <input class="form-control" type="number" id="price" name="price" value="0">
             </div>
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterPrice">
@@ -82,7 +82,7 @@
         <div class="form-group">
             <label for="url" class="col-2 col-form-label">URL Imagen</label>
             <div class="col-10">
-                <input class="form-control" type="url" placeholder="https://getbootstrap.com/img.png" id="url"
+                <input class="form-control" type="url" placeholder="https://getbootstrap.com/img.png" id="url" value="https://getbootstrap.com/img.png"
                     name="url">
             </div>
 
@@ -98,6 +98,11 @@
 </div>
 
 <script>
+    $(function() {
+        $("#category").val(1);
+        $("#supplier").val(9);
+        $("#brand").val(48);
+    });
     function validate() {
         const delay = 6000;//6seconds
         const addressLength = 10;
