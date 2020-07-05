@@ -8,24 +8,29 @@ class ProductService {
     async getProducts() {
         try {
             const response = await axios.get(`${this.host}/product`);
-            let products = response.data.data;
-            return products;
+            let HttpResponse = response.data;
+            console.log(HttpResponse);
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return [];
         } catch (error) {
-            if (error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 
     async getLatestProducts() {
         try {
             const response = await axios.get(`${this.host}/product/latest`);
-            let products = response.data.data;
-            return products;
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return [];
         } catch (error) {
-            if (error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 
@@ -52,30 +57,39 @@ class ProductService {
     async getProductsByCategory() {
         try {
             const response = await axios.get(`${this.host}/product/catalog`);
-            return response.data.data;
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return [];
         } catch (error) {
-            if (error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 
     async getProductById(id) {
         try {
             const response = await axios.get(`${this.host}/product/${id}`);
-            let product = response.data.data;
-            return product;
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return {};
         } catch (error) {
-            if (error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 
     async searchProducts(keyword) {
         try {
-            const HttpResponse = await axios.get(`${this.host}/product/search/${keyword}`);
-            let response = HttpResponse.data;
+            const response = await axios.get(`${this.host}/product/search/${keyword}`);
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return {};
             return response;
         } catch (error) {
             console.log(error);

@@ -8,28 +8,32 @@ class BrandService {
     async getBrands() {
         try {
             const response = await axios.get(`${this.host}/brand`);
-            let brands = response.data.data;
-            return brands;
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return HttpResponse;
         } catch (error) {
-            if (error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 
     async getBrandById(id) {
         try {
-          const response = await axios.get(`${this.host}/brand/${id}`);
-          let brand = response.data.data;
-          return brand;
+            const response = await axios.get(`${this.host}/brand/${id}`);
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return {};
         } catch (error) {
-            if(error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 
-    async postBrand(brand){
+    async postBrand(brand) {
         try {
             const response = await axios.post(`${this.host}/brand`, brand);
             return response.data;
@@ -39,7 +43,7 @@ class BrandService {
         }
     }
 
-    async putBrand(brand){
+    async putBrand(brand) {
         try {
             const response = await axios.put(`${this.host}/brand/${brand.id}`, brand);
             return response.data;

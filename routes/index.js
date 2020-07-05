@@ -18,51 +18,7 @@ let products = [];
     products = await productService.getProducts();
 })();
 
-async function login(req, res) {
-    let response = {
-        success: true,
-        message: 'success',
-        code: 200,
-    }
-
-    if (await userService.isValidUser(req.body)) {
-        const payload = {
-            check: true
-        };
-        const token = jwt.sign(payload, "miclaveultrasecreta123", {
-            expiresIn: "12h"
-        });
-
-        response.data = token;
-        res.status(response.code).send(response);
-    }
-    else {
-        response.code = 401;
-        res.status(response.code).send(response);
-    }
-}
-
-const validarToken = express.Router();
-validarToken.use((req, res, next) => {
-    const token = req.headers['access-token'];
-
-    if (token) {
-        jwt.verify(token, app.get('llave'), (err, decoded) => {
-            if (err) {
-                return res.json({ mensaje: 'Token inválida' });
-            } else {
-                req.decoded = decoded;
-                next();
-            }
-        });
-    } else {
-        res.send({
-            mensaje: 'Token no proveída.'
-        });
-    }
-});
-
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
     (async () => {
         products = await productService.getProducts();
         res.render('index',
@@ -77,13 +33,16 @@ router.get('/', function (req, res, next) {
     })();
 });
 
-router.get('/add/:id', function (req, res, next) {
+router.post('/add/:id/:count', function (req, res) {
     let productId = req.params.id;
+    let count = req.params.count;
     let cart = new Cart(req.session.cart ? req.session.cart : {});
     let product = products.filter(function (item) {
         return item.id == productId;
     });
-    cart.add(product[0], productId);
+    for (let i = 0; i < count; i++) {
+        cart.add(product[0], productId);
+    }
     req.session.cart = cart;
     res.redirect('/');
 });
@@ -471,7 +430,6 @@ router.post('/search', function (req, res) {
     let params = req.body;
     (async () => {
         let response = await productService.searchProducts(params.keyword);
-        console.log(response);
         if (response.code != 200) {
             res.redirect('/');
         }

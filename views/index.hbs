@@ -51,12 +51,14 @@
         {{#if this.available}}
         <form class="form-inline">
           <a onclick="subs({{ this.id }})" class="btn btn-default" role="button" style="margin-bottom: 0;">-</a>
-          <input type="numeric" class="form-control" value="1" style="max-width: 30%;" id="count_{{id}}" max="10"
-            onchange="checkValue()">
+          <input type="numeric" class="form-control" value="1" style="max-width: 30%;" name="count" id="count_{{id}}"
+            max="10" onchange="checkValue()">
           <a onclick="sum({{ this.id }})" class="btn btn-info" role="button" style="margin-bottom: 0;">+</a>
-        </form>
 
-        <a href="/add/{{ this.id }}" class="btn btn-success" role="button"><i class="fa fa-shopping-cart"
+          {{!-- <a href="/add/{{ this.id }}" class="btn btn-success" role="button"><i class="fa fa-shopping-cart"
+              aria-hidden="true"></i> Agregar</a> --}}
+        </form>
+        <a class="btn btn-default" role="button" onclick="add({{this.id}});"><i class="fa fa-shopping-cart"
             aria-hidden="true"></i> Agregar</a>
         {{else}}
         <span class="badge badge-danger">Agotado</span>
@@ -131,6 +133,14 @@
 </div> --}}
 
 <script>
+  function add(id) {
+    let currentVal = parseInt($(`#count_${id}`).val());
+    $.post(`/add/${id}/${currentVal}`,
+      function (data, status, xhr) {
+      }).done(function () { })
+      .fail(function (jqxhr, settings, ex) { alert('No es posible agregar este producto'); });
+  }
+
   function hasError(id, source) {
     document.getElementById(`image${id}`).src = source;
   }
