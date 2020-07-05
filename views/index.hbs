@@ -1,53 +1,68 @@
 <div class="container">
-    <h1>{{title}}</h1>
-    <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Rio Piedras</p>
-    {{#if user}}
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Bienvenid@ {{user.name}}</h4>
-        </div>
-    {{/if}}
+  <h1>{{title}}</h1>
+  <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Rio Piedras</p>
+  {{#if user}}
+  <div class="alert alert-success" role="alert">
+    <h4 class="alert-heading">Bienvenid@ {{user.name}}</h4>
+  </div>
+  {{/if}}
 </div>
 
 {{#if success}}
 <div class="container">
-    <div class="alert alert-success" role="alert">
-        <h4 class="alert-heading">Orden creada!</h4>
-        <p>Nos pondremos en contanto contigo dentro de pronto.</p>
-        <hr>
-        <p class="mb-0">En caso de tener consultas puede llamar al +(504) 9930-60999.</p>
-    </div>
+  <div class="alert alert-success" role="alert">
+    <h4 class="alert-heading">Orden creada!</h4>
+    <p>Nos pondremos en contanto contigo dentro de pronto.</p>
+    <hr>
+    <p class="mb-0">En caso de tener consultas puede llamar al +(504) 9930-60999.</p>
+  </div>
 </div>
 {{/if}}
 
-{{#if products}}
-    <div id="container">
-        <div class="buttons">
-            <ul class="grid">
-                {{#each products }}
-                    <li class="grid-group-item d-flex bd-highlight">
-                        {{#if this.available}}
-                        <div>
-                            <img id="image{{id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px"
-                                width="200px" style="background-size:cover;">
-                        </div>
-                        {{else}}
-                        <div class="unavailableWrapper">
-                            <img class="unavailableImage" id="image{{id}}" src="{{ this.image }}"
-                                onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px" width="200px"
-                                style="background-size:cover;">
-                        </div>
-                        {{/if}}
-                        <h3>{{ this.name }}</h3>
-                        
-                        <p>{{ this.price }} Lps </p>
-                        {{#if this.available}}
-                        <a href="/add/{{ this.id }}" class="btn btn-default" role="button"><i
-                                class="fa fa-shopping-cart" aria-hidden="true"></i> Agregar</a>
-                        {{else}}
-                        <span class="badge badge-danger">Agotado</span>
-                        {{/if}}
+<div class="container">
+  <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2" action="/search"
+    name="searchProduct" method="POST">
+    <input class="form-control" type="text" placeholder="Buscar" aria-label="Buscar" name="keyword" value="{{keyword}}">
+    <i class="fa fa-search" aria-hidden="true"></i>
+  </form>
+</div>
 
-                    {{!-- <div class="clearfix">
+{{#if products}}
+<div id="container">
+  <div class="buttons">
+    <ul class="grid">
+      {{#each products }}
+      <li class="grid-group-item d-flex bd-highlight">
+        {{#if this.available}}
+        <div>
+          <img id="image{{id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px"
+            width="200px" style="background-size:cover;">
+        </div>
+        {{else}}
+        <div class="unavailableWrapper">
+          <img class="unavailableImage" id="image{{id}}" src="{{ this.image }}"
+            onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px" width="200px"
+            style="background-size:cover;">
+        </div>
+        {{/if}}
+        <h3>{{ this.name }}</h3>
+
+        <p>{{ this.price }} Lps </p>
+        {{#if this.available}}
+        <form class="form-inline">
+          <a onclick="subs({{ this.id }})" class="btn btn-default" role="button" style="margin-bottom: 0;">-</a>
+          <input type="numeric" class="form-control" value="1" style="max-width: 30%;" id="count_{{id}}" max="10"
+            onchange="checkValue()">
+          <a onclick="sum({{ this.id }})" class="btn btn-info" role="button" style="margin-bottom: 0;">+</a>
+        </form>
+
+        <a href="/add/{{ this.id }}" class="btn btn-success" role="button"><i class="fa fa-shopping-cart"
+            aria-hidden="true"></i> Agregar</a>
+        {{else}}
+        <span class="badge badge-danger">Agotado</span>
+        {{/if}}
+
+        {{!-- <div class="clearfix">
                         <div class="price pull-left">
                             <i class="fa fa-tag" aria-hidden="true"></i> {{ this.price }} Lps
                         </div>
@@ -60,13 +75,19 @@
                             {{/if}}
                         </div>
                     </div> --}}
-                    </li>
-                {{/each}}    
-            </ul>
-        </div>
-    </div>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
 {{else}}
-<i>No hay productos en este momento</i>
+<div class="container">
+  {{#if keyword}}
+  <i>No hay productos en este momento para la busqueda: "{{keyword}}"</i>
+  {{else}}
+  <i>No hay productos en este momento.</i>
+  {{/if}}
+</div>
 {{/if}}
 
 {{!-- <div class="container grid">
@@ -110,7 +131,36 @@
 </div> --}}
 
 <script>
-    function hasError(id, source) {
-        document.getElementById(`image${id}`).src = source;
+  function hasError(id, source) {
+    document.getElementById(`image${id}`).src = source;
+  }
+
+  function sum(id) {
+    let currentVal = parseInt($(`#count_${id}`).val());
+    if (currentVal >= 10) {
+      $(`#count_${id}`).val(currentVal);
     }
+    else {
+      $(`#count_${id}`).val(currentVal + 1);
+    }
+  }
+
+  function subs(id) {
+    let currentVal = parseInt($(`#count_${id}`).val());
+    if (currentVal == 1) {
+      $(`#count_${id}`).val(currentVal);
+    }
+    else {
+      $(`#count_${id}`).val(currentVal - 1);
+    }
+  }
+
+  function checkValue(selfi) {
+    if (selfi.value > 10) {
+      selfi.value = 10;
+    }
+    else if (selfi.value < 1) {
+      selfi.value = 1;
+    }
+  }
 </script>

@@ -39,7 +39,7 @@ class ProductService {
         }
     }
 
-    async putProduct(product){
+    async putProduct(product) {
         try {
             const response = await axios.put(`${this.host}/product/${product.id}`, product);
             return response.data;
@@ -60,7 +60,7 @@ class ProductService {
         }
     }
 
-    async getProductById(id){
+    async getProductById(id) {
         try {
             const response = await axios.get(`${this.host}/product/${id}`);
             let product = response.data.data;
@@ -69,6 +69,17 @@ class ProductService {
             if (error.response)
                 console.log(error.response.body);
             return [];
+        }
+    }
+
+    async searchProducts(keyword) {
+        try {
+            const HttpResponse = await axios.get(`${this.host}/product/search/${keyword}`);
+            let response = HttpResponse.data;
+            return response;
+        } catch (error) {
+            console.log(error);
+            return error.response;
         }
     }
 }

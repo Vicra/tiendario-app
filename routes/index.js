@@ -92,8 +92,8 @@ router.get('/cart', function (req, res, next) {
     if (!req.session.cart) {
         return res.render('cart', {
             products: null
-            ,type: 1
-            ,user: req.session.user
+            , type: 1
+            , user: req.session.user
         });
     }
     let cart = new Cart(req.session.cart);
@@ -118,15 +118,15 @@ router.get('/address', function (req, res, next) {
     if (!req.session.cart) {
         return res.render('address', {
             products: null
-            ,type: 1
+            , type: 1
         });
     }
     let cart = new Cart(req.session.cart);
     res.render('address', {
         title: AppName
-        ,products: cart.getItems()
-        ,totalPrice: cart.totalPrice
-        ,type: 1
+        , products: cart.getItems()
+        , totalPrice: cart.totalPrice
+        , type: 1
     });
 });
 
@@ -157,9 +157,9 @@ router.get('/products', function (req, res, next) {
         let products = await productService.getLatestProducts();
         res.render('product/products', {
             title: AppName
-            ,products: products
-            ,success: req.query.s
-            ,updated: req.query.u
+            , products: products
+            , success: req.query.s
+            , updated: req.query.u
         });
     })();
 });
@@ -175,10 +175,10 @@ router.get('/create-product', function (req, res, next) {
 
         res.render('product/create', {
             title: AppName
-            ,suppliers: suppliers
-            ,categories: categories
-            ,brands: brands
-            ,message: req.query.m
+            , suppliers: suppliers
+            , categories: categories
+            , brands: brands
+            , message: req.query.m
         });
     })();
 });
@@ -209,11 +209,11 @@ router.get('/edit-product/:id', function (req, res, next) {
 
         res.render('product/edit', {
             title: AppName
-            ,suppliers: suppliers
-            ,categories: categories
-            ,brands: brands
-            ,product: product
-            ,message: req.query.m
+            , suppliers: suppliers
+            , categories: categories
+            , brands: brands
+            , product: product
+            , message: req.query.m
         });
     })();
 });
@@ -241,9 +241,9 @@ router.get('/suppliers', function (req, res, next) {
         let suppliers = await supplierService.getLatestSuppliers();
         res.render('supplier/suppliers', {
             title: AppName
-            ,suppliers: suppliers
-            ,success: req.query.s
-            ,updated: req.query.u
+            , suppliers: suppliers
+            , success: req.query.s
+            , updated: req.query.u
         });
     })();
 });
@@ -278,8 +278,8 @@ router.get('/edit-supplier/:id', function (req, res, next) {
         let supplier = await supplierService.getSupplierById(supplierId);
         res.render('supplier/edit', {
             title: AppName
-            ,supplier: supplier
-            ,message: req.query.m
+            , supplier: supplier
+            , message: req.query.m
         });
     })();
 });
@@ -305,7 +305,7 @@ router.get('/orders', function (req, res, next) {
         let orders = await orderService.getNewOrders();
         res.render('order/orders', {
             title: AppName
-            ,orders: orders
+            , orders: orders
         });
     })();
 });
@@ -317,9 +317,9 @@ router.get('/catalog', function (req, res, next) {
 
         res.render('catalog', {
             title: AppName
-            ,categories: categoriesCatalog
-            ,type: 1
-            ,user: req.session.user
+            , categories: categoriesCatalog
+            , type: 1
+            , user: req.session.user
         });
     })();
 });
@@ -334,7 +334,7 @@ router.get('/view-order/:id', function (req, res, next) {
         );
         res.render('order/detail', {
             title: AppName
-            ,order: order
+            , order: order
         });
     })();
 });
@@ -463,6 +463,28 @@ router.post('/update-brand', function (req, res, next) {
         }
         else {
             res.redirect('/brands?u=1');
+        }
+    })();
+});
+
+router.post('/search', function (req, res) {
+    let params = req.body;
+    (async () => {
+        let response = await productService.searchProducts(params.keyword);
+        console.log(response);
+        if (response.code != 200) {
+            res.redirect('/');
+        }
+        else {
+            res.render('index',
+                {
+                    title: AppName,
+                    products: response.data,
+                    type: 1,
+                    success: req.query.s,
+                    user: req.session.user,
+                    keyword: params.keyword
+                });
         }
     })();
 });
