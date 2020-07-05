@@ -5,7 +5,7 @@ class UserService {
         this.host = "http://localhost:3000/api";
     }
 
-    async isValidUser(user){
+    async isValidUser(user) {
         try {
             let response = await axios.post(`${this.host}/user/login`, {
                 email: user.email,
@@ -17,11 +17,11 @@ class UserService {
         }
     }
 
-    async postUser(user){
+    async postUser(user) {
         try {
             let response = await axios.post(`${this.host}/user`, {
                 email: user.email,
-                password: user.password, 
+                password: user.password,
                 name: user.name,
                 phone: user.phone,
             });
@@ -32,20 +32,25 @@ class UserService {
         }
     }
 
-    async getAddresses(customerId){
+    async getAddresses(customerId) {
         try {
             let response = await axios.get(`${this.host}/user/addresses/${customerId}`);
-            let addresses = response.data.data;
+            let HttpResponse = response.data;
+            let addresses = [];
+            if (HttpResponse.success) {
+                addresses = HttpResponse.data;
+            }
+
             for (let i = 0; i < addresses.length; i++) {
-                if(addresses[i].type == "1"){
+                if (addresses[i].type == "1") {
                     addresses[i].type = "Casa";
                 }
-                else if(addresses[i].type == "2"){
+                else if (addresses[i].type == "2") {
                     addresses[i].type = "Trabajo";
                 }
-                else if(addresses[i].type == "3"){
+                else if (addresses[i].type == "3") {
                     addresses[i].type = "Otro";
-                }   
+                }
             }
             return response.data;
         } catch (error) {
@@ -54,13 +59,13 @@ class UserService {
         }
     }
 
-    async postAddress(address){
+    async postAddress(address) {
         try {
             let response = await axios.post(`${this.host}/user/address`, {
                 description: address.description
-                ,reference: address.reference
-                ,typeId: address.typeId
-                ,customerId: address.customerId
+                , reference: address.reference
+                , typeId: address.typeId
+                , customerId: address.customerId
             });
             return response;
         } catch (error) {

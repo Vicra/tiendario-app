@@ -8,28 +8,32 @@ class CategoryService {
     async getCategories() {
         try {
             const response = await axios.get(`${this.host}/category`);
-            let categories = response.data.data;
-            return categories;
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return [];
         } catch (error) {
-            if (error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 
     async getCategoryById(id) {
         try {
-          const response = await axios.get(`${this.host}/category/${id}`);
-          let category = response.data.data;
-          return category;
+            const response = await axios.get(`${this.host}/category/${id}`);
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return {};
         } catch (error) {
-            if(error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 
-    async postCategory(category){
+    async postCategory(category) {
         try {
             const response = await axios.post(`${this.host}/category`, category);
             return response.data;
@@ -39,7 +43,7 @@ class CategoryService {
         }
     }
 
-    async putCategory(category){
+    async putCategory(category) {
         try {
             const response = await axios.put(`${this.host}/category/${category.id}`, category);
             return response.data;

@@ -1,47 +1,53 @@
 const axios = require('axios');
 
 class SupplierService {
-    constructor(){
+    constructor() {
         this.host = "http://localhost:3000/api";
     }
 
     async getSuppliers() {
         try {
-          const response = await axios.get(`${this.host}/supplier`);
-          let suppliers = response.data.data;
-          return suppliers;
+            const response = await axios.get(`${this.host}/supplier`);
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return [];
         } catch (error) {
-            if(error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 
     async getSupplierById(id) {
         try {
-          const response = await axios.get(`${this.host}/supplier/${id}`);
-          let supplier = response.data.data;
-          return supplier;
+            const response = await axios.get(`${this.host}/supplier/${id}`);
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return {};
         } catch (error) {
-            if(error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 
-    async getLatestSuppliers(){
+    async getLatestSuppliers() {
         try {
-          const response = await axios.get(`${this.host}/supplier/latest`);
-          let suppliers = response.data.data;
-          return suppliers;
+            const response = await axios.get(`${this.host}/supplier/latest`);
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return [];
         } catch (error) {
-            if(error.response)
-                console.log(error.response.body);
-            return [];
+            console.log(error);
+            return error.response;
         }
     }
 
-    async postSupplier(supplier){
+    async postSupplier(supplier) {
         try {
             const response = await axios.post(`${this.host}/supplier`, supplier);
             return response.data;
@@ -51,7 +57,7 @@ class SupplierService {
         }
     }
 
-    async putSupplier(supplier){
+    async putSupplier(supplier) {
         try {
             const response = await axios.put(`${this.host}/supplier/${supplier.id}`, supplier);
             return response.data;

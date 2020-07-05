@@ -29,35 +29,37 @@ class OrderService {
             return;
         } catch (error) {
             console.log(error);
-            if (error.response)
-                console.log(error.response.body);
-            return;
+            return error.response;
         }
     }
 
     async getNewOrders() {
         try {
             let response = await axios.get(`${this.host}/order/newOrders`);
-            return response.data.data;
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return [];
         }
         catch (error) {
             console.log(error);
-            if (error.response)
-                console.log(error.response.body);
-            return [];
+            return error.response;
         }
     }
 
     async getOrderById(id) {
         try {
             let response = await axios.get(`${this.host}/order/${id}`);
-            return response.data.data;
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return {};
         }
         catch (error) {
             console.log(error);
-            if (error.response)
-                console.log(error.response.body);
-            return [];
+            return error.response;
         }
     }
 }
