@@ -20,6 +20,7 @@ let products = [];
 
 router.get('/', function (req, res) {
     (async () => {
+        req.session.keyword = '';
         products = await productService.getProducts();
         res.render('index',
             {
@@ -33,9 +34,9 @@ router.get('/', function (req, res) {
     })();
 });
 
-router.post('/add/:id/:count', function (req, res) {
+router.post('/add/:id', function (req, res) {
     let productId = req.params.id;
-    let count = req.params.count;
+    let count = req.body.count;
     let cart = new Cart(req.session.cart ? req.session.cart : {});
     let product = products.filter(function (item) {
         return item.id == productId;
@@ -44,7 +45,12 @@ router.post('/add/:id/:count', function (req, res) {
         cart.add(product[0], productId);
     }
     req.session.cart = cart;
-    res.redirect('/');
+    if(req.session.keyword){
+        res.redirect(`/search?keyword=${req.session.keyword}`);
+    }
+    else{
+        res.redirect('/');
+    }
 });
 
 router.get('/cart', function (req, res, next) {
@@ -104,16 +110,20 @@ router.post('/placeorder', function (req, res, next) {
 });
 
 router.get('/products', function (req, res, next) {
-
-    (async () => {
-        let products = await productService.getLatestProducts();
-        res.render('product/products', {
-            title: AppName
-            , products: products
-            , success: req.query.s
-            , updated: req.query.u
-        });
-    })();
+    if(req.session.admin){
+        (async () => {
+            let products = await productService.getLatestProducts();
+            res.render('product/products', {
+                title: AppName
+                , products: products
+                , success: req.query.s
+                , updated: req.query.u
+            });
+        })();
+    }
+    else{
+        res.redirect('/authenticate');
+    }
 });
 
 router.get('/create-product', function (req, res, next) {
@@ -155,7 +165,6 @@ router.get('/edit-product/:id', function (req, res, next) {
 
     (async () => {
         let product = await productService.getProductById(productId);
-        console.log(product);
         let categories = await categoryService.getCategories();
         let suppliers = await supplierService.getSuppliers();
         let brands = await brandService.getBrands();
@@ -189,16 +198,20 @@ router.post('/update-product', function (req, res, next) {
 
 
 router.get('/suppliers', function (req, res, next) {
-
-    (async () => {
-        let suppliers = await supplierService.getLatestSuppliers();
-        res.render('supplier/suppliers', {
-            title: AppName
-            , suppliers: suppliers
-            , success: req.query.s
-            , updated: req.query.u
-        });
-    })();
+    if(req.session.admin){
+        (async () => {
+            let suppliers = await supplierService.getLatestSuppliers();
+            res.render('supplier/suppliers', {
+                title: AppName
+                , suppliers: suppliers
+                , success: req.query.s
+                , updated: req.query.u
+            });
+        })();
+    }
+    else{
+        res.redirect('/authenticate');
+    }
 });
 
 router.get('/create-supplier', function (req, res, next) {
@@ -253,14 +266,18 @@ router.post('/update-supplier', function (req, res, next) {
 });
 
 router.get('/orders', function (req, res, next) {
-
-    (async () => {
-        let orders = await orderService.getNewOrders();
-        res.render('order/orders', {
-            title: AppName
-            , orders: orders
-        });
-    })();
+    if(req.session.admin){
+        (async () => {
+            let orders = await orderService.getNewOrders();
+            res.render('order/orders', {
+                title: AppName
+                , orders: orders
+            });
+        })();
+    }
+    else{
+        res.redirect('/authenticate');
+    }
 });
 
 router.get('/catalog', function (req, res, next) {
@@ -305,15 +322,20 @@ router.get('/view-order/:id', function (req, res, next) {
 });
 
 router.get('/categories', function (req, res, next) {
-    (async () => {
-        let categories = await categoryService.getCategories();
-        res.render('category/categories', {
-            title: AppName,
-            categories: categories,
-            success: req.query.s,
-            updated: req.query.u
-        });
-    })();
+    if(req.session.admin){
+        (async () => {
+            let categories = await categoryService.getCategories();
+            res.render('category/categories', {
+                title: AppName,
+                categories: categories,
+                success: req.query.s,
+                updated: req.query.u
+            });
+        })();
+    }
+    else{
+        res.redirect('/authenticate');
+    }
 });
 
 router.get('/create-category', function (req, res, next) {
@@ -369,15 +391,20 @@ router.post('/update-category', function (req, res, next) {
 });
 
 router.get('/brands', function (req, res, next) {
-    (async () => {
-        let brands = await brandService.getBrands();
-        res.render('brand/brands', {
-            title: AppName,
-            brands: brands,
-            success: req.query.s,
-            updated: req.query.u
-        });
-    })();
+    if(req.session.admin){
+        (async () => {
+            let brands = await brandService.getBrands();
+            res.render('brand/brands', {
+                title: AppName,
+                brands: brands,
+                success: req.query.s,
+                updated: req.query.u
+            });
+        })();
+    }
+    else{
+        res.redirect('/authenticate');
+    }
 });
 
 router.get('/create-brand', function (req, res, next) {
@@ -432,14 +459,16 @@ router.post('/update-brand', function (req, res, next) {
     })();
 });
 
-router.post('/search', function (req, res) {
-    let params = req.body;
+router.get('/search', function (req, res) {
+    let params = req.query;
+    req.session.keyword = params.keyword;
     (async () => {
         let response = await productService.searchProducts(params.keyword);
         if (response.code != 200) {
             res.redirect('/');
         }
         else {
+            products = response.data;
             res.render('index',
                 {
                     title: AppName,

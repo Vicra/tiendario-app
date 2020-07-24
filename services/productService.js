@@ -9,7 +9,6 @@ class ProductService {
         try {
             const response = await axios.get(`${this.host}/product`);
             let HttpResponse = response.data;
-            console.log(HttpResponse);
             if (HttpResponse.success)
                 return HttpResponse.data;
             else
@@ -86,11 +85,7 @@ class ProductService {
         try {
             const response = await axios.get(`${this.host}/product/search/${keyword}`);
             let HttpResponse = response.data;
-            if (HttpResponse.success)
-                return HttpResponse.data;
-            else
-                return {};
-            return response;
+            return HttpResponse;
         } catch (error) {
             console.log(error);
             return error.response;

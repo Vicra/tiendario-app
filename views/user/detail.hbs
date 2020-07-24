@@ -11,26 +11,26 @@
     <p>{{user.email}}</p>
 
     {{#if addresses}}
-    <h2>Direcciones</h2>
-    {{#each addresses }}
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-            <label class="form-check-label" for="exampleRadios1">
-                Default radio
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-            <label class="form-check-label" for="exampleRadios2">
-                Second default radio
-            </label>
-        </div>
-        <h3>{{this.type}}</h3>
-        <p>{{this.description}}</p>
-        {{#if this.reference}}
-            <p>{{this.reference}}</p>
-        {{/if}}
-    {{/each}}
+        <h2>Direcciones</h2>
+        {{#each addresses }}
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                <label class="form-check-label" for="exampleRadios1">
+                    Default radio
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                <label class="form-check-label" for="exampleRadios2">
+                    Second default radio
+                </label>
+            </div>
+            <h3>{{this.type}}</h3>
+            <p>{{this.description}}</p>
+            {{#if this.reference}}
+                <p>{{this.reference}}</p>
+            {{/if}}
+        {{/each}}
     {{else}}
     <i>No tienes direcciones agregadas en el momento.</i>
     {{/if}}
@@ -96,7 +96,6 @@
         params.description = $('#description').val();
         params.reference = $('#reference').val();
         params.adressTypeId = $("input[name='typeId']:checked").val();
-        console.log(params);
 
         let hasError = false;
         if (!params.description) {
