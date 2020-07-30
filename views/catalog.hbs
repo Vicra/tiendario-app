@@ -3,32 +3,12 @@
     {{#if categories}}
         {{#each categories}}
             <div class="row">
-                <h3>{{this.name}}</h3>
-                <div class="grid">
-                    {{#each this.products}}
-                        <div class="item">
-                            <br>
-                            <img id="image{{this.id}}" src="{{this.image}}" onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px" width="200px" style="background-size:cover;">
-                            <div class="details">
-                                <h3>{{ this.name }}</h3>
-                                
-                                <div class="clearfix">
-                                    <div class="price pull-middle"><i class="fa fa-tag" aria-hidden="true"></i> {{ this.price }} Lps</div>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
-                    {{/each}}
-                </div>
+                <a href="/products-category/{{this.id}}">
+                    <h3>{{this.name}}</h3>
+                </a>
             </div>
         {{/each}}
     {{else}}
     <i>No se puede ver el catalogo en este momento.</i>
     {{/if}}
 </div>
-
-<script>
-    function hasError(id, source) {
-        document.getElementById(`image${id}`).src = source;
-    }
-</script>

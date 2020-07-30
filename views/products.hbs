@@ -1,0 +1,27 @@
+
+<div class="container">
+    {{#if products}}
+        <br><br><br>
+        <h2>{{ name }}</h2>
+        <div class="grid">
+            {{#each products}}
+                <div class="item">
+                    <br>
+                    <img id="image{{this.id}}" src="{{this.image}}" 
+                        onerror="imageHasError({{this.id}}, '{{this.alt}}');" 
+                        height="200px" width="200px" style="background-size:cover;">
+                    <h3>{{ this.name }}</h3>
+                    <br>
+                </div>
+            {{/each}}
+        </div>
+    {{else}}
+        <i>Esta categoria no tiene productos aun.</i>
+    {{/if}}
+</div>
+
+<script>
+    function imageHasError(imageId, source) {
+        document.getElementById(`image${imageId}`).src = source;
+    }
+</script>

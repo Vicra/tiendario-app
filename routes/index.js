@@ -283,13 +283,29 @@ router.get('/orders', function (req, res) {
 router.get('/catalog', function (req, res) {
 
     (async () => {
-        let categoriesCatalog = await productService.getProductsByCategory();
+        let categories = await categoryService.getCategories();
 
         res.render('catalog', {
             title: AppName
-            , categories: categoriesCatalog
+            , categories: categories
             , type: 1
             , user: req.session.user
+        });
+    })();
+});
+
+router.get('/products-category/:id', function (req, res) {
+
+    (async () => {
+        let categoryId = req.params.id;
+        let products = await productService.getProductsByCategory(categoryId);
+        console.log(products);
+        res.render('products', {
+            title: AppName
+            , products: products
+            , type: 1
+            , user: req.session.user
+            , name: (products.length) ? products[0].category : ''
         });
     })();
 });

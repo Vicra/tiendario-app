@@ -7,7 +7,7 @@ class ProductService {
 
     async getProducts() {
         try {
-            const response = await axios.get(`${this.host}/product`);
+            const response = await axios.get(`${this.host}/product/?limit=25`);
             let HttpResponse = response.data;
             if (HttpResponse.success)
                 return HttpResponse.data;
@@ -53,16 +53,17 @@ class ProductService {
         }
     }
 
-    async getProductsByCategory() {
+    async getProductsByCategory(id) {
+        console.log(id);
         try {
-            const response = await axios.get(`${this.host}/product/catalog`);
+            const response = await axios.get(`${this.host}/product/category/${id}`);
             let HttpResponse = response.data;
             if (HttpResponse.success)
                 return HttpResponse.data;
             else
                 return [];
         } catch (error) {
-            console.log(error);
+            console.log('error');
             return error.response;
         }
     }
