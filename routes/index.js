@@ -53,7 +53,7 @@ router.post('/add/:id', function (req, res) {
     }
 });
 
-router.get('/cart', function (req, res, next) {
+router.get('/cart', function (req, res) {
     if (!req.session.cart) {
         return res.render('cart', {
             products: null
@@ -70,7 +70,7 @@ router.get('/cart', function (req, res, next) {
     });
 });
 
-router.get('/remove/:id', function (req, res, next) {
+router.get('/remove/:id', function (req, res) {
     let productId = req.params.id;
     let cart = new Cart(req.session.cart ? req.session.cart : {});
 
@@ -79,7 +79,7 @@ router.get('/remove/:id', function (req, res, next) {
     res.redirect('/cart');
 });
 
-router.get('/address', function (req, res, next) {
+router.get('/address', function (req, res) {
     if (!req.session.cart) {
         return res.render('address', {
             products: null
@@ -95,7 +95,7 @@ router.get('/address', function (req, res, next) {
     });
 });
 
-router.post('/placeorder', function (req, res, next) {
+router.post('/placeorder', function (req, res) {
 
     let params = req.body;
     let cart = new Cart(req.session.cart);
@@ -109,7 +109,7 @@ router.post('/placeorder', function (req, res, next) {
     res.redirect('/?s=1');
 });
 
-router.get('/products', function (req, res, next) {
+router.get('/products', function (req, res) {
     if(req.session.admin){
         (async () => {
             let products = await productService.getLatestProducts();
@@ -126,7 +126,7 @@ router.get('/products', function (req, res, next) {
     }
 });
 
-router.get('/create-product', function (req, res, next) {
+router.get('/create-product', function (req, res) {
     let suppliers = [];
     let categories = [];
     let brands = [];
@@ -145,7 +145,7 @@ router.get('/create-product', function (req, res, next) {
     })();
 });
 
-router.post('/submit-product', function (req, res, next) {
+router.post('/submit-product', function (req, res) {
 
     let params = req.body;
 
@@ -160,7 +160,7 @@ router.post('/submit-product', function (req, res, next) {
     })();
 });
 
-router.get('/edit-product/:id', function (req, res, next) {
+router.get('/edit-product/:id', function (req, res) {
     let productId = req.params.id;
 
     (async () => {
@@ -180,7 +180,7 @@ router.get('/edit-product/:id', function (req, res, next) {
     })();
 });
 
-router.post('/update-product', function (req, res, next) {
+router.post('/update-product', function (req, res) {
 
     let params = req.body;
     (params.available == "on") ? params.available = 1 : params.available = "";
@@ -197,7 +197,7 @@ router.post('/update-product', function (req, res, next) {
 });
 
 
-router.get('/suppliers', function (req, res, next) {
+router.get('/suppliers', function (req, res) {
     if(req.session.admin){
         (async () => {
             let suppliers = await supplierService.getLatestSuppliers();
@@ -214,7 +214,7 @@ router.get('/suppliers', function (req, res, next) {
     }
 });
 
-router.get('/create-supplier', function (req, res, next) {
+router.get('/create-supplier', function (_, res) {
 
     (async () => {
         res.render('supplier/create', {
@@ -223,7 +223,7 @@ router.get('/create-supplier', function (req, res, next) {
     })();
 });
 
-router.post('/submit-supplier', function (req, res, next) {
+router.post('/submit-supplier', function (req, res) {
 
     let params = req.body;
 
@@ -238,7 +238,7 @@ router.post('/submit-supplier', function (req, res, next) {
     })();
 });
 
-router.get('/edit-supplier/:id', function (req, res, next) {
+router.get('/edit-supplier/:id', function (req, res) {
     let supplierId = req.params.id;
     (async () => {
         let supplier = await supplierService.getSupplierById(supplierId);
@@ -250,7 +250,7 @@ router.get('/edit-supplier/:id', function (req, res, next) {
     })();
 });
 
-router.post('/update-supplier', function (req, res, next) {
+router.post('/update-supplier', function (req, res) {
 
     let params = req.body;
 
@@ -265,7 +265,7 @@ router.post('/update-supplier', function (req, res, next) {
     })();
 });
 
-router.get('/orders', function (req, res, next) {
+router.get('/orders', function (req, res) {
     if(req.session.admin){
         (async () => {
             let orders = await orderService.getNewOrders();
@@ -280,7 +280,7 @@ router.get('/orders', function (req, res, next) {
     }
 });
 
-router.get('/catalog', function (req, res, next) {
+router.get('/catalog', function (req, res) {
 
     (async () => {
         let categoriesCatalog = await productService.getProductsByCategory();
@@ -295,7 +295,7 @@ router.get('/catalog', function (req, res, next) {
 });
 
 
-router.get('/contact', function (req, res, next) {
+router.get('/contact', function (req, res) {
     (async () => {
         res.render('contact', {
             title: AppName
@@ -306,7 +306,7 @@ router.get('/contact', function (req, res, next) {
 });
 
 
-router.get('/view-order/:id', function (req, res, next) {
+router.get('/view-order/:id', function (req, res) {
     let orderId = req.params.id;
     (async () => {
         let order = await orderService.getOrderById(orderId);
@@ -321,7 +321,7 @@ router.get('/view-order/:id', function (req, res, next) {
     })();
 });
 
-router.get('/categories', function (req, res, next) {
+router.get('/categories', function (req, res) {
     if(req.session.admin){
         (async () => {
             let categories = await categoryService.getCategories();
@@ -338,7 +338,7 @@ router.get('/categories', function (req, res, next) {
     }
 });
 
-router.get('/create-category', function (req, res, next) {
+router.get('/create-category', function (req, res) {
 
     (async () => {
         res.render('category/create', {
@@ -348,7 +348,7 @@ router.get('/create-category', function (req, res, next) {
     })();
 });
 
-router.post('/submit-category', function (req, res, next) {
+router.post('/submit-category', function (req, res) {
 
     let params = req.body;
 
@@ -363,7 +363,7 @@ router.post('/submit-category', function (req, res, next) {
     })();
 });
 
-router.get('/edit-category/:id', function (req, res, next) {
+router.get('/edit-category/:id', function (req, res) {
     let categoryId = req.params.id;
     (async () => {
         let category = await categoryService.getCategoryById(categoryId);
@@ -375,7 +375,7 @@ router.get('/edit-category/:id', function (req, res, next) {
     })();
 });
 
-router.post('/update-category', function (req, res, next) {
+router.post('/update-category', function (req, res) {
 
     let params = req.body;
 
@@ -390,7 +390,7 @@ router.post('/update-category', function (req, res, next) {
     })();
 });
 
-router.get('/brands', function (req, res, next) {
+router.get('/brands', function (req, res) {
     if(req.session.admin){
         (async () => {
             let brands = await brandService.getBrands();
@@ -407,7 +407,7 @@ router.get('/brands', function (req, res, next) {
     }
 });
 
-router.get('/create-brand', function (req, res, next) {
+router.get('/create-brand', function (req, res) {
 
     (async () => {
         res.render('brand/create', {
@@ -417,7 +417,7 @@ router.get('/create-brand', function (req, res, next) {
     })();
 });
 
-router.post('/submit-brand', function (req, res, next) {
+router.post('/submit-brand', function (req, res) {
 
     let params = req.body;
 
@@ -432,7 +432,7 @@ router.post('/submit-brand', function (req, res, next) {
     })();
 });
 
-router.get('/edit-brand/:id', function (req, res, next) {
+router.get('/edit-brand/:id', function (req, res) {
     let brandId = req.params.id;
     (async () => {
         let brand = await brandService.getBrandById(brandId);
@@ -444,7 +444,7 @@ router.get('/edit-brand/:id', function (req, res, next) {
     })();
 });
 
-router.post('/update-brand', function (req, res, next) {
+router.post('/update-brand', function (req, res) {
 
     let params = req.body;
 
