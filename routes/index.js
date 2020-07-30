@@ -297,7 +297,7 @@ router.get('/catalog', function (req, res, next) {
 
 router.get('/contact', function (req, res, next) {
     (async () => {
-        res.render('catalog', {
+        res.render('contact', {
             title: AppName
             ,type: 1
             ,user: req.session.user
