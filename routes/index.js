@@ -34,9 +34,11 @@ router.get('/', function (req, res) {
     })();
 });
 
-router.post('/add/:id', function (req, res) {
+router.post('/add/:id/:categoryId', function (req, res) {
     let productId = req.params.id;
     let count = req.body.count;
+    let categoryId = req.params.categoryId;
+
     let cart = new Cart(req.session.cart ? req.session.cart : {});
     let product = products.filter(function (item) {
         return item.id == productId;
@@ -45,7 +47,11 @@ router.post('/add/:id', function (req, res) {
         cart.add(product[0], productId);
     }
     req.session.cart = cart;
-    if(req.session.keyword){
+
+    if (categoryId && categoryId > 0){
+        res.redirect(`/products-category/${categoryId}`);
+    }
+    else if(req.session.keyword){
         res.redirect(`/search?keyword=${req.session.keyword}`);
     }
     else{
@@ -298,8 +304,8 @@ router.get('/products-category/:id', function (req, res) {
 
     (async () => {
         let categoryId = req.params.id;
+        console.log(categoryId, 'categoryId');
         let products = await productService.getProductsByCategory(categoryId);
-        console.log(products);
         res.render('products', {
             title: AppName
             , products: products

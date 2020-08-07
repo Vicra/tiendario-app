@@ -11,6 +11,20 @@
                         onerror="imageHasError({{this.id}}, '{{this.alt}}');" 
                         height="200px" width="200px" style="background-size:cover;">
                     <h3>{{ this.name }}</h3>
+                    
+                    <form class="form-inline" name="form_{{this.id}}" action="/add/{{this.id}}/{{this.categoryId}}" method="POST">
+                        {{!-- Amount of products --}}
+                        <a onclick="subs({{ this.id }})" class="btn btn-default" 
+                            role="button" style="margin-bottom: 0;">-</a>
+                        <input type="numeric" class="form-control" value="1" style="max-width: 30%;" name="count"
+                            id="count_{{this.id}}" max="10" onchange="checkValue()">
+                        <a onclick="sum({{ this.id }})" class="btn btn-info" 
+                            role="button" style="margin-bottom: 0;">+</a>
+                        
+                        {{!-- Add products --}}
+                        <a class="btn btn-default" role="button" onclick="add({{this.id}});"><i class="fa fa-shopping-cart"
+                            aria-hidden="true"></i> Agregar</a>
+                    </form>
                     <br>
                 </div>
             {{/each}}
@@ -23,5 +37,38 @@
 <script>
     function imageHasError(imageId, source) {
         document.getElementById(`image${imageId}`).src = source;
+    }
+
+    function add(id) {
+        $(`form[name='form_${id}']`).submit();
+    }
+
+    function sum(id) {
+        let currentVal = parseInt($(`#count_${id}`).val());
+        if (currentVal >= 10) {
+            $(`#count_${id}`).val(currentVal);
+        }
+        else {
+            $(`#count_${id}`).val(currentVal + 1);
+        }
+    }
+
+    function subs(id) {
+        let currentVal = parseInt($(`#count_${id}`).val());
+        if (currentVal == 1) {
+            $(`#count_${id}`).val(currentVal);
+        }
+        else {
+            $(`#count_${id}`).val(currentVal - 1);
+        }
+    }
+
+    function checkValue(selfi) {
+        if (selfi.value > 10) {
+            selfi.value = 10;
+        }
+        else if (selfi.value < 1) {
+            selfi.value = 1;
+        }
     }
 </script>
