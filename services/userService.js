@@ -18,6 +18,7 @@ class UserService {
     }
 
     async postUser(user) {
+        console.log(user);
         try {
             let response = await axios.post(`${this.host}/user`, {
                 email: user.email,
@@ -25,6 +26,7 @@ class UserService {
                 name: user.name,
                 phone: user.phone,
             });
+            console.log(response);
             return response;
         } catch (error) {
             console.log(error);

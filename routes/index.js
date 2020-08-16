@@ -68,10 +68,14 @@ router.get('/cart', function (req, res) {
         });
     }
     let cart = new Cart(req.session.cart);
+    const delivery = 80;
+    const subtotal = cart.totalPrice;
     res.render('cart', {
         title: AppName,
         products: cart.getItems(),
-        totalPrice: cart.totalPrice,
+        subtotal: subtotal,
+        delivery: delivery,
+        total: delivery + subtotal,
         type: 1
     });
 });
@@ -336,10 +340,20 @@ router.get('/view-order/:id', function (req, res) {
         order.items.forEach(element =>
             order.total += element.subprice
         );
-        res.render('order/detail', {
-            title: AppName
-            , order: order
-        });
+        
+        
+        if (order.approved == '1'){
+            res.render('order/detail', {
+                title: AppName
+                , order: order
+            });
+        }
+        else{
+            res.render('order/edit', {
+                title: AppName
+                , order: order
+            });
+        }
     })();
 });
 

@@ -1,33 +1,34 @@
-<div class="wrapper">
-    <h1>{{title}}</h1>
-
+<div class="container">
+    <br>
+    <p>Crea una cuenta <a href="/register">Aqui</a> para que puedas llevar control de tus pedidos y guardar tu dirección, o continua sin crear cuenta.</p>
+    <h1>Datos de Contacto</h1>
     <form action="/placeorder/" name="placeorder" method="POST">
         <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
             Ingrese el nombre.
         </div>
-        <p>Nombre</p>
+        <h4>Nombre</h4>
         <input type="text" class="form-control" name="name" id="name"><br>
 
         <div class="alert alert-danger" role="alert" style="display: none;" id="enterPhone">
             Ingrese el numero de telefono.
         </div>
-        <p>Numero de Telefono</p>
-        <input type="text" class="responsiveInput" name="phone" id="phone" placeholder="99493461"><br>
+        <h4>Numero de Telefono</h4>
+        <input type="text" class="responsiveInput" name="phone" id="phone" placeholder="9947-5935"><br>
 
         <div class="radioButtons">
             <div class="custom-control custom-radio">
-                <input type="radio" id="delivery" name="deliveryRadio" class="custom-control-input">
+                <input type="radio" id="delivery" name="deliveryRadio" class="custom-control-input" checked="true">
                 <label class="custom-control-label" for="delivery">A domicilio</label>
             </div>
 
             <div class="custom-control custom-radio">
-                <input type="radio" id="pickup" name="deliveryRadio" class="custom-control-input" checked="true">
+                <input type="radio" id="pickup" name="deliveryRadio" class="custom-control-input">
                 <label class="custom-control-label" for="pickup">Recoger en
                     establecimiento</label>
             </div>
         </div>
 
-        <div id="addressBox" style="display: none;">
+        <div id="addressBox">
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterAddress">
                 Ingrese la direccion.
             </div>
@@ -35,9 +36,9 @@
             <div class="alert alert-danger" role="alert" style="display: none;" id="addressValid">
                 La direccion debe tener almenos 10 caracteres.
             </div>
-            <p>Direccion</p>
-            <textarea id="address" class="form-control" style="resize: none;" rows="4" cols="50"
-                placeholder="7 calle 20 ave Barrio Rio Piedras"></textarea>
+            <h4>Direccion</h4>
+            <textarea id="address" name="address" class="form-control" style="resize: none;" rows="4" cols="50"
+                placeholder="Brindanos una direccion detallada y un punto de referencia"></textarea>
             <br>
         </div>
 

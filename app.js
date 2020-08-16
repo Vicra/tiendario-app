@@ -11,6 +11,7 @@ var session = require('express-session');
 var index = require('./routes/index');
 var account = require('./routes/account');
 var admin = require('./routes/admin');
+var cart = require('./routes/cart');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use(function(req, res, next) {
 app.use('/', index);
 app.use('/', account);
 app.use('/', admin);
+app.use('/', cart);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

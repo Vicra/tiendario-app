@@ -9,7 +9,8 @@ module.exports = function Cart(cart) {
             cartItem = this.items[id] = { item: item, quantity: 0, price: 0 };
         }
         cartItem.quantity++;
-        cartItem.price = parseInt(cartItem.item.price) * cartItem.quantity;
+        cartItem.price = cartItem.item.price;
+        cartItem.subtotal = parseInt(cartItem.item.price) * cartItem.quantity;
         this.totalItems++;
         this.totalPrice += parseInt(cartItem.item.price);
     };

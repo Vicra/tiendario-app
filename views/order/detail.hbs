@@ -38,11 +38,9 @@
     <br>
     <h3>Total: Lps.{{order.total}}</h3>
 
-    <a href="/approve-order/{{order.id}}" class="btn btn-info" role="button">
-        <i class="fa fa-check" aria-hidden="true"></i> Aprobar
-    </a>
-
-    <a href="/deliver-order/{{order.id}}" class="btn btn-success" role="button">
-        <i class="fa fa-check" aria-hidden="true"></i> Entregar
-    </a>
+    {{#if order.approved}}
+        <a href="/deliver-order/{{order.id}}" class="btn btn-success" role="button">
+            <i class="fa fa-check" aria-hidden="true"></i> Entregar
+        </a>
+    {{/if}}
 </div>

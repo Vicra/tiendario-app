@@ -60,6 +60,14 @@
             </div>
         </div>
 
+        <div class="alert alert-danger" role="alert" style="display: none;" id="samePasswords">
+            Las contrasenas deben ser iguales.
+        </div>
+
+        <div class="alert alert-danger" role="alert" style="display: none;" id="minPassword">
+            La contrasena debe tener un minimo de 6 caracteres.
+        </div>
+
         <div class="form-group">
             <label for="phone">Numero de telefono</label>
             <input type="text" class="form-control" id="phone" name="phone" value="99493461">
@@ -67,14 +75,6 @@
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterPhone">
                 Ingrese el numero de telefono.
             </div>
-        </div>
-
-        <div class="alert alert-danger" role="alert" style="display: none;" id="samePasswords">
-            Las contrasenas deben ser iguales.
-        </div>
-
-        <div class="alert alert-danger" role="alert" style="display: none;" id="minPassword">
-            La contrasena debe tener un minimo de 6 caracteres.
         </div>
 
         <div class="text-left">
@@ -85,7 +85,7 @@
 
 <script>
     function validate() {
-        const delay = 4;//4seconds
+        const delay = 4000;//4seconds
 
         let params = {};
         params.name = $('#name').val();
@@ -95,7 +95,7 @@
         params.phone = $('#phone').val();
 
         let hasError = false;
-        /*
+        
         if (!params.name) {
             hasError = true;
             $('#enterName').fadeIn().delay(delay).fadeOut();
@@ -129,11 +129,11 @@
             $('#enterPassword2').fadeIn().delay(delay).fadeOut();
         }
 
-        if (params.password2 !== params.password) {
+        else if (params.password2 !== params.password) {
             hasError = true;
             $('#samePasswords').fadeIn().delay(delay).fadeOut();
         }
-        */
+        
 
         if (!hasError) {
             $("form[name='register']").submit();

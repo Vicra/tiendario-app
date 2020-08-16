@@ -1,0 +1,95 @@
+<div class="container">
+    <h1>Verificación de Pedido</h1>
+    <br>
+    <p><strong>Cliente:</strong> {{order.customer}}</p>
+    <p><strong>Numero de telefono:</strong> {{order.phone}}</p>
+    <p><strong>Tipo:</strong> {{order.type}}</p>
+    <p><strong>Metodo de Pago:</strong> {{order.paymentMethod}}</p>
+    <p><strong>Fecha:</strong> {{order.createdDate}}</p>
+    {{#if order.address}}
+        <p><strong>Direccion:</strong> {{order.address}}</p>
+
+        {{#if order.reference}}
+            <p><strong>Referencia:</strong> {{order.reference}}</p>
+        {{/if}}
+    {{/if}}
+
+    <br>
+    <h3>Productos</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Sub Total</th>
+                <th>Quitar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each order.items }}
+                <tr id="item_{{ this.itemId }}">
+                    <td>{{this.name}} {{this.description}}</td>
+                    <td class="form-inline">
+                        <a onclick="subs({{ this.itemId }})" class="btn btn-default" 
+                            role="button" style="margin-bottom: 0;">-</a>
+                        <input type="numeric" class="form-control" value="{{this.amount}}" style="max-width: 30%;" name="count"
+                            id="count_{{this.itemId}}" max="10" onchange="checkValue()">
+                        <a onclick="sum({{ this.itemId }})" class="btn btn-info" 
+                            role="button" style="margin-bottom: 0;">+</a>
+                    </td>
+                    <td>Lps. <label id="price_{{this.itemId}}">{{this.price}}</label></td>
+                    <td>Lps. <label id="subprice_{{this.itemId}}">{{this.subprice}}</label></td>
+                    <td><button onclick="$('#item_{{this.itemId}}').remove();" class="btn btn-default"></i> Quitar</button></td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <br>
+    <h3>Total: Lps.{{order.total}}</h3>
+
+    <a href="/approve-order/{{order.id}}" class="btn btn-info" role="button">
+        <i class="fa fa-check" aria-hidden="true"></i> Aprobar
+    </a>
+</div>
+
+<script>
+    function sum(id) {
+        let currentVal = parseInt($(`#count_${id}`).val());
+        let price = $(`#price_${id}`).text();
+        if (currentVal >= 10) {
+            $(`#count_${id}`).val(currentVal);
+        }
+        else {
+            currentVal += 1;
+            $(`#count_${id}`).val(currentVal);
+        }
+        changeSubprice(id, currentVal, price);
+    }
+
+    function subs(id) {
+        let currentVal = parseInt($(`#count_${id}`).val());
+        let price = $(`#price_${id}`).text();
+        if (currentVal == 1) {
+            $(`#count_${id}`).val(currentVal);
+        }
+        else {
+            currentVal -= 1;
+            $(`#count_${id}`).val(currentVal);
+        }
+        changeSubprice(id, currentVal, price);
+    }
+
+    function checkValue(selfi) {
+        if (selfi.value > 10) {
+            selfi.value = 10;
+        }
+        else if (selfi.value < 1) {
+            selfi.value = 1;
+        }
+    }
+
+    function changeSubprice(id, quantity, price){
+        $(`#subprice_${id}`).text(quantity * price);
+    }
+</script>

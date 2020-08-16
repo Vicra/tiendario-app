@@ -52,7 +52,7 @@
                 <p>{{ this.price }} Lps </p>
                 {{#if this.available}}
                 
-                <form class="form-inline" name="form_{{this.id}}" action="/add/{{this.id}}" method="POST">
+                <form class="form-inline" name="form_{{this.id}}" action="/add/{{this.id}}/0" method="POST">
                     {{!-- Amount of products --}}
                     <a onclick="subs({{ this.id }})" class="btn btn-default" 
                         role="button" style="margin-bottom: 0;">-</a>

@@ -1,31 +1,62 @@
-<div class="wrapper">
-    <h1>{{title}}</h1>
-    {{# if products }}
-        <div class="cart page">
-            <ul class="list-group">
-                {{# each products }}
-                <li class="list-group-item clearfix">
-                    <div class="col-xs-5">
-                        <strong>{{ this.item.name }}</strong><br/>
-                        <em>{{{this.item.description}}}</em>
-                    </div>
-                    <div class="col-xs-2 text-right">
-                        <span class="badge">{{ this.quantity }}</span>
-                    </div>
-                    <div class="col-xs-3 text-right">
-                        {{ this.price }} Lps
-                    </div>
-                    <div class="col-xs-2 text-right">
-                        <a href="/remove/{{this.item.id}}" class="btn btn-default"></i> Quitar</a>
-                    </div>
-                </li>
+<div class="container">
+    
+    {{#if products }}
+        <h1>Lista de Productos</h1>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Imagen</th>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products }}
+                    <tr>
+                        <td>
+                            <img src="{{this.item.image}}" alt="" height="50px">
+                        </td>
+                        <td>
+                            <strong>{{ this.item.name }}</strong><br/>
+                            <em>{{{this.item.description}}}</em>
+                        </td>
+                        <td>
+                            Lps. {{ this.price }}
+                        </td>
+                        {{!-- <td class="form-inline">
+                            <a onclick="subs({{ this.itemId }})" class="btn btn-default" 
+                                role="button" style="margin-bottom: 0;">-</a>
+                            <input type="numeric" class="form-control" value="{{this.quantity}}" style="max-width: 15%;" name="count"
+                                id="count_{{this.itemId}}" max="10" onchange="checkValue()">
+                            <a onclick="sum({{ this.itemId }})" class="btn btn-info" 
+                                role="button" style="margin-bottom: 0;">+</a>
+                        </td> --}}
+                        <td>
+                            <span class="badge">{{ this.quantity }}</span>
+                        </td>
+                        <td>
+                            Lps. {{ this.subtotal }}
+                        </td>
+                        <td>
+                            <a href="/remove/{{this.item.id}}" class="btn btn-default"></i> Quitar</a>
+                        </td>
+                    </tr>    
                 {{/each}}
-            </ul>
+            </tbody>
+        </table>
+        <div style="text-align: right;">
+            <h4>Subtotal: Lps. {{subtotal}}</h4>
+            <h4>Costo de Envio: Lps. {{delivery}} </h4>
+            <h3>Total: Lps. {{total}}</h3>
         </div>
-        <div class="text-right">
-            <strong>Total: {{ totalPrice }} Lps</strong>
-        </div>
-        <hr>
+        {{!-- <p>
+            Si tienes alguna observacion con tu pedido puedes agregarla en la cajita de abajo.
+        </p>
+        <textarea class="form-control" id="observations" rows="3"></textarea> --}}
+        <br><br>
         <div class="text-right">
             <a href="/address/" type="button" class="btn btn-success">Continuar</a>
         </div>
