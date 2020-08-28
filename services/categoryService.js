@@ -19,6 +19,20 @@ class CategoryService {
         }
     }
 
+    async getAvailableCategories() {
+        try {
+            const response = await axios.get(`${this.host}/category/available`);
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return [];
+        } catch (error) {
+            console.log(error);
+            return error.response.data;
+        }
+    }
+
     async getCategoryById(id) {
         try {
             const response = await axios.get(`${this.host}/category/${id}`);

@@ -45,6 +45,13 @@ router.post("/register", function (req, res) {
     (async () => {
         let response = await userService.postUser(req.body);
         if (response.success){
+            let addressBody = {
+                description: req.body.address
+                , reference: req.body.reference
+                , typeId: req.body.type
+                , customerId: address.customerId
+            };
+            let response = await userService.postAddress(req.body);
             res.redirect("/login?s=1");
         }
         else {

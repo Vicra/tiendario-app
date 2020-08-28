@@ -336,7 +336,7 @@ router.get('/orders', function (req, res) {
 router.get('/catalog', function (req, res) {
 
     (async () => {
-        let categories = await categoryService.getCategories();
+        let categories = await categoryService.getAvailableCategories();
 
         res.render('catalog', {
             title: AppName
