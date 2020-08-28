@@ -7,11 +7,19 @@
 </div>
 
 {{#if message}}
-  <div class="container">
-    <div class="alert alert-danger" role="alert">
-        {{message}}
+    <div class="container">
+        <div class="alert alert-danger" role="alert">
+            {{message}}
+        </div>
     </div>
-  </div>
+{{/if}}
+
+{{#if success}}
+    <div class="container">
+        <div class="alert alert-success" role="alert">
+            User created successfully.
+        </div>
+    </div>
 {{/if}}
 
 <div class="container">
@@ -27,7 +35,7 @@
 
         <div class="form-group">
             <label for="password">Contrase&ntilde;a</label>
-            <input type="password" class="form-control" id="password" name="password" value="Test123**">
+            <input type="password" class="form-control" id="password" name="password" value="Test123">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterPassword">
                 Ingrese la contrase&ntilde;a.

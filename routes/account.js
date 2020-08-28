@@ -4,11 +4,12 @@ const userService = require('../services/userService');
 
 const AppName = "La Tiendita del Rio";
 
-router.get("/login", function (_, res) {
+router.get("/login", function (req, res) {
     (async () => {
         res.render("user/login", {
             title: AppName
             , type: 1
+            , success: req.query.s
         });
     })();
 });
@@ -43,10 +44,16 @@ router.get("/register", function (_, res) {
 router.post("/register", function (req, res) {
     (async () => {
         let response = await userService.postUser(req.body);
-        res.render("user/register", {
-            title: AppName
-            , type: 1
-        });
+        if (response.success){
+            res.redirect("/login?s=1");
+        }
+        else {
+            res.render("user/register", {
+                title: AppName
+                , type: 1
+                , message: response.message
+            });
+        }
     })();
 });
 

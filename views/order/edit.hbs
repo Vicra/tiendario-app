@@ -1,3 +1,11 @@
+{{#if success}}
+    <div class="container">
+        <div class="alert alert-success" role="alert">
+            <p>Orden aprovada</p>
+        </div>
+    </div>
+{{/if}}
+
 <div class="container">
     <h1>Verificación de Pedido</h1>
     <br>
@@ -30,13 +38,16 @@
             {{#each order.items }}
                 <tr id="item_{{ this.itemId }}">
                     <td>{{this.name}} {{this.description}}</td>
-                    <td class="form-inline">
+                    {{!-- <td class="form-inline">
                         <a onclick="subs({{ this.itemId }})" class="btn btn-default" 
                             role="button" style="margin-bottom: 0;">-</a>
                         <input type="numeric" class="form-control" value="{{this.amount}}" style="max-width: 30%;" name="count"
                             id="count_{{this.itemId}}" max="10" onchange="checkValue()">
                         <a onclick="sum({{ this.itemId }})" class="btn btn-info" 
                             role="button" style="margin-bottom: 0;">+</a>
+                    </td> --}}
+                    <td>
+                        {{this.amount}}
                     </td>
                     <td>Lps. <label id="price_{{this.itemId}}">{{this.price}}</label></td>
                     <td>Lps. <label id="subprice_{{this.itemId}}">{{this.subprice}}</label></td>
@@ -48,9 +59,15 @@
     <br>
     <h3>Total: Lps.{{order.total}}</h3>
 
-    <a href="/approve-order/{{order.id}}" class="btn btn-info" role="button">
-        <i class="fa fa-check" aria-hidden="true"></i> Aprobar
-    </a>
+    {{#if order.approved}}
+        <a href="/deliver-order/{{order.id}}" class="btn btn-success" role="button">
+            <i class="fa fa-check" aria-hidden="true"></i> Entregar
+        </a>
+    {{else}}
+        <a href="/approve-order/{{order.id}}" class="btn btn-info" role="button">
+            <i class="fa fa-check" aria-hidden="true"></i> Aprobar
+        </a>
+    {{/if}}
 </div>
 
 <script>

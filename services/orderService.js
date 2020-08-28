@@ -7,6 +7,35 @@ class OrderService {
     }
 
     async postOrder(params, items) {
+        console.log(params);
+        try {
+            let _items = [];
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                _items.push({
+                    id: item.item.id,
+                    amount: item.quantity,
+                    price: item.price
+                });
+            }
+            
+            let body = {
+                items: _items
+                , observations: params.observations || ""
+                , type: params.deliveryRadio
+                , customerId: params.customerId
+                , address: params.address
+            }
+            let response = await axios.post(`${this.host}/order`, body);
+            console.log(response);
+            return response.data;
+        } catch (error) {
+            console.log(error.response);
+            return error.response.data;
+        }
+    }
+
+    async postGuestOrder(params, items) {
         try {
             let _items = [];
             for (let i = 0; i < items.length; i++) {
@@ -26,10 +55,10 @@ class OrderService {
                 type: params.deliveryRadio,
                 address: params.address || ""
             });
-            return;
+            return response.data;
         } catch (error) {
-            console.log(error);
-            return error.response;
+            console.log(error.response);
+            return error.response.data;
         }
     }
 
@@ -43,8 +72,8 @@ class OrderService {
                 return [];
         }
         catch (error) {
-            console.log(error);
-            return error.response;
+            console.log(error.response);
+            return error.response.data;
         }
     }
 
@@ -58,8 +87,32 @@ class OrderService {
                 return {};
         }
         catch (error) {
-            console.log(error);
-            return error.response;
+            console.log(error.response);
+            return error.response.data;
+        }
+    }
+
+    async approveOrder(orderId){
+        try {
+            let response = await axios.get(`${this.host}/order/approve/${orderId}`);
+            let HttpResponse = response.data;
+            return HttpResponse;
+        }
+        catch (error) {
+            console.log(error.response);
+            return error.response.data;
+        }
+    }
+
+    async deliverOrder(orderId){
+        try {
+            let response = await axios.get(`${this.host}/order/deliver/${orderId}`);
+            let HttpResponse = response.data;
+            return HttpResponse;
+        }
+        catch (error) {
+            console.log(error.response);
+            return error.response.data;
         }
     }
 }

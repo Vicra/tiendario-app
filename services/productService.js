@@ -15,7 +15,7 @@ class ProductService {
                 return [];
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -29,7 +29,7 @@ class ProductService {
                 return [];
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -39,7 +39,7 @@ class ProductService {
             return response.data;
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -49,7 +49,7 @@ class ProductService {
             return response.data;
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -66,7 +66,7 @@ class ProductService {
                 return [];
         } catch (error) {
             console.log('error');
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -80,7 +80,7 @@ class ProductService {
                 return {};
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -91,7 +91,7 @@ class ProductService {
             return HttpResponse;
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 }

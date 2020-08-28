@@ -18,7 +18,6 @@ class UserService {
     }
 
     async postUser(user) {
-        console.log(user);
         try {
             let response = await axios.post(`${this.host}/user`, {
                 email: user.email,
@@ -26,11 +25,9 @@ class UserService {
                 name: user.name,
                 phone: user.phone,
             });
-            console.log(response);
             return response;
         } catch (error) {
-            console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -45,19 +42,19 @@ class UserService {
 
             for (let i = 0; i < addresses.length; i++) {
                 if (addresses[i].type == "1") {
-                    addresses[i].type = "Casa";
+                    addresses[i].typeName = "Casa"; 
                 }
                 else if (addresses[i].type == "2") {
-                    addresses[i].type = "Trabajo";
+                    addresses[i].typeName = "Trabajo";
                 }
                 else if (addresses[i].type == "3") {
-                    addresses[i].type = "Otro";
+                    addresses[i].typeName = "Otro";
                 }
             }
             return response.data;
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -72,7 +69,7 @@ class UserService {
             return response;
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 }

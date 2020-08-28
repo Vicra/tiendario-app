@@ -1,27 +1,15 @@
-{{#if message}}
-    <div class="container">
-        <div class="alert alert-danger" role="alert">
-            {{message}}
-        </div>
-    </div>
-{{/if}}
-
 <div class="container">
     <br>
-    <p>Crea una cuenta <a href="/register">Aqui</a> para que puedas llevar control de tus pedidos y guardar tu dirección, o continua sin crear cuenta.</p>
     <h1>Datos de Contacto</h1>
     <form action="/placeorder/" name="placeorder" method="POST">
-        <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
-            Ingrese el nombre.
-        </div>
         <h4>Nombre</h4>
-        <input type="text" class="form-control" name="name" id="name"><br>
+        <input type="text" class="form-control" name="name" id="name" disabled="true" value="{{user.name}}"><br>
 
         <div class="alert alert-danger" role="alert" style="display: none;" id="enterPhone">
             Ingrese el numero de telefono.
         </div>
-        <h4>Numero de Telefono</h4>
-        <input type="text" class="responsiveInput" name="phone" id="phone" placeholder="9947-5935"><br>
+        <h4>Número de Teléfono</h4>
+        <input type="text" class="responsiveInput" name="phone" id="phone" value="{{user.phone}}" disabled="true" ><br>
 
         <div class="radioButtons">
             <div class="custom-control custom-radio">
@@ -37,16 +25,24 @@
         </div>
 
         <div id="addressBox">
-            <div class="alert alert-danger" role="alert" style="display: none;" id="enterAddress">
-                Ingrese la direccion.
-            </div>
+            <h4>Dirección</h4>
 
-            <div class="alert alert-danger" role="alert" style="display: none;" id="addressValid">
-                La direccion debe tener almenos 10 caracteres.
-            </div>
-            <h4>Direccion</h4>
-            <textarea id="address" name="address" class="form-control" style="resize: none;" rows="4" cols="50"
-                placeholder="Brindanos una direccion detallada y un punto de referencia"></textarea>
+            <select class="form-control" name="addresses" id="addresses">
+                {{#each addresses}}
+                    <option value="{{this.type}}">{{this.typeName}}</option>
+                {{/each}}
+            </select>
+
+            <br>
+            {{#each addresses}}
+                <div id="address_{{this.id}}">
+                    {{this.description}} <br>
+                    {{this.reference}}
+                </div>
+
+                <input class="form-control" name="address" id="address" value="{{this.description}} {{this.reference}}" type="hidden"><br>
+            {{/each}}
+
             <br>
         </div>
 

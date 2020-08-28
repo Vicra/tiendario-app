@@ -15,7 +15,7 @@ class BrandService {
                 return HttpResponse;
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -29,7 +29,7 @@ class BrandService {
                 return {};
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -39,7 +39,7 @@ class BrandService {
             return response.data;
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -49,7 +49,7 @@ class BrandService {
             return response.data;
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 }

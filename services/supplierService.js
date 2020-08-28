@@ -15,7 +15,7 @@ class SupplierService {
                 return [];
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -29,7 +29,7 @@ class SupplierService {
                 return {};
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -43,7 +43,7 @@ class SupplierService {
                 return [];
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -53,7 +53,7 @@ class SupplierService {
             return response.data;
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 
@@ -63,7 +63,7 @@ class SupplierService {
             return response.data;
         } catch (error) {
             console.log(error);
-            return error.response;
+            return error.response.data;
         }
     }
 }

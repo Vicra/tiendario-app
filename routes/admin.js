@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const adminService = require('../services/adminService');
+const orderService = require('../services/orderService');
 
 const AppName = "La Tiendita del Rio";
 
@@ -38,6 +39,32 @@ router.get("/admin", function (req, res) {
         }
         else{
             res.redirect('/authenticate');
+        }
+    })();
+});
+
+router.get("/approve-order/:id", function (req, res) {
+    let orderId = req.params.id;
+    (async () => {
+        let response = await orderService.approveOrder(orderId);
+        if(response.success){
+            res.redirect(`/view-order/${orderId}?s=1`);
+        }
+        else {
+            res.redirect(`/view-order/${orderId}?m=${response.message}`);
+        }
+    })();
+});
+
+router.get("/deliver-order/:id", function (req, res) {
+    let orderId = req.params.id;
+    (async () => {
+        let response = await orderService.deliverOrder(orderId);
+        if(response.success){
+            res.redirect(`/view-order/${orderId}?s=1`);
+        }
+        else {
+            res.redirect(`/view-order/${orderId}?m=${response.message}`);
         }
     })();
 });

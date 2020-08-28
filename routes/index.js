@@ -10,6 +10,7 @@ const brandService = require('../services/brandService');
 const userService = require('../services/userService');
 
 let Cart = require('../models/cart');
+const e = require('express');
 
 const AppName = 'La Tiendita del Rio';
 
@@ -71,12 +72,13 @@ router.get('/cart', function (req, res) {
     const delivery = 80;
     const subtotal = cart.totalPrice;
     res.render('cart', {
-        title: AppName,
-        products: cart.getItems(),
-        subtotal: subtotal,
-        delivery: delivery,
-        total: delivery + subtotal,
-        type: 1
+        title: AppName
+        ,products: cart.getItems()
+        ,subtotal: subtotal
+        ,delivery: delivery
+        ,total: delivery + subtotal
+        ,type: 1
+        ,user: req.session.user
     });
 });
 
@@ -94,15 +96,39 @@ router.get('/address', function (req, res) {
         return res.render('address', {
             products: null
             , type: 1
+            , user: req.session.user
+            , message: req.query.m
         });
     }
-    let cart = new Cart(req.session.cart);
-    res.render('address', {
-        title: AppName
-        , products: cart.getItems()
-        , totalPrice: cart.totalPrice
-        , type: 1
-    });
+    else {
+        let cart = new Cart(req.session.cart);
+        
+        if (req.session.user) {
+            (async () => {
+                let addressesResponse = await userService.getAddresses(req.session.user.id);
+                let addresses = [];
+                if (addressesResponse.success){
+                    addresses = addressesResponse.data
+                }
+                res.render('verify', {
+                    title: AppName
+                    , products: cart.getItems()
+                    , totalPrice: cart.totalPrice
+                    , type: 1
+                    , user: req.session.user
+                    , addresses: addresses
+                });
+            })();
+        }
+        else {
+            res.render('address', {
+                title: AppName
+                , products: cart.getItems()
+                , totalPrice: cart.totalPrice
+                , type: 1
+            });
+        }
+    }
 });
 
 router.post('/placeorder', function (req, res) {
@@ -112,11 +138,28 @@ router.post('/placeorder', function (req, res) {
     let items = cart.getItems();
 
     (async () => {
-        await orderService.postOrder(params, items);
+        if (req.session.user){
+            params.customerId = req.session.user.id;
+            let response = await orderService.postOrder(params, items);
+            if (response.success){
+                req.session.cart = new Cart({});
+                res.redirect('/?s=1');
+            }
+            else {
+                res.redirect(`/address?m=${response.message}`);
+            }
+        }
+        else {
+            let response = await orderService.postGuestOrder(params, items);
+            if (response.success){
+                req.session.cart = new Cart({});
+                res.redirect('/?s=1');
+            }
+            else {
+                res.redirect(`/address?m=${response.message}`);
+            }
+        }
     })();
-    req.session.cart = new Cart({});
-
-    res.redirect('/?s=1');
 });
 
 router.get('/products', function (req, res) {
@@ -308,7 +351,6 @@ router.get('/products-category/:id', function (req, res) {
 
     (async () => {
         let categoryId = req.params.id;
-        console.log(categoryId, 'categoryId');
         let products = await productService.getProductsByCategory(categoryId);
         res.render('products', {
             title: AppName
@@ -342,16 +384,20 @@ router.get('/view-order/:id', function (req, res) {
         );
         
         
-        if (order.approved == '1'){
+        if (order.approved == '1' && order.delivered == '1'){
             res.render('order/detail', {
                 title: AppName
                 , order: order
+                , success: req.query.s
+                , message: req.query.m
             });
         }
         else{
             res.render('order/edit', {
                 title: AppName
                 , order: order
+                , success: req.query.s
+                , message: req.query.m
             });
         }
     })();

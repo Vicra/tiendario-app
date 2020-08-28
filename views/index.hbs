@@ -1,12 +1,12 @@
 <div class="container">
     <h1>{{title}}</h1>
+    {{#if user}}
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Bienvenid@ {{user.name}}</h4>
+        </div>
+    {{/if}}
     <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Rio Piedras</p>
     <p>Consulta el catalogo aqui <a href="/catalog">Catalogo</a> o busca el producto.</p>
-    {{#if user}}
-    <div class="alert alert-success" role="alert">
-        <h4 class="alert-heading">Bienvenid@ {{user.name}}</h4>
-    </div>
-    {{/if}}
 </div>
 
 {{#if success}}
@@ -38,17 +38,19 @@
                 {{#if this.available}}
                 <div>
                     <img id="image{{id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');"
-                        height="200px" width="200px" style="background-size:cover;">
+                        height="200px" width="200px" 
+                        style="background-size:cover;">
                 </div>
                 {{else}}
                 <div class="unavailableWrapper">
                     <img class="unavailableImage" id="image{{id}}" src="{{ this.image }}"
-                        onerror="hasError({{this.id}}, '{{this.alt}}');" height="200px" width="200px"
+                        onerror="hasError({{this.id}}, '{{this.alt}}');" 
+                        height="200px" width="200px"
                         style="background-size:cover;">
                 </div>
                 {{/if}}
                 <h3>{{ this.name }}</h3>
-
+                <i>{{this.description}}</i>
                 <p>{{ this.price }} Lps </p>
                 {{#if this.available}}
                 
@@ -74,13 +76,6 @@
         </ul>
     </div>
 </div>
-<div class="footer" style="padding:25px">
-    <p>La Tiendita del Rio &copy; (2020)</p>
-    <p>+504 9947-5935</p>
-    <p>+504 9930-6099</p>
-    <p>Barrio Rio Piedras 7 calle 20 avenida</p>
-    <a href="/contact">Acerca de Nosotros</a>
-</div>
 
 {{else}}
 <div class="container">
@@ -91,6 +86,14 @@
     {{/if}}
 </div>
 {{/if}}
+
+<div class="footer" style="padding:25px">
+    <p>La Tiendita del Rio &copy; (2020)</p>
+    <p>+504 9947-5935</p>
+    <p>+504 9930-6099</p>
+    <p>Barrio Rio Piedras 7 calle 20 avenida</p>
+    <a href="/contact">Acerca de Nosotros</a>
+</div>
 
 <script>
     function add(id) {

@@ -1,17 +1,24 @@
-
+<br><br>
 <div class="container">
     {{#if categories}}
-        {{#each categories}}
-            <div class="row">
-                <a href="/products-category/{{this.id}}">
-                    <h3>{{this.name}}</h3>
-                </a>
-            </div>
-        {{/each}}
+        <div class="grid">
+            {{#each categories}}
+                <div class="item">
+                    <br>
+                    <a href="/products-category/{{this.id}}">
+                        <img id="image{{this.id}}" src="{{this.image}}" 
+                            onerror="imageHasError({{this.id}}, '{{this.alt}}');" 
+                            height="200px" width="200px" style="background-size:cover;">
+                        <h3>{{this.name}}</h3>
+                    </a>
+                </div>
+            {{/each}}
+        </div>
     {{else}}
     <i>No se puede ver el catalogo en este momento.</i>
     {{/if}}
 </div>
+
 <div class="footer" style="padding:25px">
     <p>La Tiendita del Rio &copy; (2020)</p>
     <p>+504 9947-5935</p>
