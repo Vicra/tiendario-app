@@ -205,7 +205,7 @@ router.post('/submit-product', function (req, res) {
     (async () => {
         let response = await productService.postProduct(params);
         if (response.code != 200) {
-            res.redirect(`/create-product?m=${response.data.message}`);
+            res.redirect(`/create-product?m=${response.message}`);
         }
         else {
             res.redirect('/products?s=1');
