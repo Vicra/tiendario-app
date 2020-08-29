@@ -19,6 +19,20 @@ class ProductService {
         }
     }
 
+    async getProductsPrices() {
+        try {
+            const response = await axios.get(`${this.host}/product/prices`);
+            let HttpResponse = response.data;
+            if (HttpResponse.success)
+                return HttpResponse.data;
+            else
+                return [];
+        } catch (error) {
+            console.log(error);
+            return error.response.data;
+        }
+    }
+
     async getLatestProducts() {
         try {
             const response = await axios.get(`${this.host}/product/latest`);

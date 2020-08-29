@@ -15,8 +15,10 @@ const e = require('express');
 const AppName = 'La Tiendita del Rio';
 
 let products = [];
+let productsPrices = [];
 (async () => {
     products = await productService.getProducts();
+    productsPrices = await productService.getProductsPrices();
 })();
 
 router.get('/', function (req, res) {
@@ -41,7 +43,7 @@ router.post('/add/:id/:categoryId', function (req, res) {
     let categoryId = req.params.categoryId;
 
     let cart = new Cart(req.session.cart ? req.session.cart : {});
-    let product = products.filter(function (item) {
+    let product = productsPrices.filter(function (item) {
         return item.id == productId;
     });
     for (let i = 0; i < count; i++) {
