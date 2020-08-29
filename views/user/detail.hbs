@@ -1,31 +1,25 @@
 <div class="container">
-    <h2>Informacion de Cuenta</h2>
-    <i class="fa fa-user fa-6" aria-hidden="true"></i>
-    <h3>Nombre</h3>
+    <div class="text-left">
+        <a href="/logout" class="btn btn-danger" role="button">
+            Logout
+        </a>
+    </div>
+</div>
+<div class="container">
+    <h2>Información de Cuenta</h2>
+    <strong>Nombre</strong>
     <p>{{user.name}}</p>
 
-    <h3>Numero de telefono</h3>
+    <strong>Número de teléfono</strong>
     <p>{{user.phone}}</p>
 
-    <h3>Correo Electronico</h3>
+    <strong>Correo Electrónico</strong>
     <p>{{user.email}}</p>
 
     {{#if addresses}}
         <h2>Direcciones</h2>
         {{#each addresses }}
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                <label class="form-check-label" for="exampleRadios1">
-                    Default radio
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                <label class="form-check-label" for="exampleRadios2">
-                    Second default radio
-                </label>
-            </div>
-            <h3>{{this.type}}</h3>
+            <strong>{{this.typeName}}</strong>
             <p>{{this.description}}</p>
             {{#if this.reference}}
                 <p>{{this.reference}}</p>
@@ -35,9 +29,9 @@
     <i>No tienes direcciones agregadas en el momento.</i>
     {{/if}}
 
-    <a onclick="showAddAddress();" type="button" class="btn btn-success">
+    {{!-- <a onclick="showAddAddress();" type="button" class="btn btn-success">
         Agregar Direccion
-    </a>
+    </a> --}}
 
     <div id="addAddress" style="display: none;">
         <form action="/add-address" method="POST" name="addAddress">

@@ -32,6 +32,13 @@ router.post("/login", function (req, res) {
     })();
 });
 
+router.get("/logout", function (req, res) {
+    req.session.user = null;
+    (async () => {
+        res.redirect('/login');
+    })();
+});
+
 router.get("/register", function (_, res) {
     (async () => {
         res.render("user/register", {
@@ -49,9 +56,9 @@ router.post("/register", function (req, res) {
                 description: req.body.address
                 , reference: req.body.reference
                 , typeId: req.body.type
-                , customerId: address.customerId
+                , customerId: response.data.insertId
             };
-            let response = await userService.postAddress(req.body);
+            response = await userService.postAddress(addressBody);
             res.redirect("/login?s=1");
         }
         else {
@@ -71,6 +78,18 @@ router.get("/view-account", function (req, res) {
             let addresses = [];
             if (response.success) {
                 addresses = response.data;
+            }
+
+            for (let i = 0; i < addresses.length; i++) {
+                if (addresses[i].type == "1") {
+                    addresses[i].typeName = "Casa"; 
+                }
+                else if (addresses[i].type == "2") {
+                    addresses[i].typeName = "Trabajo";
+                }
+                else if (addresses[i].type == "3") {
+                    addresses[i].typeName = "Otro";
+                }
             }
 
             res.render("user/detail", {

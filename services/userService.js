@@ -25,7 +25,7 @@ class UserService {
                 name: user.name,
                 phone: user.phone,
             });
-            return response;
+            return response.data;
         } catch (error) {
             return error.response.data;
         }
