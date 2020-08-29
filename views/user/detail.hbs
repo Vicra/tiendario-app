@@ -1,3 +1,4 @@
+<br><br>
 <div class="container">
     <div class="text-left">
         <a href="/logout" class="btn btn-danger" role="button">
@@ -5,6 +6,15 @@
         </a>
     </div>
 </div>
+<br>
+{{#if success}}
+    <div class="container">
+        <div class="alert alert-success" role="alert">
+            Nueva dirección agregada exitosamente.
+        </div>
+    </div>
+{{/if}}
+
 <div class="container">
     <h2>Información de Cuenta</h2>
     <strong>Nombre</strong>
@@ -29,13 +39,14 @@
     <i>No tienes direcciones agregadas en el momento.</i>
     {{/if}}
 
-    {{!-- <a onclick="showAddAddress();" type="button" class="btn btn-success">
-        Agregar Direccion
-    </a> --}}
+    <a onclick="showAddAddress();" type="button" class="btn btn-success">
+        Agregar Dirección
+    </a>
 
     <div id="addAddress" style="display: none;">
+        <hr>
         <form action="/add-address" method="POST" name="addAddress">
-            <h3>Nueva Direccion</h3>
+            <h2>Nueva Dirección</h2>
             <div class="form-group">
                 <label for="type"><strong>* Tipo</strong></label>
                 <select class="form-control" id="type" name="typeId">
@@ -46,12 +57,12 @@
             </div>
 
             <div class="form-group">
-                <label for="description"><strong>* Descripcion</strong></label>
+                <label for="description"><strong>* Descripción</strong></label>
                 <input type="text" class="form-control" id="description" name="description"
                     placeholder="7 calle 20 ave Barrio Rio de Piedras Sector S.O.">
 
                 <div class="alert alert-danger" role="alert" style="display: none;" id="enterDescription">
-                    Ingrese la direccion.
+                    Ingrese la dirección.
                 </div>
             </div>
 
@@ -79,8 +90,15 @@
         }
     });
     function showAddAddress() {
-        $('#addAddress').fadeIn();
+        $('#addAddress').fadeToggle();
     }
+
+    $('input').keypress(function(e){
+        if(e.keyCode == 13){
+            validate();
+            return false;
+        }
+    });
 
     function validate() {
         const delay = 3000;//3seconds

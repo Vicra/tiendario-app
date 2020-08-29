@@ -7,7 +7,6 @@ class OrderService {
     }
 
     async postOrder(params, items) {
-        console.log(params);
         try {
             let _items = [];
             for (let i = 0; i < items.length; i++) {
@@ -27,7 +26,6 @@ class OrderService {
                 , address: params.address
             }
             let response = await axios.post(`${this.host}/order`, body);
-            console.log(response);
             return response.data;
         } catch (error) {
             console.log(error.response);

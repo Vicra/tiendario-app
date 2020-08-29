@@ -97,6 +97,8 @@ router.get("/view-account", function (req, res) {
                 , type: 1
                 , addresses: addresses
                 , user: req.session.user
+                , message: req.query.m
+                , success: req.query.s
             });
         }
         else {
@@ -112,7 +114,10 @@ router.post("/add-address", function (req, res) {
             params.customerId = req.session.user.id;
             let response = await userService.postAddress(params);
             if (response.success) {
-                res.redirect('/view-account')
+                res.redirect('/view-account/?s=1')
+            }
+            else{
+                res.redirect(`/view-account?m=${response.message}`)
             }
         }
         else {

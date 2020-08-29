@@ -66,7 +66,7 @@ class UserService {
                 , typeId: address.typeId
                 , customerId: address.customerId
             });
-            return response;
+            return response.data;
         } catch (error) {
             console.log(error);
             return error.response.data;
