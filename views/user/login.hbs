@@ -7,26 +7,26 @@
 </div>
 
 {{#if message}}
-    <div class="container">
-        <div class="alert alert-danger" role="alert">
-            {{message}}
-        </div>
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+        {{message}}
     </div>
+</div>
 {{/if}}
 
 {{#if success}}
-    <div class="container">
-        <div class="alert alert-success" role="alert">
-            User created successfully.
-        </div>
+<div class="container">
+    <div class="alert alert-success" role="alert">
+        User created successfully.
     </div>
+</div>
 {{/if}}
 
 <div class="container">
     <form action="/login" method="POST" name="login">
         <div class="form-group">
             <label for="email">Correo Electr&oacute;nico</label>
-            <input type="text" class="form-control" id="email" name="email" placeholder="email@gmail.com" value="honvramirez@gmail.com">
+            <input type="text" class="form-control" id="email" name="email" placeholder="email@gmail.com">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterEmail">
                 Ingrese el email.
@@ -35,7 +35,7 @@
 
         <div class="form-group">
             <label for="password">Contrase&ntilde;a</label>
-            <input type="password" class="form-control" id="password" name="password" value="Test123">
+            <input type="password" class="form-control" id="password" name="password">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterPassword">
                 Ingrese la contrase&ntilde;a.
