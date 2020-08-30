@@ -61,11 +61,18 @@
 <div class="footer" style="padding:25px">
     <p>La Tiendita del Rio &copy; (2020)</p>
     <p>+504 9947-5935</p>
-    <p>+504 9930-6099</p>
     <p>Barrio Rio Piedras 7 calle 20 avenida</p>
+    <a href="https://www.instagram.com/riopiedras.store/">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1024px-Instagram_icon.png" 
+            alt=""
+            width="25px">
+            <br>
+        Siguenos en Instagram
+    </a>
+    <br>
+    <br>
     <a href="/contact">Acerca de Nosotros</a>
 </div>
-
 <script>
     function imageHasError(imageId, source) {
         document.getElementById(`image${imageId}`).src = source;
@@ -77,7 +84,7 @@
 
     function sum(id) {
         let currentVal = parseInt($(`#count_${id}`).val());
-        if (currentVal >= 10) {
+        if (currentVal >= 5) {
             $(`#count_${id}`).val(currentVal);
         }
         else {
@@ -96,8 +103,8 @@
     }
 
     function checkValue(selfi) {
-        if (selfi.value > 10) {
-            selfi.value = 10;
+        if (selfi.value > 5) {
+            selfi.value = 5;
         }
         else if (selfi.value < 1) {
             selfi.value = 1;

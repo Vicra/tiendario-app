@@ -74,7 +74,7 @@
     function sum(id) {
         let currentVal = parseInt($(`#count_${id}`).val());
         let price = $(`#price_${id}`).text();
-        if (currentVal >= 10) {
+        if (currentVal >= 5) {
             $(`#count_${id}`).val(currentVal);
         }
         else {
@@ -98,8 +98,8 @@
     }
 
     function checkValue(selfi) {
-        if (selfi.value > 10) {
-            selfi.value = 10;
+        if (selfi.value > 5) {
+            selfi.value = 5;
         }
         else if (selfi.value < 1) {
             selfi.value = 1;

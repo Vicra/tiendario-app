@@ -243,7 +243,7 @@ router.post('/update-product', function (req, res) {
     (async () => {
         let response = await productService.putProduct(params);
         if (response.code != 200) {
-            res.redirect(`/edit-product/${params.id}?m=${response.data.message}`);
+            res.redirect(`/edit-product/${params.id}?m=${response.message}`);
         }
         else {
             res.redirect('/products?u=1');
