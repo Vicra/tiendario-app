@@ -1,6 +1,10 @@
+<div class="overlay" onclick="off()" id="overlay">
+	Producto Agregado
+</div>
+
 {{#if products}}
     <div class="container">
-        <p>Volver al <a href="/catalog">Catalogo</a></p>
+        <p>Volver al <a href="/catalog">Catálogo</a></p>
     </div>
     <div id="container">
         <div class="buttons">
@@ -23,7 +27,7 @@
                     {{/if}}
                     <h3>{{ this.name }}</h3>
                     <i>{{this.description}}</i>
-                    <p>{{ this.price }} Lps </p>
+                    <p>Lps. {{ this.price }}</p>
                     {{#if this.available}}
                     
                     <form class="form-inline" name="form_{{this.id}}" action="/add/{{this.id}}/{{this.categoryId}}" method="POST">
@@ -34,6 +38,11 @@
                             id="count_{{this.id}}" max="10" onchange="checkValue()">
                         <a onclick="sum({{ this.id }})" class="btn btn-info" 
                             role="button" style="margin-bottom: 0;">+</a>
+
+                        <input type="hidden" id="name_{{this.id}}" value="{{this.name}}">
+                        <input type="hidden" id="description_{{this.id}}" value="{{this.description}}">
+                        <input type="hidden" id="price_{{this.id}}" value="{{this.price}}">
+                        <input type="hidden" id="image_{{this.id}}" value="{{this.image}}">
                         
                         {{!-- Add products --}}
                         <a class="btn btn-default" role="button" onclick="add({{this.id}});"><i class="fa fa-shopping-cart"
@@ -59,27 +68,25 @@
 {{/if}}
 
 <div class="footer" style="padding:25px">
-    <p>La Tiendita del Rio &copy; (2020)</p>
+    <p>La Tiendita del Río &copy; (2020)</p>
     <p>+504 9947-5935</p>
-    <p>Barrio Rio Piedras 7 calle 20 avenida</p>
+    <p>Barrio Río Piedras 7 calle 20 avenida</p>
     <a href="https://www.instagram.com/riopiedras.store/">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1024px-Instagram_icon.png" 
             alt=""
             width="25px">
             <br>
-        Siguenos en Instagram
+        Síguenos en Instagram
     </a>
     <br>
     <br>
     <a href="/contact">Acerca de Nosotros</a>
 </div>
+
+<script src="/scripts/cart.js"></script>
 <script>
     function imageHasError(imageId, source) {
         document.getElementById(`image${imageId}`).src = source;
-    }
-
-    function add(id) {
-        $(`form[name='form_${id}']`).submit();
     }
 
     function sum(id) {

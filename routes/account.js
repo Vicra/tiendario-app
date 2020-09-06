@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userService = require('../services/userService');
 
-const AppName = "La Tiendita del Rio";
+const AppName = "La Tiendita del Río";
 
 router.get("/login", function (req, res) {
     (async () => {

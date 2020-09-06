@@ -12,8 +12,8 @@ class OrderService {
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 _items.push({
-                    id: item.item.id,
-                    amount: item.quantity,
+                    id: item.id,
+                    amount: item.amount,
                     price: item.price
                 });
             }
@@ -24,11 +24,14 @@ class OrderService {
                 , type: params.deliveryRadio
                 , customerId: params.customerId
                 , address: params.address
+                , subtotal: params.subtotal
+                , delivery: params.delivery
+                , total: params.total
             }
             let response = await axios.post(`${this.host}/order`, body);
             return response.data;
         } catch (error) {
-            console.log(error.response);
+            console.log(error);
             return error.response.data;
         }
     }
@@ -39,13 +42,12 @@ class OrderService {
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 _items.push({
-                    id: item.item.id,
-                    amount: item.quantity,
+                    id: item.id,
+                    amount: item.amount,
                     price: item.price
                 });
             }
-
-            let response = await axios.post(`${this.host}/order`, {
+            let response = await axios.post(`${this.host}/order/guestOrder`, {
                 items: _items,
                 name: params.name,
                 phone: params.phone,
@@ -55,7 +57,7 @@ class OrderService {
             });
             return response.data;
         } catch (error) {
-            console.log(error.response);
+            console.log(error);
             return error.response.data;
         }
     }

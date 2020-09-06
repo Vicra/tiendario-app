@@ -12,10 +12,11 @@
     <table id="example" class="display" style="width:100%">
         <thead>
             <tr>
+                <th>Número</th>
                 <th>Cliente</th>
                 <th>Fecha</th>
                 <th>Tipo</th>
-                <th>Metodo Pago</th>
+                <th>Método Pago</th>
                 <th>Aprobado</th>
                 <th>Entregado</th>
                 <th>Ver Orden</th>
@@ -24,6 +25,7 @@
         <tbody>
             {{#each orders }}
                 <tr>
+                    <td>{{ this.id }}</td>
                     <td>{{ this.customer }}</td>
                     <td>{{ this.createdDate }}</td>
                     <td>{{ this.type }}</td>

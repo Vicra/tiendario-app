@@ -1,2 +1,2 @@
 # tiendario-app
-Frotend Application Tienda Rio - Express, jQuery, Handlebars
+Frotend Application Tienda Río - Express, jQuery, Handlebars

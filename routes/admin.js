@@ -3,7 +3,7 @@ const router = express.Router();
 const adminService = require('../services/adminService');
 const orderService = require('../services/orderService');
 
-const AppName = "La Tiendita del Rio";
+const AppName = "La Tiendita del Río";
 
 router.get("/authenticate", function (_, res) {
     (async () => {

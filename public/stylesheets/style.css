@@ -66,3 +66,29 @@ form p {
   color: white;
   text-align: center;
 }
+
+.overlay {
+  position: fixed;
+  display: none;
+  width: 240px;
+  height: 90px;
+  opacity: .8;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  cursor: pointer;
+  color: white;
+  padding-left: 25px;
+  padding-top: 25px;
+  font-family: "Verdana"
+}
+
+.overlay-success{
+  background-color: #06ba2a;
+}
+
+.overlay-alert{
+  background-color: #ed3532;
+}

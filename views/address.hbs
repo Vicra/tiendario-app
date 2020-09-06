@@ -8,19 +8,19 @@
 
 <div class="container">
     <br>
-    <p>Crea una cuenta <a href="/register">Aqui</a> para que puedas llevar control de tus pedidos y guardar tu dirección, o continua sin crear cuenta.</p>
+    <p>Crea una cuenta <a href="/register">Aquí</a> para que puedas llevar control de tus pedidos y guardar tu dirección, o continúa sin crear cuenta.</p>
     <h1>Datos de Contacto</h1>
-    <form action="/placeorder/" name="placeorder" method="POST">
+    <form action="/cart/" name="cart" method="POST">
         <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
             Ingrese el nombre.
         </div>
         <h4>Nombre</h4>
-        <input type="text" class="form-control" name="name" id="name"><br>
+        <input type="text" class="form-control" name="name" id="name" placeholder="Nombre Completo"><br>
 
-        <div class="alert alert-danger" role="alert" style="display: none;" id="enterPhone">
-            Ingrese el numero de telefono.
+        <div class="alert alert-danger" role="alert" style="display: none;" id="enterPhone" >
+            Ingrese el número de teléfono.
         </div>
-        <h4>Numero de Telefono</h4>
+        <h4>Número de Teléfono</h4>
         <input type="text" class="responsiveInput" name="phone" id="phone" placeholder="9947-5935"><br>
 
         <div class="radioButtons">
@@ -38,20 +38,20 @@
 
         <div id="addressBox">
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterAddress">
-                Ingrese la direccion.
+                Ingrese la dirección.
             </div>
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="addressValid">
-                La direccion debe tener almenos 10 caracteres.
+                La dirección debe tener almenos 10 caracteres.
             </div>
-            <h4>Direccion</h4>
+            <h4>Dirección</h4>
             <textarea id="address" name="address" class="form-control" style="resize: none;" rows="4" cols="50"
-                placeholder="Brindanos una direccion detallada y un punto de referencia"></textarea>
+                placeholder="Brindanos una dirección detallada y un punto de referencia"></textarea>
             <br>
         </div>
 
         <div class="text-right">
-            <a onclick="validate();" type="button" class="btn btn-success">Realizar Pedido</a>
+            <a onclick="validate();" type="button" class="btn btn-success">Continuar</a>
         </div>
     </form>
 </div>
@@ -103,7 +103,7 @@
 
         }
         if (!hasError) {
-            $("form[name='placeorder']").submit();
+            $("form[name='cart']").submit();
         }
     }
 </script>

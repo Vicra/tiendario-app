@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken')
 
 const productService = require('../services/productService');
 const orderService = require('../services/orderService');
@@ -9,10 +8,7 @@ const categoryService = require('../services/categoryService');
 const brandService = require('../services/brandService');
 const userService = require('../services/userService');
 
-let Cart = require('../models/cart');
-const e = require('express');
-
-const AppName = 'La Tiendita del Rio';
+const AppName = 'La Tiendita del Río';
 
 let products = [];
 let productsPrices = [];
@@ -37,114 +33,49 @@ router.get('/', function (req, res) {
     })();
 });
 
-router.post('/add/:id/:categoryId', function (req, res) {
-    let productId = req.params.id;
-    let count = req.body.count;
-    let categoryId = req.params.categoryId;
-
-    let cart = new Cart(req.session.cart ? req.session.cart : {});
-    let product = productsPrices.filter(function (item) {
-        return item.id == productId;
-    });
-    for (let i = 0; i < count; i++) {
-        cart.add(product[0], productId);
-    }
-    req.session.cart = cart;
-
-    if (categoryId && categoryId > 0){
-        res.redirect(`/products-category/${categoryId}`);
-    }
-    else if(req.session.keyword){
-        res.redirect(`/search?keyword=${req.session.keyword}`);
-    }
-    else{
-        res.redirect('/');
-    }
-});
-
-router.get('/cart', function (req, res) {
-    if (!req.session.cart) {
-        return res.render('cart', {
-            products: null
-            , type: 1
-            , user: req.session.user
-        });
-    }
-    let cart = new Cart(req.session.cart);
-    const delivery = 80;
-    const subtotal = cart.totalPrice;
+router.post('/cart', function (req, res) {
     res.render('cart', {
         title: AppName
-        ,products: cart.getItems()
-        ,subtotal: subtotal
-        ,delivery: delivery
-        ,total: delivery + subtotal
         ,type: 1
         ,user: req.session.user
+        ,deliveryType: req.body.deliveryRadio
+        ,params: JSON.stringify(req.body)
     });
-});
-
-router.get('/remove/:id', function (req, res) {
-    let productId = req.params.id;
-    let cart = new Cart(req.session.cart ? req.session.cart : {});
-
-    cart.remove(productId);
-    req.session.cart = cart;
-    res.redirect('/cart');
 });
 
 router.get('/address', function (req, res) {
-    if (!req.session.cart) {
-        return res.render('address', {
-            products: null
-            , type: 1
-            , user: req.session.user
-            , message: req.query.m
-        });
+    if (req.session.user) {
+        (async () => {
+            let addressesResponse = await userService.getAddresses(req.session.user.id);
+            let addresses = [];
+            if (addressesResponse.success){
+                addresses = addressesResponse.data
+            }
+            res.render('verify', {
+                title: AppName
+                , type: 1
+                , user: req.session.user
+                , addresses: addresses
+            });
+        })();
     }
     else {
-        let cart = new Cart(req.session.cart);
-        
-        if (req.session.user) {
-            (async () => {
-                let addressesResponse = await userService.getAddresses(req.session.user.id);
-                let addresses = [];
-                if (addressesResponse.success){
-                    addresses = addressesResponse.data
-                }
-                res.render('verify', {
-                    title: AppName
-                    , products: cart.getItems()
-                    , totalPrice: cart.totalPrice
-                    , type: 1
-                    , user: req.session.user
-                    , addresses: addresses
-                });
-            })();
-        }
-        else {
-            res.render('address', {
-                title: AppName
-                , products: cart.getItems()
-                , totalPrice: cart.totalPrice
-                , type: 1
-            });
-        }
+        res.render('address', {
+            title: AppName
+            , type: 1
+        });
     }
 });
 
 router.post('/placeorder', function (req, res) {
-
-    let params = req.body;
-    let cart = new Cart(req.session.cart);
-    let items = cart.getItems();
-
+    let params = JSON.parse(req.body.params);
+    let cart = JSON.parse(req.body.cart2);
+    
     (async () => {
         if (req.session.user){
             params.customerId = req.session.user.id;
-            let response = await orderService.postOrder(params, items);
+            let response = await orderService.postOrder(params, cart.products);
             if (response.success){
-                req.session.cart = new Cart({});
                 res.redirect('/?s=1');
             }
             else {
@@ -152,9 +83,8 @@ router.post('/placeorder', function (req, res) {
             }
         }
         else {
-            let response = await orderService.postGuestOrder(params, items);
+            let response = await orderService.postGuestOrder(params, cart.products);
             if (response.success){
-                req.session.cart = new Cart({});
                 res.redirect('/?s=1');
             }
             else {
@@ -324,6 +254,7 @@ router.get('/orders', function (req, res) {
     if(req.session.admin){
         (async () => {
             let orders = await orderService.getNewOrders();
+            console.log(orders);
             res.render('order/orders', {
                 title: AppName
                 , orders: orders

@@ -5,8 +5,12 @@
             <h4 class="alert-heading">Bienvenid@ {{user.name}}</h4>
         </div>
     {{/if}}
-    <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Rio Piedras</p>
-    <p>Consulta el catalogo aqui <a href="/catalog">Catalogo</a> o busca el producto.</p>
+    <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Río Piedras</p>
+    <p>Consulta el catálogo aqui <a href="/catalog">Catálogo</a> o busca el producto.</p>
+</div>
+
+<div class="overlay" onclick="off()" id="overlay">
+	Producto Agregado
 </div>
 
 {{#if success}}
@@ -65,6 +69,11 @@
                     <a onclick="sum({{ this.id }})" class="btn btn-info" 
                         role="button" style="margin-bottom: 0;">+</a>
                     
+                    <input type="hidden" id="name_{{this.id}}" value="{{this.name}}">
+                    <input type="hidden" id="description_{{this.id}}" value="{{this.description}}">
+                    <input type="hidden" id="price_{{this.id}}" value="{{this.price}}">
+                    <input type="hidden" id="image_{{this.id}}" value="{{this.image}}">
+                    
                     {{!-- Add products --}}
                     <a class="btn btn-default" role="button" onclick="add({{this.id}});"><i class="fa fa-shopping-cart"
                         aria-hidden="true"></i> Agregar</a>
@@ -89,24 +98,37 @@
 </div>
 {{/if}}
 
+<div class="container">
+    <p>Consulta el catálogo aqui <a href="/catalog">Catálogo</a></p>
+    <p>¿No encuentras lo que buscabas?
+        <a href="https://wa.me/50499475935?text=Buenas,%20tiene%20este%20producto?%20">
+            <img src="https://logodownload.org/wp-content/uploads/2015/04/whatsapp-logo-1.png" alt="" height="50">
+            Escríbenos a WhatsApp
+        </a>
+    </p>
+</div>
+
 <div class="footer" style="padding:25px">
-    <p>La Tiendita del Rio &copy; (2020)</p>
+    <p>La Tiendita del Río &copy; (2020)</p>
     <p>+504 9947-5935</p>
-    <p>Barrio Rio Piedras 7 calle 20 avenida</p>
+    <p>Barrio Río Piedras 7 calle 20 avenida</p>
     <a href="https://www.instagram.com/riopiedras.store/">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1024px-Instagram_icon.png" 
             alt=""
             width="25px">
             <br>
-        Siguenos en Instagram
+        Síguenos en Instagram
     </a>
     <br>
     <br>
     <a href="/contact">Acerca de Nosotros</a>
 </div>
+
+<script src="/scripts/cart.js"></script>
 <script>
-    function add(id) {
-        $(`form[name='form_${id}']`).submit();
+
+    function off(){
+        $('#overlay').fadeOut();
     }
 
     function hasError(id, source) {
@@ -114,8 +136,9 @@
     }
 
     function sum(id) {
+        let maxItems = 5;
         let currentVal = parseInt($(`#count_${id}`).val());
-        if (currentVal >= 5) {
+        if (currentVal >= maxItems) {
             $(`#count_${id}`).val(currentVal);
         }
         else {
@@ -134,8 +157,8 @@
     }
 
     function checkValue(selfi) {
-        if (selfi.value > 5) {
-            selfi.value = 5;
+        if (selfi.value > maxItems) {
+            selfi.value = maxItems;
         }
         else if (selfi.value < 1) {
             selfi.value = 1;

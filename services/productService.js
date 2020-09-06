@@ -70,7 +70,7 @@ class ProductService {
     async getProductsByCategory(id) {
         try {
             if(isNaN(id)){
-                console.log(`wrong id sent: ${id}`);
+                return [];
             }
             const response = await axios.get(`${this.host}/product/category/${id}`);
             let HttpResponse = response.data;

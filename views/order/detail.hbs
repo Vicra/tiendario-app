@@ -16,14 +16,18 @@
 
 
 <div class="container">
+    <a href="/orders/" class="btn btn-info" role="button">
+        <i class="fa fa-home" aria-hidden="true"></i> Volver a Ordenes
+    </a>
+    
     <h1>Detalle de Pedido</h1>
     <br>
     <p><strong>Cliente:</strong> {{order.customer}}</p>
     <p><strong>Tipo:</strong> {{order.type}}</p>
-    <p><strong>Metodo de Pago:</strong> {{order.paymentMethod}}</p>
+    <p><strong>Método de Pago:</strong> {{order.paymentMethod}}</p>
     <p><strong>Fecha:</strong> {{order.createdDate}}</p>
     {{#if order.address}}
-        <p><strong>Direccion:</strong> {{order.address}}</p>
+        <p><strong>Dirección:</strong> {{order.address}}</p>
 
         {{#if order.reference}}
             <p><strong>Referencia:</strong> {{order.reference}}</p>
