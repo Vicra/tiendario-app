@@ -10,7 +10,21 @@ router.get("/login", function (req, res) {
             title: AppName
             , type: 1
             , success: req.query.s
+            , verified: req.query.v
         });
+    })();
+});
+
+router.get("/verify/:key", function (req, res) {
+    let key = req.params.key;
+    (async () => {
+        let response = await userService.verifyUser(key);
+        if (response.success) {
+            res.redirect("/login?v=1");
+        }
+        else {
+            res.redirect("/");
+        }
     })();
 });
 

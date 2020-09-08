@@ -55,7 +55,6 @@ function updateTopCart(){
     let cart = JSON.parse(localStorage.getItem('cart'));
     if(cart.products.length > 0)
     {
-
         $('#cart').text('');
         cart.subtotal = 0;
         cart.totalItems = 0;

@@ -25,6 +25,13 @@
 </div>
 
 <script>
+    $('input').keypress(function(e){
+        if(e.keyCode == 13){
+            validate();
+            return false;
+        }
+    });
+    
     function validate() {
         const delay = 6000;//6seconds
 

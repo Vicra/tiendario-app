@@ -72,6 +72,16 @@ class UserService {
             return error.response.data;
         }
     }
+
+    async verifyUser(key){
+        try {
+            let response = await axios.post(`${this.host}/user/verify/${key}`);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return error.response.data;
+        }
+    }
 }
 
 module.exports = new UserService();

@@ -17,7 +17,15 @@
 {{#if success}}
 <div class="container">
     <div class="alert alert-success" role="alert">
-        Usuario creado exitosamente.
+        Usuario creado exitosamente. Te hemos enviado un correo electrónico para que verifiques tu cuenta.
+    </div>
+</div>
+{{/if}}
+
+{{#if verified}}
+<div class="container">
+    <div class="alert alert-success" role="alert">
+        Usuario verificado. Empieza a realizar pedidos tranquilamente.
     </div>
 </div>
 {{/if}}
