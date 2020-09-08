@@ -254,7 +254,6 @@ router.get('/orders', function (req, res) {
     if(req.session.admin){
         (async () => {
             let orders = await orderService.getNewOrders();
-            console.log(orders);
             res.render('order/orders', {
                 title: AppName
                 , orders: orders
@@ -311,12 +310,6 @@ router.get('/view-order/:id', function (req, res) {
     let orderId = req.params.id;
     (async () => {
         let order = await orderService.getOrderById(orderId);
-        order.total = 0;
-        order.items.forEach(element =>
-            order.total += element.subprice
-        );
-        
-        
         if (order.approved == '1' && order.delivered == '1'){
             res.render('order/detail', {
                 title: AppName

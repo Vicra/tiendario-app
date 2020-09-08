@@ -92,3 +92,8 @@ form p {
 .overlay-alert{
   background-color: #ed3532;
 }
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}

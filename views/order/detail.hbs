@@ -51,11 +51,13 @@
                     <td>{{this.name}}</td>
                     <td>{{this.amount}}</td>
                     <td>Lps. {{this.price}}</td>
-                    <td>Lps. {{this.subprice}}</td>
+                    <td>Lps. {{this.subtotal}}</td>
                 </tr>
             {{/each}}
         </tbody>
     </table>
     <br>
+    <h4>Subtotal: Lps.{{order.subtotal}}</h4>
+    <h4>Envío: Lps.{{order.delivery}}</h4>
     <h3>Total: Lps.{{order.total}}</h3>
 </div>

@@ -35,32 +35,51 @@
                 <th>Cantidad</th>
                 <th>Precio</th>
                 <th>Sub Total</th>
-                <th>Quitar</th>
+                {{#if order.approved}}
+                {{else}}
+                    <th>Quitar</th>
+                {{/if}}
             </tr>
         </thead>
         <tbody>
-            {{#each order.items }}
-                <tr id="item_{{ this.itemId }}">
-                    <td>{{this.name}} {{this.description}}</td>
-                    {{!-- <td class="form-inline">
-                        <a onclick="subs({{ this.itemId }})" class="btn btn-default" 
-                            role="button" style="margin-bottom: 0;">-</a>
-                        <input type="numeric" class="form-control" value="{{this.amount}}" style="max-width: 30%;" name="count"
-                            id="count_{{this.itemId}}" max="10" onchange="checkValue()">
-                        <a onclick="sum({{ this.itemId }})" class="btn btn-info" 
-                            role="button" style="margin-bottom: 0;">+</a>
-                    </td> --}}
-                    <td>
-                        {{this.amount}}
-                    </td>
-                    <td>Lps. <label id="price_{{this.itemId}}">{{this.price}}</label></td>
-                    <td>Lps. <label id="subprice_{{this.itemId}}">{{this.subprice}}</label></td>
-                    <td><button onclick="$('#item_{{this.itemId}}').remove();" class="btn btn-default"></i> Quitar</button></td>
-                </tr>
-            {{/each}}
+            {{#if order.approved}}
+                {{#each order.items }}
+                    <tr id="item_{{ this.itemId }}">
+                        <td>{{this.name}} {{this.description}}</td>
+                        <td>
+                            {{this.amount}}
+                        </td>
+                        <td>Lps. <label id="price_{{this.itemId}}">{{this.price}}</label></td>
+                        <td>Lps. <label id="subprice_{{this.itemId}}">{{this.subtotal}}</label></td>
+                    </tr>
+                {{/each}}
+            {{else}}
+                {{#each order.items }}
+                    <tr id="item_{{ this.itemId }}">
+                        <td>{{this.name}} {{this.description}}</td>
+                        <td class="form-inline">
+                            <a onclick="subs({{ this.itemId }})" class="btn btn-default disabled" 
+                                role="button" style="margin-bottom: 0;">-</a>
+                            <input type="numeric" class="form-control" value="{{this.amount}}" style="max-width: 30%;" name="count"
+                                id="count_{{this.itemId}}" max="10" onchange="checkValue()" disabled>
+                            <a onclick="sum({{ this.itemId }})" class="btn btn-info disabled" 
+                                role="button" style="margin-bottom: 0;">+</a>
+                        </td>
+                        <td>Lps. <label id="price_{{this.itemId}}">{{this.price}}</label></td>
+                        <td>Lps. <label id="subprice_{{this.itemId}}">{{this.subtotal}}</label></td>
+                        <td>
+                            <button onclick="$('#item_{{this.itemId}}').remove();" class="btn btn-default" disabled>
+                                Quitar
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+            {{/if}}
         </tbody>
     </table>
     <br>
+    <h4>Subtotal: Lps.{{order.subtotal}}</h4>
+    <h4>Envío: Lps.{{order.delivery}}</h4>
     <h3>Total: Lps.{{order.total}}</h3>
 
     {{#if order.approved}}
