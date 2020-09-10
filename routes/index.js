@@ -31,13 +31,13 @@ router.get('/', function (req, res) {
     })();
 });
 
-router.post('/cart', function (req, res) {
+router.get('/cart', function (req, res) {
     res.render('cart', {
         title: AppName
         ,type: 1
         ,user: req.session.user
-        ,deliveryType: req.body.deliveryRadio
-        ,params: JSON.stringify(req.body)
+        // ,deliveryType: req.body.deliveryRadio
+        // ,params: JSON.stringify(req.body)
     });
 });
 
@@ -67,8 +67,10 @@ router.get('/address', function (req, res) {
 });
 
 router.post('/placeorder', function (req, res) {
-    let params = JSON.parse(req.body.params);
+    let params = req.body;
     let cart = JSON.parse(req.body.cart2);
+    console.log(params);
+    console.log(cart);
     
     (async () => {
         if (req.session.user){

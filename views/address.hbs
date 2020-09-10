@@ -6,11 +6,13 @@
     </div>
 {{/if}}
 
-<div class="container">
+<div class="container" style="margin-bottom: 10%;">
     <br>
     <p>Crea una cuenta <a href="/register">Aquí</a> para que puedas llevar control de tus pedidos y guardar tu dirección, o continúa sin crear cuenta.</p>
     <h1>Datos de Contacto</h1>
-    <form action="/cart/" name="cart" method="POST">
+    <form action="/placeorder/" name="placeorder" method="POST">
+        <input type="hidden" id="cart2" name="cart2">
+
         <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
             Ingrese el nombre.
         </div>
@@ -56,6 +58,7 @@
     </form>
 </div>
 
+<script src="/scripts/cart.js"></script>
 <script>
     $('input[name="deliveryRadio"]').change(function () {
         var radioValue = $("input[name='deliveryRadio']:checked").attr('id');
@@ -103,7 +106,10 @@
 
         }
         if (!hasError) {
-            $("form[name='cart']").submit();
+            let cart2 = JSON.stringify(JSON.parse(localStorage.getItem('cart')));
+            $('#cart2').val(cart2);
+            resetCart();
+            $("form[name='placeorder']").submit();
         }
     }
 </script>

@@ -61,7 +61,7 @@
                             <a onclick="subs({{ this.itemId }})" class="btn btn-default disabled" 
                                 role="button" style="margin-bottom: 0;">-</a>
                             <input type="numeric" class="form-control" value="{{this.amount}}" style="max-width: 30%;" name="count"
-                                id="count_{{this.itemId}}" max="10" onchange="checkValue()" disabled>
+                                id="count_{{this.itemId}}" max="10" onchange="checkValue(this)" disabled>
                             <a onclick="sum({{ this.itemId }})" class="btn btn-info disabled" 
                                 role="button" style="margin-bottom: 0;">+</a>
                         </td>
@@ -94,6 +94,7 @@
 </div>
 
 <script>
+    const maxItems = 5;
     function sum(id) {
         let currentVal = parseInt($(`#count_${id}`).val());
         let price = $(`#price_${id}`).text();
@@ -121,8 +122,8 @@
     }
 
     function checkValue(selfi) {
-        if (selfi.value > 5) {
-            selfi.value = 5;
+        if (selfi.value > maxItems) {
+            selfi.value = maxItems;
         }
         else if (selfi.value < 1) {
             selfi.value = 1;

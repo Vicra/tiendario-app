@@ -1,34 +1,39 @@
-<div class="container">
-    <h1>{{title}}</h1>
-    {{#if user}}
+{{#if success}}
+    <div class="container">
         <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Bienvenid@ {{user.name}}</h4>
+            <h4 class="alert-heading">Orden creada!</h4>
+            <p>Nos pondremos en contacto contigo dentro de pronto.</p>
+            <hr>
+            <p class="mb-0">En caso de tener consultas puede llamar al +504 9947-5935</p>
         </div>
-    {{/if}}
-    <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Río Piedras</p>
-    <p>Consulta el catálogo aqui <a href="/catalog">Catálogo</a> o busca el producto.</p>
-</div>
+    </div>
+    <div class="container" style="text-align: center;">
+        <img src="tiendario.png" onerror="hasError()" id="logo" width="35%">
+        <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Río Piedras</p>
+        <p>Consulta el catálogo aqui <a href="/catalog">Catálogo</a> o busca el producto.</p>
+    </div>
+{{else}}
+    <div class="container" style="text-align: center;">
+        <img src="tiendario.png" onerror="hasError()" id="logo" width="35%">
+        {{#if user}}
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Bienvenid@ {{user.name}}</h4>
+            </div>
+        {{/if}}
+        <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Río Piedras</p>
+        <p>Consulta el catálogo aqui <a href="/catalog">Catálogo</a> o busca el producto.</p>
+    </div>
+{{/if}}
 
 <div class="overlay" onclick="off()" id="overlay">
 	Producto Agregado
 </div>
 
-{{#if success}}
-<div class="container">
-    <div class="alert alert-success" role="alert">
-        <h4 class="alert-heading">Orden creada!</h4>
-        <p>Nos pondremos en contanto contigo dentro de pronto.</p>
-        <hr>
-        <p class="mb-0">En caso de tener consultas puede llamar al +504 9947-5935</p>
-    </div>
-</div>
-{{/if}}
-
-<div class="container">
+<div class="searchBar">
     <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2" action="/search"
         name="searchProduct" method="GET" id="searchForm">
         <input class="form-control" type="text" placeholder="Buscar" aria-label="Buscar" name="keyword"
-            value="{{keyword}}" style="width: 40%;">
+            value="{{keyword}}" style="width: 92%; display:inline-block; max-width:1400px;">
         <a href="javascript:{}" onclick="document.getElementById('searchForm').submit();">
             <i class="fa fa-search" aria-hidden="true"></i>
         </a>
@@ -36,38 +41,36 @@
 </div>
 
 {{#if products}}
-<div id="container">
+<div id="container" style="max-width: 1500px;">
     <div class="buttons">
         <ul class="grid">
             {{#each products }}
             <li class="grid-group-item d-flex bd-highlight">
                 {{#if this.available}}
                 <div>
-                    <img id="image{{id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');"
-                        height="200px" width="200px" 
+                    <img id="image{{id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');" 
                         style="background-size:cover;">
                 </div>
                 {{else}}
                 <div class="unavailableWrapper">
                     <img class="unavailableImage" id="image{{id}}" src="{{ this.image }}"
                         onerror="hasError({{this.id}}, '{{this.alt}}');" 
-                        height="200px" width="200px"
                         style="background-size:cover;">
                 </div>
                 {{/if}}
-                <h3>{{ this.name }}</h3>
+                <h4>{{ this.name }}</h4>
                 <i>{{this.description}}</i>
-                <p>{{ this.price }} Lps </p>
+                <strong>Lps. {{ this.price }}</strong>
                 {{#if this.available}}
-                
-                <form class="form-inline" name="form_{{this.id}}" action="/add/{{this.id}}/0" method="POST">
-                    {{!-- Amount of products --}}
-                    <a onclick="subs({{ this.id }})" class="btn btn-default" 
-                        role="button" style="margin-bottom: 0;">-</a>
-                    <input type="numeric" class="form-control" value="1" style="max-width: 30%;" name="count"
-                        id="count_{{this.id}}" max="10" onchange="checkValue()">
-                    <a onclick="sum({{ this.id }})" class="btn btn-info" 
-                        role="button" style="margin-bottom: 0;">+</a>
+                    <form class="form-inline" name="form_{{this.id}}" action="/add/{{this.id}}/0" method="POST" style="display: block;">
+                        {{!-- Amount of products --}}
+                        <a onclick="subs({{ this.id }})" class="btn btn-default" 
+                            role="button" style="margin-bottom: 0;">-</a>
+                        <input type="text" class="form-control amount-input" value="1" name="count" 
+                            id="count_{{this.id}}" max="10" onchange="checkValue(this)">
+                        <a onclick="sum({{ this.id }})" class="btn btn-info" 
+                            role="button" style="margin-bottom: 0;">+</a>
+                    </form>
                     
                     <input type="hidden" id="name_{{this.id}}" value="{{this.name}}">
                     <input type="hidden" id="description_{{this.id}}" value="{{this.description}}">
@@ -75,10 +78,8 @@
                     <input type="hidden" id="image_{{this.id}}" value="{{this.image}}">
                     
                     {{!-- Add products --}}
-                    <a class="btn btn-default" role="button" onclick="add({{this.id}});"><i class="fa fa-shopping-cart"
+                    <a class="btn btn-success" role="button" onclick="add({{this.id}});"><i class="fa fa-shopping-cart"
                         aria-hidden="true"></i> Agregar</a>
-                </form>
-
                 {{else}}
                 <span class="badge badge-danger">Agotado</span>
                 {{/if}}
@@ -98,7 +99,7 @@
 </div>
 {{/if}}
 
-<div class="container">
+<div class="container" style="text-align: center;">
     <p>Consulta el catálogo aqui <a href="/catalog">Catálogo</a></p>
     <p>¿No encuentras lo que buscabas?
         <a href="https://wa.me/50499475935?text=Buenas,%20tiene%20este%20producto?%20">
@@ -114,9 +115,7 @@
     <p>Barrio Río Piedras 7 calle 20 avenida</p>
     Síguenos en <br><br>
     <div class="row">
-        <div class="col-xs-5">
-        </div>
-        <div class="col-xs-1">
+        <div class="col-xs-6" style="text-align: right;">
             <a href="https://www.instagram.com/riopiedras.store/">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1024px-Instagram_icon.png" 
                     alt=""
@@ -125,7 +124,7 @@
                 Instagram
             </a>
         </div>
-        <div class="col-xs-1">
+        <div class="col-xs-6" style="text-align: left;">
             <a href="https://www.facebook.com/Tiendita-del-Rio-105004831340279/">
                 <img src="https://cdn.icon-icons.com/icons2/1826/PNG/512/4202110facebooklogosocialsocialmedia-115707_115594.png" 
                     alt=""
@@ -134,8 +133,6 @@
                 Facebook
             </a>
         </div>
-        <div class="col-xs-5">
-        </div>
     </div>
     <br>
     <a href="/contact">Acerca de Nosotros</a>
@@ -143,7 +140,7 @@
 
 <script src="/scripts/cart.js"></script>
 <script>
-
+    const maxItems = 5;
     function off(){
         $('#overlay').fadeOut();
     }
@@ -153,7 +150,6 @@
     }
 
     function sum(id) {
-        let maxItems = 5;
         let currentVal = parseInt($(`#count_${id}`).val());
         if (currentVal >= maxItems) {
             $(`#count_${id}`).val(currentVal);

@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  /* padding: 50px; */
   font: 16px "Lato", sans-serif;
 }
 
@@ -8,9 +8,9 @@ a {
 }
 
 * {
-  -webkit-border-radius: 0 !important;
+  /* -webkit-border-radius: 0 !important; */
   -moz-border-radius: 0 !important;
-  border-radius: 0 !important;
+  /* border-radius: 0 !important; */
 }
 
 .dropdown-menu .cart {
@@ -96,4 +96,16 @@ form p {
 a.disabled {
   pointer-events: none;
   cursor: default;
+}
+
+.searchBar{
+  margin-left: 5%;
+  margin-right: 5%;
+  text-align: center;
+}
+
+.horizontal-scroll {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
 }

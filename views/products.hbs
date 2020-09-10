@@ -3,10 +3,11 @@
 </div>
 
 {{#if products}}
-    <div class="container">
+    <div class="container" >
         <p>Volver al <a href="/catalog">Catálogo</a></p>
+        <h1 style="text-align: center;">{{name}}</h1>
     </div>
-    <div id="container">
+    <div id="container" style="max-width: 1500px;">
         <div class="buttons">
             <ul class="grid">
                 {{#each products }}
@@ -14,41 +15,36 @@
                     {{#if this.available}}
                     <div>
                         <img id="image{{id}}" src="{{ this.image }}" onerror="imageHasError({{this.id}}, '{{this.alt}}');"
-                            height="200px" width="200px" 
                             style="background-size:cover;">
                     </div>
                     {{else}}
                     <div class="unavailableWrapper">
                         <img class="unavailableImage" id="image{{id}}" src="{{ this.image }}"
                             onerror="imageHasError({{this.id}}, '{{this.alt}}');" 
-                            height="200px" width="200px"
                             style="background-size:cover;">
                     </div>
                     {{/if}}
-                    <h3>{{ this.name }}</h3>
+                    <h4>{{ this.name }}</h4>
                     <i>{{this.description}}</i>
-                    <p>Lps. {{ this.price }}</p>
+                    <strong>Lps. {{ this.price }}</strong>
                     {{#if this.available}}
-                    
-                    <form class="form-inline" name="form_{{this.id}}" action="/add/{{this.id}}/{{this.categoryId}}" method="POST">
-                        {{!-- Amount of products --}}
-                        <a onclick="subs({{ this.id }})" class="btn btn-default" 
-                            role="button" style="margin-bottom: 0;">-</a>
-                        <input type="numeric" class="form-control" value="1" style="max-width: 30%;" name="count"
-                            id="count_{{this.id}}" max="10" onchange="checkValue()">
-                        <a onclick="sum({{ this.id }})" class="btn btn-info" 
-                            role="button" style="margin-bottom: 0;">+</a>
-
+                        <form class="form-inline" name="form_{{this.id}}" action="/add/{{this.id}}/{{this.categoryId}}" method="POST" style="display: block;">
+                            {{!-- Amount of products --}}
+                            <a onclick="subs({{ this.id }})" class="btn btn-default" 
+                                role="button" style="margin-bottom: 0;">-</a>
+                            <input type="numeric" class="form-control amount-input" value="1" name="count"
+                                id="count_{{this.id}}" max="10" onchange="checkValue(this)">
+                            <a onclick="sum({{ this.id }})" class="btn btn-info" 
+                                role="button" style="margin-bottom: 0;">+</a>
+                        </form>
                         <input type="hidden" id="name_{{this.id}}" value="{{this.name}}">
                         <input type="hidden" id="description_{{this.id}}" value="{{this.description}}">
                         <input type="hidden" id="price_{{this.id}}" value="{{this.price}}">
                         <input type="hidden" id="image_{{this.id}}" value="{{this.image}}">
                         
                         {{!-- Add products --}}
-                        <a class="btn btn-default" role="button" onclick="add({{this.id}});"><i class="fa fa-shopping-cart"
+                        <a class="btn btn-success" role="button" onclick="add({{this.id}});"><i class="fa fa-shopping-cart"
                             aria-hidden="true"></i> Agregar</a>
-                    </form>
-
                     {{else}}
                     <span class="badge badge-danger">Agotado</span>
                     {{/if}}
@@ -73,9 +69,7 @@
     <p>Barrio Río Piedras 7 calle 20 avenida</p>
     Síguenos en <br><br>
     <div class="row">
-        <div class="col-xs-5">
-        </div>
-        <div class="col-xs-1">
+        <div class="col-xs-6" style="text-align: right;">
             <a href="https://www.instagram.com/riopiedras.store/">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1024px-Instagram_icon.png" 
                     alt=""
@@ -84,7 +78,7 @@
                 Instagram
             </a>
         </div>
-        <div class="col-xs-1">
+        <div class="col-xs-6" style="text-align: left;">
             <a href="https://www.facebook.com/Tiendita-del-Rio-105004831340279/">
                 <img src="https://cdn.icon-icons.com/icons2/1826/PNG/512/4202110facebooklogosocialsocialmedia-115707_115594.png" 
                     alt=""
@@ -93,15 +87,15 @@
                 Facebook
             </a>
         </div>
-        <div class="col-xs-5">
-        </div>
     </div>
     <br>
     <a href="/contact">Acerca de Nosotros</a>
 </div>
 
+
 <script src="/scripts/cart.js"></script>
 <script>
+    const maxItems = 5;
     function imageHasError(imageId, source) {
         document.getElementById(`image${imageId}`).src = source;
     }
@@ -127,8 +121,8 @@
     }
 
     function checkValue(selfi) {
-        if (selfi.value > 5) {
-            selfi.value = 5;
+        if (selfi.value > maxItems) {
+            selfi.value = maxItems;
         }
         else if (selfi.value < 1) {
             selfi.value = 1;

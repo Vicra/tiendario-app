@@ -1,36 +1,45 @@
+<div class="bs-example">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a href="#" class="navbar-brand">La Tiendita del Río</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="/" class="nav-item nav-link">Productos</a>
+            </div>
+             <div class="navbar-nav">
+                <a href="/contact" class="nav-item nav-link">Contacto</a>
+            </div>
+            <div class="navbar-nav">
+                <a href="/catalog" class="nav-item nav-link">Catálogo</a>
+            </div>
+            {{!-- <div class="navbar-nav">
+                <a href="/faq" class="nav-item nav-link">Preguntas Frecuentes</a>
+            </div> --}}
+            <div class="navbar-nav ml-auto">
+                {{#if user}}
+                    <a href="/view-account" class="nav-item nav-link">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        {{user.name}}
+                    </a>
+                {{else}}
+                    <a href="/login" class="nav-item nav-link">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        Cuenta
+                    </a>
+                {{/if}}
+            </div>
+        </div>
+    </nav>
+</div>
+
 <div class="container">
-    <div class="col-xs-2">
-        <div class="pull-left">
-            <a href="/">
-                <i class="fa fa-home" aria-hidden="true"></i> 
-                Productos
-            </a>
-        </div>
-    </div>
-    <div class="col-xs-1">
-        <div class="pull-left">
-            {{!-- <a href="/catalog">
-                Catálogo
-            </a> --}}
-        </div>
-    </div>
-    <div class="col-xs-2">
-        <div class="pull-left">
-            <a href="/contact">
-                Contacto
-            </a>
-        </div>
-    </div>
-    <div class="col-xs-3">
-        <div class="pull-middle">
-            <img src="tiendario.png" onerror="hasError()" id="logo" width="70%">
-        </div>
-    </div>
-    <div class="col-xs-2">
-        <div class="dropdown pull-left">
+    <div class="text-right">
+        <div class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i> Carrito
-                
+                <i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
                 <span id="totalItems">
                 </span>
             </a>
@@ -39,24 +48,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-xs-2">
-        <div class="pull-left">
-            {{#if user}}
-                <a href="/view-account">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    {{user.name}}
-                </a>
-            {{else}}
-                <a href="/login">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    Cuenta
-                </a>
-            {{/if}}
-        </div>
+
     </div>
 </div>
-
 <script src="/scripts/cart.js"></script>
 <script>
     updateTopCart();

@@ -1,26 +1,26 @@
-<div class="container">
+<div class="container" style="margin-bottom: 10%;">
     <h1>Lista de Productos</h1>
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th>Imagen</th>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Subtotal</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
-        <tbody id="products">
-        </tbody>
-    </table>
+    <div class="horizontal-scroll">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Imagen</th>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody id="products">
+            </tbody>
+        </table>
+    </div>
     <input type="hidden" id="deliveryType" value="{{deliveryType}}">
     <div id="details" style="text-align: right;">
     </div>
     <br><br>
-    <form action="/placeorder/" name="placeorder" method="POST">
-        <input type="hidden" id="cart2" name="cart2">
-        <input type="hidden" name="params" value="{{params}}">
+    <form action="/address/" name="address" method="GET">
         <div class="text-right">
             <a onclick="validate();" type="button" class="btn btn-success">Continuar</a>
         </div>
@@ -56,11 +56,11 @@
                 <td>
                     Lps. ${cart.products[i].price}
                 </td>
-                <td class="form-inline">
+                <td class="form-inline" style="display:block;">
                     <a onclick="subs(${cart.products[i].id})" class="btn btn-default" 
                         role="button" style="margin-bottom: 0;">-</a>
-                    <input type="numeric" class="form-control" value="${cart.products[i].amount}" style="max-width: 15%;" name="count"
-                        id="count_${cart.products[i].id}" max="10" onchange="checkValue()">
+                    <input type="numeric" class="form-control amount-input" value="${cart.products[i].amount}" name="count" style="max-width:35%"
+                        id="count_${cart.products[i].id}" max="10" onchange="checkValue(this)">
                     <a onclick="sum(${cart.products[i].id})" class="btn btn-info" 
                         role="button" style="margin-bottom: 0;">+</a>
                 </td>
@@ -103,14 +103,15 @@
                 <h3>Total: Lps. ${cart.total}</h3><br>
 
                 <i>* El costo de envío puede variar en la factura<br>
-                    final dependiendo de tu ubicación.
+                    final dependiendo de tu ubicación. En autoservicio, <br>
+                    no se cobran cargos por envíos.
                 </i>
             `);
         }
     }
 
     function sum(id) {
-        let maxItems = 5;
+        const maxItems = 5;
         let currentVal = parseInt($(`#count_${id}`).val());
         let cart = JSON.parse(localStorage.getItem('cart'));
         
@@ -174,9 +175,6 @@
     }
 
     function validate(){
-        let cart2 = JSON.stringify(JSON.parse(localStorage.getItem('cart')));
-        $('#cart2').val(cart2);
-        resetCart();
-        $("form[name='placeorder']").submit();
+        $("form[name='address']").submit();
     }
 </script>

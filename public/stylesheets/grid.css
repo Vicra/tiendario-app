@@ -115,6 +115,7 @@
 .grid img {
     padding-top: 0;
     max-width: 90%;
+    min-width: 130px;
     margin: 0 auto;
     float: none;
 }
@@ -159,9 +160,9 @@ body {
     margin: 10px auto;
     padding: 10px;
     width: 100%;
-    max-width: 1200px;
-    min-width: 480px;
-    background-color: #fff;
+    /* max-width: 1200px;
+    min-width: 480px; */
+    /* background-color: #fff; */
 }
 #container .buttons {
     margin-bottom: 20px;
@@ -171,11 +172,12 @@ body {
 }
 #container ul {
     list-style: none;
-    border: 1px solid #eee;
+    /* border: 1px solid rgb(255, 255, 255); */
     padding: 8px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    text-align:center;
 }
 #container ul li {
     flex-wrap: wrap;
@@ -183,10 +185,10 @@ body {
     transition: all 0.2s ease-in;
 }
 #container ul li a {
-    border: 1px solid grey;
+    /* border: 1px solid grey; */
     text-decoration: none;
     text-align: center;
-    padding: 8px;
+    padding: 5px 9px;
     flex-grow: 8;
 }
 #container ul li a:hover {
@@ -218,14 +220,24 @@ body {
     flex-grow: 1;
 }
 #container .grid li {
-    min-width: 200px;
+    min-width: 140px;
     width: 20%;
     height: auto;
-    padding: 20px;
-    margin: 3px;
+    padding: 1%;
+    /* margin: 3px; */
     background-color: #eee;;
 }
 #container .grid li a {
     margin-bottom: 20px;
     color: #000;
+}
+
+.amount-input {
+    max-width: 25%;
+    display: inline-block;
+    padding: 4px 7px;
+}
+
+i {
+    display: block;
 }

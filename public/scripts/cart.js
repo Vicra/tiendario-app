@@ -87,7 +87,7 @@ function updateTopCart(){
                     <div class="totalPrice">
                         Subtotal: Lps. ${cart.subtotal}
                     </div>
-                    <a href="/address/" class="btn btn-success">Continuar</a>
+                    <a href="/cart/" class="btn btn-success">Continuar</a>
                 </div>
             </div>
         `);
