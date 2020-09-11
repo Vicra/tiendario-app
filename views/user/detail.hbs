@@ -45,7 +45,7 @@
 
     <div id="addAddress" style="display: none;">
         <hr>
-        <form action="/add-address" method="POST" name="addAddress">
+        <form action="/add-address" method="POST" name="addAddress" style="margin-bottom: 10%;">
             <h2>Nueva Dirección</h2>
             <div class="form-group">
                 <label for="type"><strong>* Tipo</strong></label>
@@ -59,7 +59,7 @@
             <div class="form-group">
                 <label for="description"><strong>* Descripción</strong></label>
                 <input type="text" class="form-control" id="description" name="description"
-                    placeholder="7 calle 20 ave Barrio Río de Piedras Sector S.O.">
+                    placeholder="7 calle 20 ave Barrio Río de Piedras Sector S.O." maxlength="500">
 
                 <div class="alert alert-danger" role="alert" style="display: none;" id="enterDescription">
                     Ingrese la dirección.
@@ -69,17 +69,25 @@
             <div class="form-group">
                 <label for="reference">Referencia</label>
                 <input type="text" class="form-control" id="reference" name="reference"
-                    placeholder="3 cuadras arriba de Popeyes Circunvalacion">
+                    placeholder="3 cuadras arriba de Popeyes Circunvalacion" maxlength="200">
             </div>
 
             <div class="text-left">
-                <a onclick="validate();" type="button" class="btn btn-success">Agregar</a>
+                <button class="g-recaptcha btn btn-success" 
+                    data-sitekey="{{siteKey}}" 
+                    data-callback='onSubmit' 
+                    data-action='submit'>Agregar</button>
             </div>
         </form>
     </div>
 </div>
 
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <script>
+    function onSubmit(token) {
+        validate();
+    }
+
     $('input[name="deliveryRadio"]').change(function () {
         var radioValue = $("input[name='deliveryRadio']:checked").attr('id');
         if (radioValue === "delivery") {
@@ -105,8 +113,8 @@
         const addressLength = 10;
 
         let params = {};
-        params.description = $('#description').val();
-        params.reference = $('#reference').val();
+        params.description = $('#description').val().trim();
+        params.reference = $('#reference').val().trim();
         params.adressTypeId = $("input[name='typeId']:checked").val();
 
         let hasError = false;
@@ -116,6 +124,9 @@
         }
 
         if (!hasError) {
+            $('#description').val(params.description);
+            $('#reference').val(params.reference);
+
             $("form[name='addAddress']").submit();
         }
     }

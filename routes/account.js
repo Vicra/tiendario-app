@@ -1,16 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const userService = require('../services/userService');
-
 const AppName = "La Tiendita del Río";
+const reCaptchaKey = require('../reCaptcha.json')
 
 router.get("/login", function (req, res) {
     (async () => {
+        let host = req.get('host');
+        let siteKey = reCaptchaKey.prod;
+        if (host.includes('localhost')){
+            siteKey = reCaptchaKey.dev;
+        }
+
         res.render("user/login", {
             title: AppName
             , type: 1
             , success: req.query.s
             , verified: req.query.v
+            , siteKey: siteKey
         });
     })();
 });
@@ -53,11 +60,18 @@ router.get("/logout", function (req, res) {
     })();
 });
 
-router.get("/register", function (_, res) {
+router.get("/register", function (req, res) {
     (async () => {
+        let host = req.get('host');
+        let siteKey = reCaptchaKey.prod;
+        if (host.includes('localhost')){
+            siteKey = reCaptchaKey.dev;
+        }
+
         res.render("user/register", {
             title: AppName
             , type: 1
+            , siteKey: siteKey
         });
     })();
 });
@@ -106,6 +120,12 @@ router.get("/view-account", function (req, res) {
                 }
             }
 
+            let host = req.get('host');
+            let siteKey = reCaptchaKey.prod;
+            if (host.includes('localhost')){
+                siteKey = reCaptchaKey.dev;
+            }
+
             res.render("user/detail", {
                 title: AppName
                 , type: 1
@@ -113,6 +133,7 @@ router.get("/view-account", function (req, res) {
                 , user: req.session.user
                 , message: req.query.m
                 , success: req.query.s
+                , siteKey: siteKey
             });
         }
         else {

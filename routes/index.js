@@ -5,8 +5,9 @@ const productService = require('../services/productService');
 const orderService = require('../services/orderService');
 const categoryService = require('../services/categoryService');
 const userService = require('../services/userService');
-
 const AppName = 'La Tiendita del Río';
+
+const reCaptchaKey = require('../reCaptcha.json')
 
 let products = [];
 let productsPrices = [];
@@ -59,9 +60,16 @@ router.get('/address', function (req, res) {
         })();
     }
     else {
+        let host = req.get('host');
+        let siteKey = reCaptchaKey.prod;
+        if (host.includes('localhost')){
+            siteKey = reCaptchaKey.dev;
+        }
+
         res.render('address', {
             title: AppName
             , type: 1
+            , siteKey: siteKey
         });
     }
 });
@@ -69,8 +77,6 @@ router.get('/address', function (req, res) {
 router.post('/placeorder', function (req, res) {
     let params = req.body;
     let cart = JSON.parse(req.body.cart2);
-    console.log(params);
-    console.log(cart);
     
     (async () => {
         if (req.session.user){
