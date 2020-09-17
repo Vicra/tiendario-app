@@ -32,6 +32,7 @@ app.use(session({
   saveUninitialized: true
 }))
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('../uploads'));
 
 // res.locals is an object passed to hbs engine
 app.use(function(req, res, next) {
