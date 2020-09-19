@@ -132,7 +132,7 @@ router.get('/products-category/:id', function (req, res) {
             if (products[i].path !== ''
                 && products[i].path !== null
                 && products[i].path !== undefined) {
-                products[i].image = products[i].path;
+                products[i].image = "https://riopiedras.store/" + products[i].path;
             }
         }
 
