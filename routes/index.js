@@ -20,10 +20,10 @@ router.get('/', function (req, res) {
     (async () => {
         req.session.keyword = '';
         products = await productService.getProducts();
-        for(let i=0; i<products.length; i++){
-            if(products[i].path !== ''
+        for (let i = 0; i < products.length; i++) {
+            if (products[i].path !== ''
                 && products[i].path !== null
-                && products[i].path !== undefined){
+                && products[i].path !== undefined) {
                 products[i].image = products[i].path;
             }
         }
@@ -42,8 +42,8 @@ router.get('/', function (req, res) {
 router.get('/cart', function (req, res) {
     res.render('cart', {
         title: AppName
-        ,type: 1
-        ,user: req.session.user
+        , type: 1
+        , user: req.session.user
         // ,deliveryType: req.body.deliveryRadio
         // ,params: JSON.stringify(req.body)
     });
@@ -54,7 +54,7 @@ router.get('/address', function (req, res) {
         (async () => {
             let addressesResponse = await userService.getAddresses(req.session.user.id);
             let addresses = [];
-            if (addressesResponse.success){
+            if (addressesResponse.success) {
                 addresses = addressesResponse.data
             }
             res.render('verify', {
@@ -69,7 +69,7 @@ router.get('/address', function (req, res) {
     else {
         let host = req.get('host');
         let siteKey = reCaptchaKey.prod;
-        if (host.includes('localhost')){
+        if (host.includes('localhost')) {
             siteKey = reCaptchaKey.dev;
         }
 
@@ -84,12 +84,12 @@ router.get('/address', function (req, res) {
 router.post('/placeorder', function (req, res) {
     let params = req.body;
     let cart = JSON.parse(req.body.cart2);
-    
+
     (async () => {
-        if (req.session.user){
+        if (req.session.user) {
             params.customerId = req.session.user.id;
             let response = await orderService.postOrder(params, cart.products);
-            if (response.success){
+            if (response.success) {
                 res.redirect('/?s=1');
             }
             else {
@@ -98,7 +98,7 @@ router.post('/placeorder', function (req, res) {
         }
         else {
             let response = await orderService.postGuestOrder(params, cart.products);
-            if (response.success){
+            if (response.success) {
                 res.redirect('/?s=1');
             }
             else {
@@ -128,6 +128,14 @@ router.get('/products-category/:id', function (req, res) {
     (async () => {
         let categoryId = req.params.id;
         let products = await productService.getProductsByCategory(categoryId);
+        for (let i = 0; i < products.length; i++) {
+            if (products[i].path !== ''
+                && products[i].path !== null
+                && products[i].path !== undefined) {
+                products[i].image = products[i].path;
+            }
+        }
+
         res.render('products', {
             title: AppName
             , products: products
@@ -142,8 +150,8 @@ router.get('/contact', function (req, res) {
     (async () => {
         res.render('contact', {
             title: AppName
-            ,type: 1
-            ,user: req.session.user
+            , type: 1
+            , user: req.session.user
         });
     })();
 });
