@@ -21,13 +21,13 @@ router.get('/shop', function (req, res) {
         req.session.keyword = '';
         products = await productService.getProducts();
         
-        // for (let i = 0; i < products.length; i++) {
-        //     if (products[i].path !== ''
-        //         && products[i].path !== null
-        //         && products[i].path !== undefined) {
-        //         products[i].image = products[i].path;
-        //     }
-        // }
+        for (let i = 0; i < products.length; i++) {
+            if (products[i].path !== ''
+                && products[i].path !== null
+                && products[i].path !== undefined) {
+                products[i].image = products[i].path;
+            }
+        }
         res.render('index',
             {
                 title: AppName,
