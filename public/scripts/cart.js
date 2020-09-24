@@ -46,7 +46,7 @@ function add(id) {
             , price: parseInt($(`#price_${id}`).val())
             , name: $(`#name_${id}`).val()
             , description: $(`#description_${id}`).val()
-            , image: 
+            , image: imageUrl
         })
     }
 
