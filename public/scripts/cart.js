@@ -34,13 +34,19 @@ function add(id) {
     }
 
     if(!existsItem){
+        let imageUrl = $(`#image_${id}`).val();
+        if(!imageUrl.includes('http') 
+            && !imageUrl.includes('https')){
+            
+            imageUrl = "https://riopiedras.store/" + imageUrl;
+        }
         cart.products.push({
             id: id
             , amount: parseInt($(`#count_${id}`).val())
             , price: parseInt($(`#price_${id}`).val())
             , name: $(`#name_${id}`).val()
             , description: $(`#description_${id}`).val()
-            , image: $(`#image_${id}`).val()
+            , image: 
         })
     }
 
