@@ -6,7 +6,7 @@
                 <tr>
                     <th>Imagen</th>
                     <th>Producto</th>
-                    <th>Precio</th>
+                    <th>Precio Unitario</th>
                     <th>Cantidad</th>
                     <th>Subtotal</th>
                     <th>Eliminar</th>
@@ -57,18 +57,20 @@
                     Lps. ${cart.products[i].price}
                 </td>
                 <td class="form-inline" style="display:block;">
-                    <a onclick="subs(${cart.products[i].id})" class="btn btn-default" 
+                    <a onclick="subs(${cart.products[i].id})" class="btn btn-default border-buttons" 
                         role="button" style="margin-bottom: 0;">-</a>
                     <input type="numeric" class="form-control amount-input" value="${cart.products[i].amount}" name="count" style="max-width:35%"
                         id="count_${cart.products[i].id}" max="10" onchange="checkValue(this)">
-                    <a onclick="sum(${cart.products[i].id})" class="btn btn-info" 
+                    <a onclick="sum(${cart.products[i].id})" class="btn btn-info border-buttons" 
                         role="button" style="margin-bottom: 0;">+</a>
                 </td>
                 <td>
                     Lps. ${cart.products[i].amount * cart.products[i].price}
                 </td>
                 <td>
-                    <a onclick="remove(${cart.products[i].id})" class="btn btn-default"></i> Quitar</a>
+                    <a onclick="remove(${cart.products[i].id})" class="btn btn-default border-buttons">
+                        Quitar
+                    </a>
                 </td>
             </tr>   
             `
@@ -103,8 +105,8 @@
                 <h3>Total: Lps. ${cart.total}</h3><br>
 
                 <i>* El costo de envío puede variar en la factura<br>
-                    final dependiendo de tu ubicación. En autoservicio, <br>
-                    no se cobran cargos por envíos.
+                    final dependiendo de tu ubicación. En <br>
+                    autoservicio, no se cobran cargos por envíos.
                 </i>
             `);
         }

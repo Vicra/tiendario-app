@@ -30,7 +30,7 @@ router.get("/verify/:key", function (req, res) {
             res.redirect("/login?v=1");
         }
         else {
-            res.redirect("/");
+            res.redirect("/shop");
         }
     })();
 });
@@ -41,7 +41,7 @@ router.post("/login", function (req, res) {
         let response = await userService.isValidUser(params);
         if (response.success) {
             req.session.user = response.data;
-            res.redirect("/");
+            res.redirect("/shop?l=1");
         }
         else {
             res.render("user/login", {

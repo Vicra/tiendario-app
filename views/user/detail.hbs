@@ -1,11 +1,3 @@
-<br><br>
-<div class="container">
-    <div class="text-left">
-        <a href="/logout" class="btn btn-danger" role="button">
-            Logout
-        </a>
-    </div>
-</div>
 <br>
 {{#if success}}
     <div class="container">
@@ -29,11 +21,12 @@
     {{#if addresses}}
         <h2>Direcciones</h2>
         {{#each addresses }}
-            <strong>{{this.typeName}}</strong>
-            <p>{{this.description}}</p>
+            <strong>{{this.typeName}}</strong><br>
+            {{this.description}}<br>
             {{#if this.reference}}
-                <p>{{this.reference}}</p>
+                {{this.reference}}<br>
             {{/if}}
+            <br>
         {{/each}}
     {{else}}
     <i>No tienes direcciones agregadas en el momento.</i>
@@ -81,6 +74,8 @@
         </form>
     </div>
 </div>
+
+<br><br><br><br>
 
 <script src="https://www.google.com/recaptcha/api.js"></script>
 <script>

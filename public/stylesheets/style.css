@@ -15,7 +15,7 @@ a {
 
 .dropdown-menu .cart {
   min-width: 250px;
-  padding: 15px 25px 0;
+  padding: 15px 25px 8px;
 }
 
 .dropdown-menu .cart .row > div {
@@ -72,7 +72,7 @@ form p {
   display: none;
   width: 240px;
   height: 90px;
-  opacity: .8;
+  opacity: .9;
   top: 0;
   left: 0;
   right: 0;
@@ -80,8 +80,7 @@ form p {
   z-index: 2;
   cursor: pointer;
   color: white;
-  padding-left: 25px;
-  padding-top: 25px;
+  padding: 10px 10px 10px;
   font-family: "Verdana"
 }
 
@@ -108,4 +107,42 @@ a.disabled {
   display: block;
   overflow-x: auto;
   white-space: nowrap;
+}
+
+.col-xs-6{
+    width: 50%;
+    display: block;
+}
+
+.col-xs-4{
+    width: 33%;
+    display: block;
+}
+
+.col-xs-2{
+    width: 16%;
+    display: block;
+}
+
+.subtotal{
+    display: block;
+}
+
+h5{
+    color: black;
+}
+h4{
+    color: black;
+}
+
+p{
+    color: black;
+}
+.footer p{
+    color: white;
+}
+
+.border-buttons {
+    border: 1px solid grey;
+    cursor: pointer;
 }

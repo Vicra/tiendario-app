@@ -191,6 +191,11 @@ body {
     padding: 5px 9px;
     flex-grow: 8;
 }
+
+#container ul li form a{
+    border: 1px solid grey;
+}
+
 #container ul li a:hover {
     text-decoration: none;
 }
@@ -230,6 +235,8 @@ body {
 #container .grid li a {
     margin-bottom: 20px;
     color: #000;
+    width: 15%;
+    min-width: 30px;
 }
 
 .amount-input {
