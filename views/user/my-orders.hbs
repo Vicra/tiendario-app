@@ -1,0 +1,33 @@
+<div class="container" style="margin-bottom: 10%;">
+    <h1>Lista de Ordenes</h1>
+    <div class="horizontal-scroll">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Fecha (dd/mm/aaaa)</th>
+                    <th>Tipo</th>
+                    <th>Forma de Pago</th>
+                    <th>Total</th>
+                    <th>Detalle</th>
+                </tr>
+            </thead>
+            <tbody id="orders">
+                {{#each orders}}
+                <tr>
+                    <td>{{this.customer_id}}-{{this.id}}</td>
+                    <td>{{this.createdDate}}</td>
+                    <td>{{this.type}}</td>
+                    <td>{{this.payment_method}}</td>
+                    <td>Lps. {{this.total}}.00</td>
+                    <td>
+                        <a href="/order-detail/{{this.id}}" class="btn btn-info">
+                            Ver detalle
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

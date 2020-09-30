@@ -9,11 +9,14 @@
             <div class="navbar-nav">
                 <a href="/shop" class="nav-item nav-link">Tienda</a>
             </div>
-             <div class="navbar-nav">
+            <div class="navbar-nav">
+                <a href="/catalog" class="nav-item nav-link">Catálogo</a>
+            </div>
+            <div class="navbar-nav">
                 <a href="/contact" class="nav-item nav-link">Contacto</a>
             </div>
             <div class="navbar-nav">
-                <a href="/catalog" class="nav-item nav-link">Catálogo</a>
+                <a href="/about" class="nav-item nav-link">¿Quiénes Somos?</a>
             </div>
             {{!-- <div class="navbar-nav">
                 <a href="/faq" class="nav-item nav-link">Preguntas Frecuentes</a>
@@ -31,7 +34,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="/view-account">Ver Cuenta</a>
-                            {{!-- <a class="dropdown-item" href="/my-orders">Mis Pedidos</a> --}}
+                            <a class="dropdown-item" href="/my-orders">Mis Pedidos</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout">Cerrar Sesión</a>
                         </div>
@@ -47,22 +50,24 @@
     </nav>
 </div>
 
-<div class="container">
-    <div class="text-right">
-        <div class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
-                <i class="fa fa-shopping-cart fa-2x" style="color: #00b7ff;" aria-hidden="true"></i>
-                <span id="totalItems"  style="color: #00b7ff;">
-                </span>
-            </a>
-            <div class="dropdown-menu">
-                <div class="cart" id="cart">
+{{#if cart }}
+    <div class="container">
+        <div class="text-right">
+            <div class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
+                    <i class="fa fa-shopping-cart fa-2x" style="color: #00b7ff;" aria-hidden="true"></i>
+                    <span id="totalItems"  style="color: #00b7ff;">
+                    </span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="cart" id="cart">
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
+{{/if}}
 <script src="/scripts/cart.js"></script>
 <script>
     updateTopCart();

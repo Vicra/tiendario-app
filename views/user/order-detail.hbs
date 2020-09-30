@@ -1,0 +1,47 @@
+<div class="container" style="margin-bottom: 10%;">
+    <a href="/my-orders" class="btn btn-info">
+        Ir a ordenes
+    </a>
+    <br><br>
+    <h1>Detalle de Orden</h1>
+    <br>
+    <p>Numero de Orden: {{order.customerId}}-{{order.id}}</p>
+    <p>Fecha: {{order.createdDate}}</p>
+    <p>Tipo de orden: {{order.type}}</p>
+    <p>Método de pago: {{order.paymentMethod}}</p>
+    <p>Cliente: {{order.customer}}</p>
+    <p>Teléfono: {{order.phone}}</p>
+    <p>Dirección: {{order.address}}</p>
+    <br>
+    <h2>Productos</h2>
+    <div class="horizontal-scroll">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Imágen</th>
+                    <th>Producto</th>
+                    <th>Precio Unitario</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody id="products">
+                {{#each products}}
+                <tr>
+                    <td>
+                        <img src="{{this.image}}" height="50px">
+                        </img>
+                    </td>
+                    <td>{{this.name}}</td>
+                    <td>Lps. {{this.price}}</td>
+                    <td>{{this.amount}}</td>
+                    <td>Lps. {{this.subtotal}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <p>Subtotal Lps.<strong>{{order.subtotal}}</strong></p>
+    <p>Costo de Envío Lps.<strong>{{order.delivery}}</strong></p>
+    <p>Total Lps.<strong>{{order.total}}</strong></p>
+</div>

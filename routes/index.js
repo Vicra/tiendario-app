@@ -10,10 +10,8 @@ const AppName = 'La Tiendita del Río';
 const reCaptchaKey = require('../reCaptcha.json')
 
 let products = [];
-let productsPrices = [];
 (async () => {
     products = await productService.getProducts();
-    productsPrices = await productService.getProductsPrices();
 })();
 
 router.get('/shop', function (req, res) {
@@ -30,12 +28,13 @@ router.get('/shop', function (req, res) {
         }
         res.render('index',
             {
-                title: AppName,
-                products: products,
-                type: 1,
-                success: req.query.s,
-                user: req.session.user,
-                login: req.query.l
+                title: AppName
+                , products: products
+                , type: 1
+                , success: req.query.s
+                , user: req.session.user
+                , login: req.query.l
+                , cart: 1
             }
         );
     })();
@@ -121,6 +120,7 @@ router.get('/catalog', function (req, res) {
             , categories: categories
             , type: 1
             , user: req.session.user
+            , cart: 1
         });
     })();
 });
@@ -144,6 +144,7 @@ router.get('/products-category/:id', function (req, res) {
             , type: 1
             , user: req.session.user
             , name: (products.length) ? products[0].category : ''
+            , cart: 1
         });
     })();
 });
@@ -151,6 +152,16 @@ router.get('/products-category/:id', function (req, res) {
 router.get('/contact', function (req, res) {
     (async () => {
         res.render('contact', {
+            title: AppName
+            , type: 1
+            , user: req.session.user
+        });
+    })();
+});
+
+router.get('/about', function (req, res) {
+    (async () => {
+        res.render('about', {
             title: AppName
             , type: 1
             , user: req.session.user

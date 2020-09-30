@@ -82,6 +82,21 @@ class UserService {
             return error.response.data;
         }
     }
+
+    async getOrders(customerId){
+        try {
+            let response = await axios.get(`${this.host}/user/orders/${customerId}`);
+            let HttpResponse = response.data;
+            let orders = [];
+            if (HttpResponse.success) {
+                orders = HttpResponse.data;
+            }
+            return orders;
+        } catch (error) {
+            console.log(error);
+            return error.response.data;
+        }
+    }
 }
 
 module.exports = new UserService();

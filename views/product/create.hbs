@@ -104,6 +104,11 @@
             validate();
         }
     });
+    $('select').keyup(function(e){
+        if(e.keyCode == 13){
+            validate();
+        }
+    });
     
     $(function() {
         $("#category").val(1);

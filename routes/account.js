@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const userService = require('../services/userService');
 const AppName = "La Tiendita del Río";
-const reCaptchaKey = require('../reCaptcha.json')
+const reCaptchaKey = require('../reCaptcha.json');
+const orderService = require("../services/orderService");
 
 router.get("/login", function (req, res) {
     (async () => {
@@ -57,6 +58,58 @@ router.get("/logout", function (req, res) {
     req.session.user = null;
     (async () => {
         res.redirect('/login');
+    })();
+});
+
+router.get("/my-orders", function (req, res) {
+    (async () => {
+        if(req.session.user){
+            let orders = await userService.getOrders(req.session.user.id);
+
+            for (let i = 0; i < orders.length; i++) {
+                if (orders[i].type == 'd') {
+                    orders[i].type = 'a domicilio';
+                }
+                else {
+                    orders[i].type = 'autoservicio';
+                }
+
+                if (orders[i].payment_method == 'e') {
+                    orders[i].payment_method = 'efectivo';
+                }
+                else {
+                    orders[i].payment_method = 'transferencia';
+                }
+            }
+            res.render("user/my-orders", {
+                title: AppName
+                , type: 1
+                , orders: orders
+                , user: req.session.user
+            });
+        }
+        else{
+            res.redirect('/login');
+        }
+    })();
+});
+
+router.get("/order-detail/:orderid", function (req, res) {
+    let orderid = req.params.orderid;
+    (async () => {
+        if(req.session.user){
+            let order = await orderService.getOrderById(orderid);
+            res.render("user/order-detail", {
+                title: AppName
+                , type: 1
+                , order: order
+                , products : order.items
+                , user: req.session.user
+            });
+        }
+        else{
+            res.redirect('/login');
+        }
     })();
 });
 
