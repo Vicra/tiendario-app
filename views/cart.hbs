@@ -33,6 +33,8 @@
         drawProducts();
     });
 
+    const maxItems = 10;
+
     function drawProducts(){
         $('#products').text('');
         let cart = JSON.parse(localStorage.getItem('cart'));
@@ -113,7 +115,6 @@
     }
 
     function sum(id) {
-        const maxItems = 5;
         let currentVal = parseInt($(`#count_${id}`).val());
         let cart = JSON.parse(localStorage.getItem('cart'));
         
