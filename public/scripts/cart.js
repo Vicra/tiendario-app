@@ -17,13 +17,18 @@ function resetCart(){
 }
 
 function add(id) {
-    let maxItems = 5;
+    const maxItems = 10;
     let cart = JSON.parse(localStorage.getItem('cart'));
     let existsItem = false;
+
+    let wasAdded = false;
     for (let i=0 ; i<cart.products.length; i++){
         let newValue = parseInt(cart.products[i].amount) + parseInt($(`#count_${id}`).val());
         if(newValue > maxItems){
             newValue = maxItems;
+        }
+        else{
+            wasAdded = true;
         }
 
         if(id === cart.products[i].id){
@@ -47,17 +52,27 @@ function add(id) {
             , name: $(`#name_${id}`).val()
             , description: $(`#description_${id}`).val()
             , image: imageUrl
-        })
+        });
+        wasAdded = true;
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));
-    $('#overlay').addClass("overlay-success");
 
-    let amount = parseInt($(`#count_${id}`).val());
-    let name = $(`#name_${id}`).val();
-    let message = `Agregaste <strong>${amount}</strong> unidad(es) de <em>${name}</em> al carrito.`
-    $('#overlay').html(message);
-    $('#overlay').fadeIn().delay(2500).fadeOut();
+    if(wasAdded) {
+        $('#overlay').addClass("overlay-success");
+        let amount = parseInt($(`#count_${id}`).val());
+        let name = $(`#name_${id}`).val();
+        let message = `Agregaste <strong>${amount}</strong> unidad(es) de <em>${name}</em> al carrito.`
+        $('#overlay').html(message);
+        $('#overlay').fadeIn().delay(2500).fadeOut();
+    }
+    else{
+        $('#overlay-fail').addClass("overlay-alert");
+        let name = $(`#name_${id}`).val();
+        let message = `Solamente puedes agregar ${maxItems} unidades de <em>${name}</em> al carrito.`
+        $('#overlay-fail').html(message);
+        $('#overlay-fail').fadeIn().delay(2500).fadeOut();
+    }
 
     updateTopCart();
 }

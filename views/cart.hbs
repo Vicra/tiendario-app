@@ -163,6 +163,18 @@
         else if (selfi.value < 1) {
             selfi.value = 1;
         }
+
+        let id = selfi.id.split('_')[1];
+
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        for(let i=0; i<cart.products.length; i++){
+            if(cart.products[i].id == id){
+                cart.products[i].amount = selfi.value;
+                break;
+            }
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        drawProducts();
     }
 
     function remove(id){
