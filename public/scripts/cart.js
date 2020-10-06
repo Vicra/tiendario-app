@@ -23,15 +23,14 @@ function add(id) {
 
     let wasAdded = false;
     for (let i=0 ; i<cart.products.length; i++){
-        let newValue = parseInt(cart.products[i].amount) + parseInt($(`#count_${id}`).val());
-        if(newValue > maxItems){
-            newValue = maxItems;
-        }
-        else{
-            wasAdded = true;
-        }
-
         if(id === cart.products[i].id){
+            let newValue = parseInt(cart.products[i].amount) + parseInt($(`#count_${id}`).val());
+            if(newValue > maxItems){
+                newValue = maxItems;
+            }
+            else{
+                wasAdded = true;
+            }
             existsItem = true;
             cart.products[i].amount = newValue;
             break;
