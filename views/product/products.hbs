@@ -1,6 +1,7 @@
 <div class="container">
-    <h1>Productos</h1><br>
-    <a href="/create-product" class="btn btn-default" role="button">
+    <br><br><br>
+    <h2>Productos</h2><br>
+    <a href="/create-product" class="btn btn-default" role="button" style="border: 1px solid grey">
         <i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Producto
     </a>
     <a href="/admin" class="btn btn-info" role="button">
@@ -27,41 +28,44 @@
 
 
 <div class="container">
-    <table id="example" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Marca</th>
-                <th>Categoría</th>
-                <th>Precio</th>
-                <th>Costo</th>
-                <th>Proveedor</th>
-                <th>Editar</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each products }}
-            <tr>
-                <td><img id="image{{this.id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');"
-                        height="50px" width="50px"></td>
-                <td>{{ this.name }}</td>
-                <td>{{ this.description }}</td>
-                <td>{{ this.brand }}</td>
-                <td>{{ this.category }}</td>
-                <td>Lps. {{ this.price }}</td>
-                <td>Lps. {{ this.cost }}</td>
-                <td>{{ this.supplier }}</td>
-                <td>
-                    <a href="/edit-product/{{ this.id }}" class="btn btn-info" role="button">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                    </a>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    <div class="horizontal-scroll">
+        <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Marca</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Costo</th>
+                    <th>Proveedor</th>
+                    <th>Editar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products }}
+                <tr>
+                    <td><img id="image{{this.id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');"
+                            height="50px" width="50px"></td>
+                    <td>{{ this.name }}</td>
+                    <td>{{ this.description }}</td>
+                    <td>{{ this.brand }}</td>
+                    <td>{{ this.category }}</td>
+                    <td>Lps. {{ this.price }}</td>
+                    <td>Lps. {{ this.cost }}</td>
+                    <td>{{ this.supplier }}</td>
+                    <td>
+                        <a href="/edit-product/{{ this.id }}" class="btn btn-info" role="button">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <br><br><br>
+    </div>
 </div>
 
 <script>
@@ -76,6 +80,6 @@
 
 <script>
     function hasError(id, source) {
-        document.getElementById(`image${id}`).src = source;
+        document.getElementById(`image${id}`).src = 'https://riopiedras.store/imagen no disponible.png';
     }
 </script>

@@ -1,5 +1,6 @@
 <div class="container">
-    <h1>Pedidos/Ordenes</h1><br>
+    <br><br><br>
+    <h2>Pedidos/Ordenes</h2><br>
 </div>
 <br>
 <div class="container">
@@ -9,58 +10,61 @@
 </div>
 <br>
 <div class="container">
-    <table id="example" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Número</th>
-                <th>Cliente</th>
-                <th>Fecha</th>
-                <th>Tipo</th>
-                <th>Método Pago</th>
-                <th>Aprobado</th>
-                <th>Entregado</th>
-                <th>Ver Orden</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each orders }}
+    <div class="horizontal-scroll">
+        <table id="example" class="display" style="width:100%">
+            <thead>
                 <tr>
-                    <td>{{ this.id }}</td>
-                    <td>{{ this.customer }}</td>
-                    <td>{{ this.createdDate }}</td>
-                    <td>{{ this.type }}</td>
-                    <td>{{ this.paymentMethod }}</td>
-                    <td>
-                        {{#if this.approved}}
-                            <a class="btn btn-success" role="button">
-                                <i class="fa fa-check" aria-hidden="true"></i>
-                            </a>
-                        {{else}}
-                            <a class="btn btn-danger" role="button">
-                                <i class="fa fa-exclamation " aria-hidden="true"></i>
-                            </a>
-                        {{/if}}
-                    </td>
-                    <td>
-                        {{#if this.delivered}}
-                            <a class="btn btn-success" role="button">
-                                <i class="fa fa-check" aria-hidden="true"></i>
-                            </a>
-                        {{else}}
-                            <a class="btn btn-danger" role="button">
-                                <i class="fa fa-exclamation " aria-hidden="true"></i>
-                            </a>
-                        {{/if}}
-                    </td>
-                    <td>
-                        <a href="/view-order/{{this.id}}" class="btn btn-info" role="button">
-                            <i class="fa fa-info" aria-hidden="true"></i> Detalle
-                        </a>
-                    </td>
+                    <th>Número</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Método Pago</th>
+                    <th>Aprobado</th>
+                    <th>Entregado</th>
+                    <th>Ver Orden</th>
                 </tr>
-            {{/each}}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {{#each orders }}
+                    <tr>
+                        <td>{{ this.id }}</td>
+                        <td>{{ this.customer }}</td>
+                        <td>{{ this.createdDate }}</td>
+                        <td>{{ this.type }}</td>
+                        <td>{{ this.paymentMethod }}</td>
+                        <td>
+                            {{#if this.approved}}
+                                <a class="btn btn-success" role="button">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </a>
+                            {{else}}
+                                <a class="btn btn-danger" role="button">
+                                    <i class="fa fa-exclamation " aria-hidden="true"></i>
+                                </a>
+                            {{/if}}
+                        </td>
+                        <td>
+                            {{#if this.delivered}}
+                                <a class="btn btn-success" role="button">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </a>
+                            {{else}}
+                                <a class="btn btn-danger" role="button">
+                                    <i class="fa fa-exclamation " aria-hidden="true"></i>
+                                </a>
+                            {{/if}}
+                        </td>
+                        <td>
+                            <a href="/view-order/{{this.id}}" class="btn btn-info" role="button">
+                                <i class="fa fa-info" aria-hidden="true"></i> Detalle
+                            </a>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <br><br><br><br>
+    </div>
 </div>
 
 <script>
