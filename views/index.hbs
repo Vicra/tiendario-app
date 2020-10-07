@@ -87,7 +87,8 @@
                         Agregar
                     </a>
                 {{else}}
-                <span class="badge badge-danger">Agotado</span>
+                <br>
+                <span class="badge badge-danger" style="margin-top: 1px;">Agotado</span>
                 {{/if}}
             </li>
             {{/each}}
@@ -154,7 +155,7 @@
     }
 
     function hasError(id, source) {
-        document.getElementById(`image${id}`).src = source;
+        document.getElementById(`image${id}`).src = 'imagen no disponible.png';
     }
 
     function sum(id) {

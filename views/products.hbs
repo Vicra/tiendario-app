@@ -48,7 +48,8 @@
                             Agregar
                         </a>
                     {{else}}
-                    <span class="badge badge-danger">Agotado</span>
+                    <br>
+                    <span class="badge badge-danger" style="margin-top: 1px;">Agotado</span>
                     {{/if}}
                 </li>
                 {{/each}}
@@ -101,7 +102,7 @@
 <script>
     const maxItems = 10;
     function imageHasError(imageId, source) {
-        document.getElementById(`image${imageId}`).src = source;
+        document.getElementById(`image${imageId}`).src = 'imagen no disponible.png';
     }
 
     function sum(id) {

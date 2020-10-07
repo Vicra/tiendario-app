@@ -63,14 +63,14 @@ function add(id) {
         let name = $(`#name_${id}`).val();
         let message = `Agregaste <strong>${amount}</strong> unidad(es) de <em>${name}</em> al carrito.`
         $('#overlay').html(message);
-        $('#overlay').fadeIn().delay(2500).fadeOut();
+        $('#overlay').fadeIn().delay(3000).fadeOut();
     }
     else{
         $('#overlay-fail').addClass("overlay-alert");
         let name = $(`#name_${id}`).val();
         let message = `Solamente puedes agregar ${maxItems} unidades de <em>${name}</em> al carrito.`
         $('#overlay-fail').html(message);
-        $('#overlay-fail').fadeIn().delay(2500).fadeOut();
+        $('#overlay-fail').fadeIn().delay(3500).fadeOut();
     }
 
     updateTopCart();
@@ -99,14 +99,14 @@ function updateTopCart(){
                 </div>
             `);
             cart.subtotal += cart.products[i].price * cart.products[i].amount;
-            cart.totalItems += cart.products[i].amount;
+            cart.totalItems += parseInt(cart.products[i].amount);
         }
         cart.delivery = 80;
         cart.total = cart.subtotal + cart.delivery;
 
         localStorage.setItem('cart', JSON.stringify(cart));
         
-        $('#totalItems').text('('+ cart.totalItems + ')');
+        $('#totalItems').text('('+ parseInt(cart.totalItems) + ')');
         $('#cart').append(`
             <div class="row subtotal">
                 <div class="text-right">
