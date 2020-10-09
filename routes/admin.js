@@ -163,7 +163,10 @@ router.post('/submit-product', upload.single('productImage'), function (req, res
             params.brandId = brandResponse.data.insertId;
         }
 
-        params.url = req.file.filename;
+        if(req.file){
+            params.url = req.file.filename;
+        }
+        
         let response = await productService.postProduct(params);
         if (response.code != 200) {
             res.redirect(`/create-product?m=${response.message}`);
@@ -220,7 +223,10 @@ router.post('/update-product', upload.single('productImage'), function (req, res
             params.brandId = brandResponse.data.insertId;
         }
 
-        params.url = req.file.filename;
+        if(req.file){
+            params.url = req.file.filename;
+        }
+
         let response = await productService.putProduct(params);
         if (response.code != 200) {
             res.redirect(`/edit-product/${params.id}?m=${response.message}`);
