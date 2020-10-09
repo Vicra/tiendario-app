@@ -10,6 +10,34 @@ const categoryService = require('../services/categoryService');
 
 const AppName = "La Tiendita del Río";
 
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, '../uploads/');
+    },
+    filename: function (req, file, cb){
+        cb(null, file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) =>{
+    if(file.mimetype === 'image/jpeg'
+    || file.mimetype === 'image/png'){
+        cb(null, true);
+    }
+    else{
+        cb(new Error('Invalid format image'), false);
+        // cb(null, false);
+    }
+}
+const upload = multer({
+    storage: storage
+    , limits: {
+        fileSize: 1024 * 1024 * 5 // 5MB
+    }
+    , fileFilter: fileFilter
+}); 
+
 router.get("/authenticate", function (_, res) {
     (async () => {
         res.render("admin/login", {
@@ -111,11 +139,31 @@ router.get('/create-product', function (req, res) {
     })();
 });
 
-router.post('/submit-product', function (req, res) {
-
+router.post('/submit-product', upload.single('productImage'), function (req, res) {
     let params = req.body;
-
     (async () => {
+        if (params.hasCategory) {
+            let categoryResponse = await categoryService.postCategory({
+                name: params.newCategory
+            }); 
+            params.categoryId = categoryResponse.data.insertId;
+        }
+
+        if (params.hasSupplier) {
+            let supplierResponse = await supplierService.postSupplier({
+                name: params.newSupplier
+            });
+            params.supplierId = supplierResponse.data.insertId;
+        }
+
+        if (params.hasBrand) {
+            let brandResponse = await brandService.postBrand({
+                name: params.newBrand
+            });
+            params.brandId = brandResponse.data.insertId;
+        }
+
+        params.url = req.file.filename;
         let response = await productService.postProduct(params);
         if (response.code != 200) {
             res.redirect(`/create-product?m=${response.message}`);
@@ -128,7 +176,6 @@ router.post('/submit-product', function (req, res) {
 
 router.get('/edit-product/:id', function (req, res) {
     let productId = req.params.id;
-
     (async () => {
         let product = await productService.getProductById(productId);
         let categories = await categoryService.getCategories();
@@ -146,12 +193,34 @@ router.get('/edit-product/:id', function (req, res) {
     })();
 });
 
-router.post('/update-product', function (req, res) {
+router.post('/update-product', upload.single('productImage'), function (req, res) {
 
     let params = req.body;
     (params.available == "on") ? params.available = 1 : params.available = "";
     (params.showSite == "on") ? params.showSite = 1 : params.showSite = "";
     (async () => {
+        if (params.hasCategory) {
+            let categoryResponse = await categoryService.postCategory({
+                name: params.newCategory
+            });
+            params.categoryId = categoryResponse.data.insertId;
+        }
+
+        if (params.hasSupplier) {
+            let supplierResponse = await supplierService.postSupplier({
+                name: params.newSupplier
+            });
+            params.supplierId = supplierResponse.data.insertId;
+        }
+
+        if (params.hasBrand) {
+            let brandResponse = await brandService.postBrand({
+                name: params.newBrand
+            });
+            params.brandId = brandResponse.data.insertId;
+        }
+
+        params.url = req.file.filename;
         let response = await productService.putProduct(params);
         if (response.code != 200) {
             res.redirect(`/edit-product/${params.id}?m=${response.message}`);
@@ -259,9 +328,11 @@ router.get('/view-order/:id', function (req, res) {
             });
         }
         else{
+            order.products = order.items;
             res.render('order/edit', {
                 title: AppName
                 , order: order
+                , cart: JSON.stringify(order)
                 , success: req.query.s
                 , message: req.query.m
             });
@@ -334,6 +405,21 @@ router.post('/update-category', function (req, res) {
         }
         else {
             res.redirect('/categories?u=1');
+        }
+    })();
+});
+
+router.post('/update-order', function (req, res) {
+
+    let params = req.body;
+    let order = JSON.parse(params.order);
+    (async () => {
+        let response = await orderService.putOrder(order);
+        if (response.code != 200) {
+            res.redirect(`/view-order/${params.id}?m=${response.data.message}`);
+        }
+        else {
+            res.redirect(`/view-order/${params.id}?u=1`);
         }
     })();
 });

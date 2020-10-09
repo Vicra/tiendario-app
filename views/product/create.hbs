@@ -9,11 +9,12 @@
 {{/if}}
 
 <div class="container">
-    <h1>Crear Producto</h1>
+    <br><br>
+    <h2>Crear Producto</h2>
 
-    <form action="/submit-product" name="submitproduct" method="POST">
+    <form action="/submit-product" name="submitproduct" method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="name">Nombre</label>
+            <label for="name"><strong>Nombre</strong></label>
             <input type="text" class="form-control" id="name" name="name" placeholder="producto">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
@@ -22,7 +23,7 @@
         </div>
 
         <div class="form-group">
-            <label for="name">Descripción</label>
+            <label for="name"><strong>Descripción</strong></label>
             <input type="text" class="form-control" id="description" name="description" placeholder="descripción">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterDescription">
@@ -31,35 +32,77 @@
         </div>
 
         <div class="form-group">
-            <label for="category">Categoría</label>
-            <select class="form-control" id="category" name="categoryId">
-                {{#each categories }}
-                <option value="{{this.id}}">{{this.name}}</option>
-                {{/each}}
-            </select>
+            <label for="category"><strong>Categoría</strong></label>
+
+            <div id="categoryDiv">
+                <select class="form-control" id="category" name="categoryId">
+                    {{#each categories }}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <br>
+            <input type="checkbox" id="hasCategory" name="hasCategory"> Nueva Categoría
+            <br>
+            <div id="newCategoryDiv" style="display: none;">
+                <input type="text" class="form-control" id="newCategory" name="newCategory" placeholder="Nueva Categoría">
+            </div>
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterCategory">
+                Ingrese la categoría.
+            </div>
+            
         </div>
+        <hr>
+        <div class="form-group">
+            <label for="supplier"><strong>Proveedor</strong></label>
+
+            <div id="supplierDiv">
+                <select class="form-control" id="supplier" name="supplierId">
+                    {{#each suppliers }}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <br>
+            <input type="checkbox" id="hasSupplier" name="hasSupplier"> Nuevo Proveedor
+            <br>
+            <div id="newSupplierDiv" style="display: none;">
+                <input type="text" class="form-control" id="newSupplier" name="newSupplier" placeholder="Nuevo Proveedor">
+            </div>
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterSupplier">
+                Ingrese el proveedor.
+            </div>
+        </div>
+        <hr>
 
         <div class="form-group">
-            <label for="supplier">Proveedor</label>
-            <select class="form-control" id="supplier" name="supplierId">
-                {{#each suppliers }}
-                <option value="{{this.id}}">{{this.name}}</option>
-                {{/each}}
-            </select>
+            <label for="brand"><strong>Marca</strong></label>
+
+            <div id="brandDiv">
+                <select class="form-control" id="brand" name="brandId">
+                    {{#each brands }}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <br>
+            <input type="checkbox" id="hasBrand" name="hasBrand"> Nueva Marca
+            <br>
+            <div id="newBrandDiv" style="display: none;">
+                <input type="text" class="form-control" id="newBrand" name="newBrand" placeholder="Nueva Marca">
+            </div>
+            <div class="alert alert-danger" role="alert" style="display: none;" id="enterBrand">
+                Ingrese la marca.
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="brand">Marca</label>
-            <select class="form-control" id="brand" name="brandId">
-                {{#each brands }}
-                <option value="{{this.id}}">{{this.name}}</option>
-                {{/each}}
-            </select>
-        </div>
+        <hr>
 
         <div class="form-group">
-            <label for="costo" class="col-2 col-form-label">Costo</label>
-            <div class="col-10">
+            <label for="costo" class="col-form-label"><strong>Costo</strong></label>
+            <div>
                 <input class="form-control" type="number" id="cost" name="cost" value="0">
             </div>
 
@@ -69,8 +112,8 @@
         </div>
 
         <div class="form-group">
-            <label for="price" class="col-2 col-form-label">Precio</label>
-            <div class="col-10">
+            <label for="price" class="col-form-label"><strong>Precio</strong></label>
+            <div>
                 <input class="form-control" type="number" id="price" name="price" value="0">
             </div>
 
@@ -80,21 +123,20 @@
         </div>
 
         <div class="form-group">
-            <label for="url" class="col-2 col-form-label">URL Imagen</label>
-            <div class="col-10">
-                <input class="form-control" type="url" placeholder="https://getbootstrap.com/img.png" id="url" value="https://getbootstrap.com/img.png"
-                    name="url">
-            </div>
-
-            <div class="alert alert-danger" role="alert" style="display: none;" id="enterUrl">
-                Ingrese un link para la imagen.
-            </div>
+            <label for="image">Imagen</label>
+            <input type="file"
+                id="productImage" name="productImage"
+                accept="image/png, image/jpeg">
+            <i>Sube una foto preferiblemente .png con fondo transparente y que tenga forma de cuadrado
+                (500 x 500 tamaño recomendable)
+            </i>
         </div>
 
         <div class="text-right">
             <a onclick="validate();" type="button" class="btn btn-success">Crear</a>
         </div>
     </form>
+    <br><br><br>
 </div>
 
 <script>
@@ -109,12 +151,28 @@
             validate();
         }
     });
-    
+
+    $( "#hasCategory" ).change(function() {
+        $('#newCategoryDiv').toggle();
+        $('#categoryDiv').toggle();
+    });
+
+    $( "#hasSupplier" ).change(function() {
+        $('#newSupplierDiv').toggle();
+        $('#supplierDiv').toggle();
+    });
+
+    $( "#hasBrand" ).change(function() {
+        $('#newBrandDiv').toggle();
+        $('#brandDiv').toggle();
+    });
+
     $(function() {
         $("#category").val(1);
         $("#supplier").val(9);
         $("#brand").val(48);
     });
+    
     function validate() {
         const delay = 6000;//6seconds
         const addressLength = 10;
@@ -122,14 +180,36 @@
         let params = {};
         params.name = $('#name').val();
         params.description = $('#description').val();
-        params.category = $('#category').val();
-        params.supplier = $('#supplier').val();
         params.cost = $('#cost').val();
         params.price = $('#price').val();
         params.url = $('#url').val();
-
-
+        
         let hasError = false;
+
+        if ($('#hasCategory').prop('checked')) {
+            params.category = $('#newCategory').val();
+            if (!params.category) {
+                hasError = true;
+                $('#enterCategory').fadeIn().delay(delay).fadeOut();
+            }
+        }
+
+        if ($('#hasSupplier').prop('checked')) {
+            params.supplier = $('#newSupplier').val();
+            if (!params.supplier) {
+                hasError = true;
+                $('#enterSupplier').fadeIn().delay(delay).fadeOut();
+            }
+        }
+
+        if ($('#hasBrand').prop('checked')) {
+            params.brand = $('#newBrand').val();
+            if (!params.brand) {
+                hasError = true;
+                $('#enterBrand').fadeIn().delay(delay).fadeOut();
+            }
+        }
+
         if (!params.name) {
             hasError = true;
             $('#enterName').fadeIn().delay(delay).fadeOut();
@@ -142,13 +222,13 @@
             hasError = true;
             $('#enterPrice').fadeIn().delay(delay).fadeOut();
         }
-        if (!params.url) {
+        /*if (!params.url) {
             hasError = true;
             $('#enterUrl').fadeIn().delay(delay).fadeOut();
-        }
+        }*/
 
         if (!hasError) {
-            $("form[name='submitproduct']").submit();
+             $("form[name='submitproduct']").submit();
         }
     }
 </script>

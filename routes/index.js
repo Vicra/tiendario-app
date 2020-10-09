@@ -18,14 +18,7 @@ router.get('/shop', function (req, res) {
     (async () => {
         req.session.keyword = '';
         products = await productService.getProducts();
-        
-        for (let i = 0; i < products.length; i++) {
-            if (products[i].path !== ''
-                && products[i].path !== null
-                && products[i].path !== undefined) {
-                products[i].image = products[i].path;
-            }
-        }
+
         res.render('index',
             {
                 title: AppName
@@ -130,14 +123,7 @@ router.get('/products-category/:id', function (req, res) {
     (async () => {
         let categoryId = req.params.id;
         let products = await productService.getProductsByCategory(categoryId);
-        for (let i = 0; i < products.length; i++) {
-            if (products[i].path !== ''
-                && products[i].path !== null
-                && products[i].path !== undefined) {
-                products[i].image = "https://riopiedras.store/" + products[i].path;
-            }
-        }
-
+        
         res.render('products', {
             title: AppName
             , products: products
