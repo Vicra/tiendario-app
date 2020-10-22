@@ -1,3 +1,4 @@
+<br>
 {{#if message}}
     <div class="container">
         <div class="alert alert-danger" role="alert">
@@ -9,6 +10,14 @@
 {{#if success}}
     <div class="container">
         <div class="alert alert-success" role="alert">
+            <p>Orden aprovada</p>
+        </div>
+    </div>
+{{/if}}
+
+{{#if delivered}}
+    <div class="container">
+        <div class="alert alert-success" role="alert">
             <p>Orden entregada</p>
         </div>
     </div>
@@ -16,6 +25,7 @@
 
 
 <div class="container">
+    <br><br>
     <a href="/orders/" class="btn btn-info" role="button">
         <i class="fa fa-home" aria-hidden="true"></i> Volver a Ordenes
     </a>
@@ -39,6 +49,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th>Imagen</th>
                 <th>Producto</th>
                 <th>Cantidad</th>
                 <th>Precio</th>
@@ -48,6 +59,9 @@
         <tbody>
             {{#each order.items }}
                 <tr>
+                    <td>
+                        <img src="{{this.image}}" height="50px">
+                    </td>
                     <td>{{this.name}}</td>
                     <td>{{this.amount}}</td>
                     <td>Lps. {{this.price}}</td>
@@ -60,4 +74,14 @@
     <h4>Subtotal: Lps.{{order.subtotal}}</h4>
     <h4>Envío: Lps.{{order.delivery}}</h4>
     <h3>Total: Lps.{{order.total}}</h3>
+
+    {{#if order.approved}}
+        {{#if order.delivered}}
+        {{else}}
+            <a href="/deliver-order/{{order.id}}" class="btn btn-success" role="button">
+                <i class="fa fa-check" aria-hidden="true"></i> Entregar
+            </a>
+        {{/if}}
+    {{/if}}
+    <br><br><br>
 </div>

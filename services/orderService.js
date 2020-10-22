@@ -115,6 +115,19 @@ class OrderService {
             return error.response.data;
         }
     }
+
+    async putOrder(order){
+        try {
+            let response = await axios.put(`${this.host}/order/${order.id}`, order);
+            let HttpResponse = response.data;
+            return HttpResponse;
+        }
+        catch (error) {
+            console.log(error.response.config);
+            console.log(error.response.request);
+            return error.response;
+        }
+    }
 }
 
 module.exports = new OrderService();

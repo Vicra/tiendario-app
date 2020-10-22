@@ -112,7 +112,7 @@ router.get("/deliver-order/:id", function (req, res) {
     (async () => {
         let response = await orderService.deliverOrder(orderId);
         if(response.success){
-            res.redirect(`/view-order/${orderId}?s=1`);
+            res.redirect(`/view-order/${orderId}?d=1`);
         }
         else {
             res.redirect(`/view-order/${orderId}?m=${response.message}`);
@@ -325,12 +325,13 @@ router.get('/view-order/:id', function (req, res) {
     let orderId = req.params.id;
     (async () => {
         let order = await orderService.getOrderById(orderId);
-        if (order.approved == '1' && order.delivered == '1'){
+        if (order.approved == '1'){
             res.render('order/detail', {
                 title: AppName
                 , order: order
                 , success: req.query.s
                 , message: req.query.m
+                , delivered: req.query.d
             });
         }
         else{
@@ -422,10 +423,10 @@ router.post('/update-order', function (req, res) {
     (async () => {
         let response = await orderService.putOrder(order);
         if (response.code != 200) {
-            res.redirect(`/view-order/${params.id}?m=${response.data.message}`);
+            res.redirect(`/view-order/${order.id}?m=${response.data.message}`);
         }
         else {
-            res.redirect(`/view-order/${params.id}?u=1`);
+            res.redirect(`/view-order/${order.id}?u=1`);
         }
     })();
 });

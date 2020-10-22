@@ -1,3 +1,4 @@
+<br>
 {{#if success}}
     <div class="container">
         <div class="alert alert-success" role="alert">
@@ -7,6 +8,7 @@
 {{/if}}
 
 <div class="container">
+    <br><br>
     <a href="/orders/" class="btn btn-info" role="button">
         <i class="fa fa-home" aria-hidden="true"></i> Volver a Ordenes
     </a>
@@ -28,12 +30,16 @@
 
     <br>
     <h3>Productos</h3>
+    
+
+    <input type="hidden" value="{{cart}}" id="cart">
     <table class="table">
         <thead>
             <tr>
+                <th>Imagen</th>
                 <th>Producto</th>
+                <th>Precio Unitario</th>
                 <th>Cantidad</th>
-                <th>Precio</th>
                 <th>Sub Total</th>
                 {{#if order.approved}}
                 {{else}}
@@ -41,7 +47,7 @@
                 {{/if}}
             </tr>
         </thead>
-        <tbody>
+        <tbody id="products">
             {{#if order.approved}}
                 {{#each order.items }}
                     <tr id="item_{{ this.itemId }}">
@@ -53,72 +59,195 @@
                         <td>Lps. <label id="subprice_{{this.itemId}}">{{this.subtotal}}</label></td>
                     </tr>
                 {{/each}}
-            {{else}}
-                {{#each order.items }}
-                    <tr id="item_{{ this.itemId }}">
-                        <td>{{this.name}} {{this.description}}</td>
-                        <td class="form-inline">
-                            <a onclick="subs({{ this.itemId }})" class="btn btn-default disabled" 
-                                role="button" style="margin-bottom: 0;">-</a>
-                            <input type="numeric" class="form-control" value="{{this.amount}}" style="max-width: 30%;" name="count"
-                                id="count_{{this.itemId}}" max="10" onchange="checkValue(this)" disabled>
-                            <a onclick="sum({{ this.itemId }})" class="btn btn-info disabled" 
-                                role="button" style="margin-bottom: 0;">+</a>
-                        </td>
-                        <td>Lps. <label id="price_{{this.itemId}}">{{this.price}}</label></td>
-                        <td>Lps. <label id="subprice_{{this.itemId}}">{{this.subtotal}}</label></td>
-                        <td>
-                            <button onclick="$('#item_{{this.itemId}}').remove();" class="btn btn-default" disabled>
-                                Quitar
-                            </button>
-                        </td>
-                    </tr>
-                {{/each}}
             {{/if}}
         </tbody>
     </table>
     <br>
-    <h4>Subtotal: Lps.{{order.subtotal}}</h4>
-    <h4>Envío: Lps.{{order.delivery}}</h4>
-    <h3>Total: Lps.{{order.total}}</h3>
+    <div id="details">
+    </div>
+    <div id="total">
+    </div>
 
     {{#if order.approved}}
         <a href="/deliver-order/{{order.id}}" class="btn btn-success" role="button">
             <i class="fa fa-check" aria-hidden="true"></i> Entregar
         </a>
     {{else}}
-        <a href="/approve-order/{{order.id}}" class="btn btn-info" role="button">
+        <form action="/update-order" id="updateOrder" method="POST">
+            <input type="hidden" id="order" name="order">
+            <a onclick="updateOrder();" 
+                type="button" 
+                class="btn btn-info"
+                style="color: white;">
+                Guardar
+            </a>
+        </form>
+        <br><br>
+        <a href="/approve-order/{{order.id}}" class="btn btn-success" role="button">
             <i class="fa fa-check" aria-hidden="true"></i> Aprobar
         </a>
     {{/if}}
+    <br><br><br>
 </div>
 
 <script>
-    const maxItems = 5;
-    function sum(id) {
-        let currentVal = parseInt($(`#count_${id}`).val());
-        let price = $(`#price_${id}`).text();
-        if (currentVal >= 5) {
-            $(`#count_${id}`).val(currentVal);
+    function updateOrder(){
+        console.log('updateOrder');
+        console.log(localStorage.getItem('cart'));
+        $('#order').val(localStorage.getItem('cart'));
+        $('#updateOrder').submit();
+    }
+
+    const maxItems = 10;
+    $( document ).ready(function() {
+        let cart = JSON.parse(($(`#cart`).val()));
+        localStorage.setItem('cart', JSON.stringify(cart));
+        drawProducts();
+    });
+
+    function drawProducts(){
+        $('#products').text('');
+        let cart = JSON.parse(localStorage.getItem('cart'));
+
+        cart.subtotal = 0;
+        for(let i=0; i<cart.products.length; i++){
+            cart.subtotal += cart.products[i].price * cart.products[i].amount;
+        }
+
+        for(let i=0; i<cart.products.length; i++){
+            let row = 
+            `
+            <tr>
+                <td>
+                    <img src="${cart.products[i].image}" alt="" height="50px">
+                </td>
+                <td>
+                    <strong>${cart.products[i].name}</strong><br/>
+                    <em>${cart.products[i].description}</em>
+                </td>
+                <td>
+                    Lps. ${cart.products[i].price}
+                </td>
+                <td class="form-inline" style="display:block;">
+                    <a onclick="subs(${cart.products[i].itemId})" class="btn btn-default border-buttons" 
+                        role="button" style="margin-bottom: 0;">-</a>
+                    <input type="numeric" class="form-control amount-input" value="${cart.products[i].amount}" name="count" style="max-width:35%"
+                        id="count_${cart.products[i].itemId}" max="10" onchange="checkValue(this)">
+                    <a onclick="sum(${cart.products[i].itemId})" class="btn btn-info border-buttons" 
+                        role="button" style="margin-bottom: 0;">+</a>
+                </td>
+                <td>
+                    Lps. ${cart.products[i].amount * cart.products[i].price}
+                </td>
+                <td>
+                    <a onclick="remove(${cart.products[i].itemId})" class="btn btn-default border-buttons">
+                        Quitar
+                    </a>
+                </td>
+            </tr>   
+            `
+            ;
+            $('#products').append(row);
+        }
+
+        let deliveryType = $('#deliveryType').val();
+        if(deliveryType == 'pickup'){
+            cart.delivery = 0;
+            cart.total = cart.subtotal + cart.delivery;
+
+            $('#details').html(
+            `
+                <h4>Subtotal: Lps. ${cart.subtotal}</h4>
+                <h4>* Costo de Envio: Lps. ${cart.delivery} </h4>
+                <h3>Total: Lps. ${cart.total}</h3>
+            `);
         }
         else {
-            currentVal += 1;
-            $(`#count_${id}`).val(currentVal);
+            cart.total = cart.subtotal + cart.delivery;
+
+            $('#details').html(
+            `
+                <h4>Subtotal: Lps. ${cart.subtotal}</h4>
+                <div class="form-inline">
+                    Envio 
+                    <input type="numeric" 
+                        class="form-control" 
+                        value="${cart.delivery}" 
+                        style="width: 100px;"
+                        onchange="updateTotal();"
+                        id="delivery"> 
+                </div>
+                
+            `);
+            $('#total').html(
+            `
+            <h3>Total: Lps. ${cart.total}</h3><br>
+            `);   
         }
-        changeSubprice(id, currentVal, price);
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function updateTotal(){
+        let delivery = $('#delivery').val();
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        let total = parseInt(cart.subtotal) + parseInt(delivery);
+
+        cart.delivery = parseInt(delivery);
+        cart.total = parseInt(total);
+        
+        console.log(cart.delivery);
+        console.log(cart.subtotal);
+        console.log(cart.total);
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        $('#total').html(
+        `
+        <h3>Total: Lps. ${total}</h3><br>
+        `);
+    }
+
+    function sum(id) {
+        const maxItems = 10;
+        let currentVal = parseInt($(`#count_${id}`).val());
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        
+        if (currentVal >= maxItems) {
+            for(let i=0; i<cart.products.length; i++){
+                if(cart.products[i].itemId == id){
+                    cart.products[i].amount = maxItems;
+                    break;
+                }
+            }
+        }
+        else {
+            for(let i=0; i<cart.products.length; i++){
+                if(cart.products[i].itemId == id){
+                    cart.products[i].amount = currentVal + 1;
+                    break;
+                }
+            }
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        drawProducts();
     }
 
     function subs(id) {
         let currentVal = parseInt($(`#count_${id}`).val());
-        let price = $(`#price_${id}`).text();
-        if (currentVal == 1) {
-            $(`#count_${id}`).val(currentVal);
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        
+        if (currentVal != 1) {
+            for(let i=0; i<cart.products.length; i++){
+                if(cart.products[i].itemId == id){
+                    cart.products[i].amount = currentVal - 1;
+                    break;
+                }
+            }
         }
-        else {
-            currentVal -= 1;
-            $(`#count_${id}`).val(currentVal);
-        }
-        changeSubprice(id, currentVal, price);
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        drawProducts();
     }
 
     function checkValue(selfi) {
@@ -128,6 +257,32 @@
         else if (selfi.value < 1) {
             selfi.value = 1;
         }
+
+        let id = selfi.id.split('_')[1];
+
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        for(let i=0; i<cart.products.length; i++){
+            if(cart.products[i].itemId == id){
+                cart.products[i].amount = parseInt(selfi.value);
+                break;
+            }
+        }
+
+        console.log(cart);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        drawProducts();
+    }
+
+    function remove(id){
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        for(var i = cart.products.length; i--;){
+            if(cart.products[i].itemId == id){
+                cart.products.splice(i,1);
+            }
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        drawProducts();
+        updateTopCart();
     }
 
     function changeSubprice(id, amount, price){
