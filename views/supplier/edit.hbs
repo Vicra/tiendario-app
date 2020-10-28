@@ -9,12 +9,13 @@
 {{/if}}
 
 <div class="container">
-    <h1>Editar Proveedor</h1>
+    <br><br>
+    <h2>Editar Proveedor</h2>
 
     <form action="/update-supplier" name="updatesupplier" method="POST">
         <input type="number" hidden="true" value="{{supplier.id}}" name="id">
         <div class="form-group">
-            <label for="name">Nombre</label>
+            <label for="name"><strong>Nombre*</strong></label>
             <input type="text" class="form-control" id="name" name="name" value="{{supplier.name}}">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
@@ -23,7 +24,7 @@
         </div>
 
         <div class="form-group">
-            <label for="name">Descripción</label>
+            <label for="name"><strong>Descripción*</strong></label>
             <input type="text" class="form-control" id="description" name="description" value="{{supplier.description}}">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterDescription">
@@ -32,8 +33,8 @@
         </div>
 
         <div class="form-group">
-            <label for="phone" class="col-2 col-form-label">Teléfono</label>
-            <div class="col-10">
+            <label for="phone"><strong>Teléfono*</strong></label>
+            <div>
                 <input class="form-control" type="text" id="phone" name="phone" value="{{supplier.phone}}">
             </div>
 
@@ -43,15 +44,15 @@
         </div>
 
         <div class="form-group">
-            <label for="cellphone" class="col-2 col-form-label">Celular</label>
-            <div class="col-10">
+            <label for="cellphone">Celular</label>
+            <div>
                 <input class="form-control" type="text" id="cellphone" name="cellphone" value="{{supplier.cellphone}}">
             </div>
         </div>
 
         <div class="form-group">
-            <label for="address" class="col-2 col-form-label">Dirección</label>
-            <div class="col-10">
+            <label for="address">Dirección</label>
+            <div>
                 <input class="form-control" type="text" id="address" name="address" value="{{supplier.address}}">
             </div>
         </div>
@@ -61,6 +62,7 @@
         </div>
     </form>
 </div>
+<br><br><br>
 
 <script>
     function validate() {

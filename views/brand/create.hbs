@@ -7,11 +7,12 @@
 {{/if}}
 
 <div class="container">
-    <h1>Crear Marca</h1>
+    <br><br>
+    <h2>Crear Marca</h2>
 
     <form action="/submit-brand" name="submitbrand" method="POST">
         <div class="form-group">
-            <label for="name">Nombre</label>
+            <label for="name"><strong>Nombre*</strong></label>
             <input type="text" class="form-control" id="name" name="name" placeholder="Marca">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
@@ -24,6 +25,7 @@
         </div>
     </form>
 </div>
+<br><br><br>
 
 <script>
     $('input').keyup(function(e){

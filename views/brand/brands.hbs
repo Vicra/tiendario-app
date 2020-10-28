@@ -1,13 +1,13 @@
 <div class="container">
-    <h1>Marcas</h1><br>
-    <a href="/create-brand" class="btn btn-default" role="button">
+    <br><br>
+    <h2>Marcas</h2>
+    <a href="/create-brand" class="btn btn-default" role="button" style="border: 1px solid grey">
         <i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Marca
     </a>
     <a href="/admin" class="btn btn-info" role="button">
         <i class="fa fa-home" aria-hidden="true"></i> Admin
     </a>
 </div>
-<br>
 
 {{#if success}}
   <div class="container">
@@ -26,27 +26,30 @@
 {{/if}}
 
 <div class="container">
-    <table id="example" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Editar</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each brands }}
+    <div class="horizontal-scroll">
+        <table id="example" class="display" style="width:100%">
+            <thead>
                 <tr>
-                    <td>{{ this.name }}</td>
-                    <td>
-                        <a href="/edit-brand/{{this.id}}" class="btn btn-info" role="button">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </a>
-                    </td>
+                    <th>Editar</th>
+                    <th>Nombre</th>
                 </tr>
-            {{/each}}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {{#each brands }}
+                    <tr>
+                        <td>
+                            <a href="/edit-brand/{{this.id}}" class="btn btn-info" role="button">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                        <td>{{ this.name }}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 </div>
+<br><br><br>
 
 <script>
     $(document).ready(function() {

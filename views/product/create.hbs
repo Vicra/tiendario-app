@@ -14,7 +14,7 @@
 
     <form action="/submit-product" name="submitproduct" method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="name"><strong>Nombre</strong></label>
+            <label for="name"><strong>Nombre*</strong></label>
             <input type="text" class="form-control" id="name" name="name" placeholder="producto">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-group">
-            <label for="name"><strong>Descripción</strong></label>
+            <label for="name"><strong>Descripción*</strong></label>
             <input type="text" class="form-control" id="description" name="description" placeholder="descripción">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterDescription">
@@ -32,7 +32,7 @@
         </div>
 
         <div class="form-group">
-            <label for="category"><strong>Categoría</strong></label>
+            <label for="category"><strong>Categoría*</strong></label>
 
             <div id="categoryDiv">
                 <select class="form-control" id="category" name="categoryId">
@@ -54,7 +54,7 @@
         </div>
         <hr>
         <div class="form-group">
-            <label for="supplier"><strong>Proveedor</strong></label>
+            <label for="supplier"><strong>Proveedor*</strong></label>
 
             <div id="supplierDiv">
                 <select class="form-control" id="supplier" name="supplierId">
@@ -77,7 +77,7 @@
         <hr>
 
         <div class="form-group">
-            <label for="brand"><strong>Marca</strong></label>
+            <label for="brand"><strong>Marca*</strong></label>
 
             <div id="brandDiv">
                 <select class="form-control" id="brand" name="brandId">
@@ -101,7 +101,7 @@
         <hr>
 
         <div class="form-group">
-            <label for="costo" class="col-form-label"><strong>Costo</strong></label>
+            <label for="costo" class="col-form-label"><strong>Costo*</strong></label>
             <div>
                 <input class="form-control" type="number" id="cost" name="cost" value="0">
             </div>
@@ -112,7 +112,7 @@
         </div>
 
         <div class="form-group">
-            <label for="price" class="col-form-label"><strong>Precio</strong></label>
+            <label for="price" class="col-form-label"><strong>Precio*</strong></label>
             <div>
                 <input class="form-control" type="number" id="price" name="price" value="0">
             </div>
@@ -124,9 +124,11 @@
 
         <div class="form-group">
             <label for="image">Imagen</label>
-            <input type="file"
-                id="productImage" name="productImage"
-                accept="image/png, image/jpeg">
+            <div>
+                <input type="file"
+                    id="productImage" name="productImage"
+                    accept="image/png, image/jpeg">
+            </div>
             <i>Sube una foto preferiblemente .png con fondo transparente y que tenga forma de cuadrado
                 (500 x 500 tamaño recomendable)
             </i>

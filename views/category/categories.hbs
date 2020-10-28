@@ -1,13 +1,13 @@
 <div class="container">
-    <h1>Categorías</h1><br>
-    <a href="/create-category" class="btn btn-default" role="button">
+    <br><br>
+    <h2>Categorías</h2>
+    <a href="/create-category" class="btn btn-default" role="button" style="border: 1px solid grey">
         <i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Categoría
     </a>
     <a href="/admin" class="btn btn-info" role="button">
         <i class="fa fa-home" aria-hidden="true"></i> Admin
     </a>
 </div>
-<br>
 
 {{#if success}}
   <div class="container">
@@ -26,31 +26,34 @@
 {{/if}}
 
 <div class="container">
-    <table id="example" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Editar</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each categories }}
+    <div class="horizontal-scroll">
+        <table id="example" class="display" style="width:100%">
+            <thead>
                 <tr>
-                    <td><img src="{{ this.image }}" height="50px" width="50px"></td>
-                    <td>{{ this.name }}</td>
-                    <td>{{ this.description }}</td>
-                    <td>
-                        <a href="/edit-category/{{this.id}}" class="btn btn-info" role="button">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </a>
-                    </td>
+                    <th>Editar</th>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
                 </tr>
-            {{/each}}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {{#each categories }}
+                    <tr>
+                        <td>
+                            <a href="/edit-category/{{this.id}}" class="btn btn-info" role="button">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                        <td><img src="{{ this.image }}" height="50px" width="50px"></td>
+                        <td>{{ this.name }}</td>
+                        <td>{{ this.description }}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 </div>
+<br><br><br>
 
 <script>
     $(document).ready(function() {

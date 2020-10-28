@@ -1,6 +1,7 @@
 <div class="container">
-    <h1>Proveedores</h1><br>
-    <a href="/create-supplier" class="btn btn-default" role="button">
+    <br><br>
+    <h2>Proveedores</h2>
+    <a href="/create-supplier" class="btn btn-default" role="button" style="border: 1px solid grey">
         <i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Proveedor
     </a>
 
@@ -27,35 +28,38 @@
 {{/if}}
 
 <div class="container">
-    <table id="example" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Teléfono</th>
-                <th>Celular</th>
-                <th>Dirección</th>
-                <th>Editar</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each suppliers }}
+    <div class="horizontal-scroll">
+        <table id="example" class="display" style="width:100%">
+            <thead>
                 <tr>
-                    <td>{{ this.name }}</td>
-                    <td>{{ this.description }}</td>
-                    <td>{{ this.phone }}</td>
-                    <td>{{ this.cellphone }}</td>
-                    <td>{{ this.address }}</td>
-                    <td>
-                        <a href="/edit-supplier/{{this.id}}" class="btn btn-info" role="button">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </a>
-                    </td>
+                    <th>Editar</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Teléfono</th>
+                    <th>Celular</th>
+                    <th>Dirección</th>
                 </tr>
-            {{/each}}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {{#each suppliers }}
+                    <tr>
+                        <td>
+                            <a href="/edit-supplier/{{this.id}}" class="btn btn-info" role="button">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                        <td>{{ this.name }}</td>
+                        <td>{{ this.description }}</td>
+                        <td>{{ this.phone }}</td>
+                        <td>{{ this.cellphone }}</td>
+                        <td>{{ this.address }}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 </div>
+<br><br>
 
 <script>
     $(document).ready(function() {

@@ -9,12 +9,13 @@
 {{/if}}
 
 <div class="container">
-    <h1>Editar Marca</h1>
+    <br><br>
+    <h2>Editar Marca</h2>
 
     <form action="/update-brand" name="updatebrand" method="POST">
         <input type="number" hidden="true" value="{{brand.id}}" name="id">
         <div class="form-group">
-            <label for="name">Nombre</label>
+            <label for="name"><strong>Nombre*</strong></label>
             <input type="text" class="form-control" id="name" name="name" value="{{brand.name}}">
 
             <div class="alert alert-danger" role="alert" style="display: none;" id="enterName">
@@ -27,6 +28,7 @@
         </div>
     </form>
 </div>
+<br><br><br>
 
 <script>
     $('input').keyup(function(e){
