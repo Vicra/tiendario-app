@@ -15,7 +15,7 @@ class ProductService {
                 return [];
         } catch (error) {
             console.log(error);
-            return error.response.data;
+            return [];
         }
     }
 
@@ -29,7 +29,7 @@ class ProductService {
                 return [];
         } catch (error) {
             console.log(error);
-            return error.response.data;
+            return [];
         }
     }
 

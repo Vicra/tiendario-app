@@ -27,11 +27,40 @@
     {{!-- mobile proper rendering and touch zooming --}}
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    {{!-- google maps plugin --}}
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARY1Rdog1I2dNJ23wEnE8sYHG3ljKlQSM&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
     <style>
       .bs-example{
           margin: 20px;
       }
-  </style>
+        #map {
+            height: 400px;
+            /* The height is 400 pixels */
+            width: 100%;
+            /* The width is the width of the web page */
+        }
+    </style>
+     <script>
+      // Initialize and add the map
+      function initMap() {
+        // The location of Uluru
+        const uluru = { lat: -25.344, lng: 131.036 };
+        // The map, centered at Uluru
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 4,
+          center: uluru,
+        });
+        // The marker, positioned at Uluru
+        const marker = new google.maps.Marker({
+          position: uluru,
+          map: map,
+        });
+      }
+    </script>
+
   </head>
   <body>
     {{#if type }}
