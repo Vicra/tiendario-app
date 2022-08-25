@@ -65,6 +65,8 @@ form p {
   background-color: rgb(85, 81, 81);
   color: white;
   text-align: center;
+  padding:25px;
+  padding-bottom:50px;
 }
 
 .overlay {

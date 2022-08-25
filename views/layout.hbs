@@ -62,11 +62,18 @@
     </script>
 
   </head>
-  <body>
-    {{#if type }}
-      {{> header }}
-    {{/if}}
-  {{{body}}}
-  <script src="/scripts/grid.js"></script>
-  </body>
+  <div style="min-height:100vh; display:flex; flex-direction:column;justify-content:space-between;">
+    <body>
+      {{#if type }}
+        {{> header }}
+      {{/if}}
+    {{{body}}}
+    <script src="/scripts/grid.js"></script>
+    </body>
+    <footer>
+      {{#if type }}
+        {{> footer }}
+      {{/if}}
+    </footer>
+  </div>
 </html>
