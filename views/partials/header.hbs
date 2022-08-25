@@ -1,7 +1,12 @@
 <div class="bs-example">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a href="/" class="navbar-brand">La Tiendita del Río</a>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <a href="/" class="navbar-brand">{{appName}}</a>
+        <button
+            type="button"
+            class="navbar-toggler"
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+        >
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -18,25 +23,39 @@
             <div class="navbar-nav">
                 <a href="/about" class="nav-item nav-link">¿Quiénes Somos?</a>
             </div>
-            {{!-- <div class="navbar-nav">
+            {{! <div class="navbar-nav">
                 <a href="/faq" class="nav-item nav-link">Preguntas Frecuentes</a>
-            </div> --}}
+            </div> }}
             <div class="navbar-nav ml-auto">
                 {{#if user}}
-                    {{!-- <a href="/view-account" class="nav-item nav-link">
+                    {{! <a href="/view-account" class="nav-item nav-link">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         
-                    </a> --}}
+                    </a> }}
                     <div class="dropdown">
-                        <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a
+                            class="btn dropdown-toggle"
+                            href="#"
+                            role="button"
+                            id="dropdownMenuLink"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                        >
                             {{user.name}}
                         </a>
 
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="/view-account">Ver Cuenta</a>
-                            <a class="dropdown-item" href="/my-orders">Mis Pedidos</a>
+                        <div
+                            class="dropdown-menu"
+                            aria-labelledby="dropdownMenuLink"
+                        >
+                            <a class="dropdown-item" href="/view-account">Ver
+                                Cuenta</a>
+                            <a class="dropdown-item" href="/my-orders">Mis
+                                Pedidos</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/logout">Cerrar Sesión</a>
+                            <a class="dropdown-item" href="/logout">Cerrar
+                                Sesión</a>
                         </div>
                     </div>
                 {{else}}
@@ -50,13 +69,24 @@
     </nav>
 </div>
 
-{{#if cart }}
+{{#if cart}}
     <div class="container">
         <div class="text-right">
             <div class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
-                    <i class="fa fa-shopping-cart fa-2x" style="color: #00b7ff;" aria-hidden="true"></i>
-                    <span id="totalItems"  style="color: #00b7ff;">
+                <a
+                    class="dropdown-toggle"
+                    data-toggle="dropdown"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    style="cursor: pointer;"
+                >
+                    <i
+                        class="fa fa-shopping-cart fa-2x"
+                        style="color: #00b7ff;"
+                        aria-hidden="true"
+                    ></i>
+                    <span id="totalItems" style="color: #00b7ff;">
                     </span>
                 </a>
                 <div class="dropdown-menu">
@@ -70,9 +100,6 @@
 {{/if}}
 <script src="/scripts/cart.js"></script>
 <script>
-    updateTopCart();
-
-    function hasError() {
-        document.getElementById(`logo`).src = "../tiendario.png";
-    }
+    updateTopCart(); function hasError() { document.getElementById(`logo`).src =
+    "../tiendario.png"; }
 </script>

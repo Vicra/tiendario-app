@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require("axios");
 
 class BrandService {
     constructor() {
@@ -9,10 +9,8 @@ class BrandService {
         try {
             const response = await axios.get(`${this.host}/brand`);
             let HttpResponse = response.data;
-            if (HttpResponse.success)
-                return HttpResponse.data;
-            else
-                return HttpResponse;
+            if (HttpResponse.success) return HttpResponse.data;
+            else return HttpResponse;
         } catch (error) {
             console.log(error);
             return error.response.data;
@@ -23,10 +21,8 @@ class BrandService {
         try {
             const response = await axios.get(`${this.host}/brand/${id}`);
             let HttpResponse = response.data;
-            if (HttpResponse.success)
-                return HttpResponse.data;
-            else
-                return {};
+            if (HttpResponse.success) return HttpResponse.data;
+            else return {};
         } catch (error) {
             console.log(error);
             return error.response.data;
@@ -45,7 +41,10 @@ class BrandService {
 
     async putBrand(brand) {
         try {
-            const response = await axios.put(`${this.host}/brand/${brand.id}`, brand);
+            const response = await axios.put(
+                `${this.host}/brand/${brand.id}`,
+                brand
+            );
             return response.data;
         } catch (error) {
             console.log(error);

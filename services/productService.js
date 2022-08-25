@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require("axios");
 
 class ProductService {
     constructor() {
@@ -9,10 +9,8 @@ class ProductService {
         try {
             const response = await axios.get(`${this.host}/product/?limit=25`);
             let HttpResponse = response.data;
-            if (HttpResponse.success)
-                return HttpResponse.data;
-            else
-                return [];
+            if (HttpResponse.success) return HttpResponse.data;
+            else return [];
         } catch (error) {
             console.log(error);
             return [];
@@ -23,10 +21,8 @@ class ProductService {
         try {
             const response = await axios.get(`${this.host}/product/prices`);
             let HttpResponse = response.data;
-            if (HttpResponse.success)
-                return HttpResponse.data;
-            else
-                return [];
+            if (HttpResponse.success) return HttpResponse.data;
+            else return [];
         } catch (error) {
             console.log(error);
             return [];
@@ -37,10 +33,8 @@ class ProductService {
         try {
             const response = await axios.get(`${this.host}/product/latest`);
             let HttpResponse = response.data;
-            if (HttpResponse.success)
-                return HttpResponse.data;
-            else
-                return [];
+            if (HttpResponse.success) return HttpResponse.data;
+            else return [];
         } catch (error) {
             console.log(error);
             return error.response.data;
@@ -59,7 +53,10 @@ class ProductService {
 
     async putProduct(product) {
         try {
-            const response = await axios.put(`${this.host}/product/${product.id}`, product);
+            const response = await axios.put(
+                `${this.host}/product/${product.id}`,
+                product
+            );
             return response.data;
         } catch (error) {
             console.log(error);
@@ -69,17 +66,17 @@ class ProductService {
 
     async getProductsByCategory(id) {
         try {
-            if(isNaN(id)){
+            if (isNaN(id)) {
                 return [];
             }
-            const response = await axios.get(`${this.host}/product/category/${id}`);
+            const response = await axios.get(
+                `${this.host}/product/category/${id}`
+            );
             let HttpResponse = response.data;
-            if (HttpResponse.success)
-                return HttpResponse.data;
-            else
-                return [];
+            if (HttpResponse.success) return HttpResponse.data;
+            else return [];
         } catch (error) {
-            console.log('error');
+            console.log("error");
             return error.response.data;
         }
     }
@@ -88,10 +85,8 @@ class ProductService {
         try {
             const response = await axios.get(`${this.host}/product/${id}`);
             let HttpResponse = response.data;
-            if (HttpResponse.success)
-                return HttpResponse.data;
-            else
-                return {};
+            if (HttpResponse.success) return HttpResponse.data;
+            else return {};
         } catch (error) {
             console.log(error);
             return error.response.data;
@@ -100,7 +95,9 @@ class ProductService {
 
     async searchProducts(keyword) {
         try {
-            const response = await axios.get(`${this.host}/product/search/${keyword}`);
+            const response = await axios.get(
+                `${this.host}/product/search/${keyword}`
+            );
             let HttpResponse = response.data;
             return HttpResponse;
         } catch (error) {
