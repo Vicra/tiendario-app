@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require("axios");
 
 class SupplierService {
     constructor() {
@@ -9,10 +9,8 @@ class SupplierService {
         try {
             const response = await axios.get(`${this.host}/supplier`);
             let HttpResponse = response.data;
-            if (HttpResponse.success)
-                return HttpResponse.data;
-            else
-                return [];
+            if (HttpResponse.success) return HttpResponse.data;
+            else return [];
         } catch (error) {
             console.log(error);
             return error.response.data;
@@ -23,10 +21,8 @@ class SupplierService {
         try {
             const response = await axios.get(`${this.host}/supplier/${id}`);
             let HttpResponse = response.data;
-            if (HttpResponse.success)
-                return HttpResponse.data;
-            else
-                return {};
+            if (HttpResponse.success) return HttpResponse.data;
+            else return {};
         } catch (error) {
             console.log(error);
             return error.response.data;
@@ -37,10 +33,8 @@ class SupplierService {
         try {
             const response = await axios.get(`${this.host}/supplier/latest`);
             let HttpResponse = response.data;
-            if (HttpResponse.success)
-                return HttpResponse.data;
-            else
-                return [];
+            if (HttpResponse.success) return HttpResponse.data;
+            else return [];
         } catch (error) {
             console.log(error);
             return error.response.data;
@@ -49,7 +43,10 @@ class SupplierService {
 
     async postSupplier(supplier) {
         try {
-            const response = await axios.post(`${this.host}/supplier`, supplier);
+            const response = await axios.post(
+                `${this.host}/supplier`,
+                supplier
+            );
             return response.data;
         } catch (error) {
             console.log(error);
@@ -59,7 +56,10 @@ class SupplierService {
 
     async putSupplier(supplier) {
         try {
-            const response = await axios.put(`${this.host}/supplier/${supplier.id}`, supplier);
+            const response = await axios.put(
+                `${this.host}/supplier/${supplier.id}`,
+                supplier
+            );
             return response.data;
         } catch (error) {
             console.log(error);

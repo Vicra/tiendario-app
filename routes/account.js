@@ -1,24 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const userService = require('../services/userService');
+const userService = require("../services/userService");
 const AppName = "La Tiendita del Río";
-const reCaptchaKey = require('../reCaptcha.json');
+const reCaptchaKey = require("../reCaptcha.json");
 const orderService = require("../services/orderService");
 
 router.get("/login", function (req, res) {
     (async () => {
-        let host = req.get('host');
+        let host = req.get("host");
         let siteKey = reCaptchaKey.prod;
-        if (host.includes('localhost')){
+        if (host.includes("localhost")) {
             siteKey = reCaptchaKey.dev;
         }
 
         res.render("user/login", {
-            title: AppName
-            , type: 1
-            , success: req.query.s
-            , verified: req.query.v
-            , siteKey: siteKey
+            title: AppName,
+            type: 1,
+            success: req.query.s,
+            verified: req.query.v,
+            siteKey: siteKey,
         });
     })();
 });
@@ -29,8 +29,7 @@ router.get("/verify/:key", function (req, res) {
         let response = await userService.verifyUser(key);
         if (response.success) {
             res.redirect("/login?v=1");
-        }
-        else {
+        } else {
             res.redirect("/shop");
         }
     })();
@@ -43,12 +42,11 @@ router.post("/login", function (req, res) {
         if (response.success) {
             req.session.user = response.data;
             res.redirect("/shop?l=1");
-        }
-        else {
+        } else {
             res.render("user/login", {
-                title: AppName
-                , type: 1
-                , message: response.message
+                title: AppName,
+                type: 1,
+                message: response.message,
             });
         }
     })();
@@ -57,39 +55,36 @@ router.post("/login", function (req, res) {
 router.get("/logout", function (req, res) {
     req.session.user = null;
     (async () => {
-        res.redirect('/login');
+        res.redirect("/login");
     })();
 });
 
 router.get("/my-orders", function (req, res) {
     (async () => {
-        if(req.session.user){
+        if (req.session.user) {
             let orders = await userService.getOrders(req.session.user.id);
 
             for (let i = 0; i < orders.length; i++) {
-                if (orders[i].type == 'd') {
-                    orders[i].type = 'a domicilio';
-                }
-                else {
-                    orders[i].type = 'autoservicio';
+                if (orders[i].type == "d") {
+                    orders[i].type = "a domicilio";
+                } else {
+                    orders[i].type = "autoservicio";
                 }
 
-                if (orders[i].payment_method == 'e') {
-                    orders[i].payment_method = 'efectivo';
-                }
-                else {
-                    orders[i].payment_method = 'transferencia';
+                if (orders[i].payment_method == "e") {
+                    orders[i].payment_method = "efectivo";
+                } else {
+                    orders[i].payment_method = "transferencia";
                 }
             }
             res.render("user/my-orders", {
-                title: AppName
-                , type: 1
-                , orders: orders
-                , user: req.session.user
+                title: AppName,
+                type: 1,
+                orders: orders,
+                user: req.session.user,
             });
-        }
-        else{
-            res.redirect('/login');
+        } else {
+            res.redirect("/login");
         }
     })();
 });
@@ -97,18 +92,17 @@ router.get("/my-orders", function (req, res) {
 router.get("/order-detail/:orderid", function (req, res) {
     let orderid = req.params.orderid;
     (async () => {
-        if(req.session.user){
+        if (req.session.user) {
             let order = await orderService.getOrderById(orderid);
             res.render("user/order-detail", {
-                title: AppName
-                , type: 1
-                , order: order
-                , products : order.items
-                , user: req.session.user
+                title: AppName,
+                type: 1,
+                order: order,
+                products: order.items,
+                user: req.session.user,
             });
-        }
-        else{
-            res.redirect('/login');
+        } else {
+            res.redirect("/login");
         }
     })();
 });
@@ -147,16 +141,16 @@ router.post("/forgot-password", function (req, res) {
 
 router.get("/register", function (req, res) {
     (async () => {
-        let host = req.get('host');
+        let host = req.get("host");
         let siteKey = reCaptchaKey.prod;
-        if (host.includes('localhost')){
+        if (host.includes("localhost")) {
             siteKey = reCaptchaKey.dev;
         }
 
         res.render("user/register", {
-            title: AppName
-            , type: 1
-            , siteKey: siteKey
+            title: AppName,
+            type: 1,
+            siteKey: siteKey,
         });
     })();
 });
@@ -164,21 +158,20 @@ router.get("/register", function (req, res) {
 router.post("/register", function (req, res) {
     (async () => {
         let response = await userService.postUser(req.body);
-        if (response.success){
+        if (response.success) {
             let addressBody = {
-                description: req.body.address
-                , reference: req.body.reference
-                , typeId: req.body.type
-                , customerId: response.data.insertId
+                description: req.body.address,
+                reference: req.body.reference,
+                typeId: req.body.type,
+                customerId: response.data.insertId,
             };
             response = await userService.postAddress(addressBody);
             res.redirect("/login?s=1");
-        }
-        else {
+        } else {
             res.render("user/register", {
-                title: AppName
-                , type: 1
-                , message: response.message
+                title: AppName,
+                type: 1,
+                message: response.message,
             });
         }
     })();
@@ -195,33 +188,30 @@ router.get("/view-account", function (req, res) {
 
             for (let i = 0; i < addresses.length; i++) {
                 if (addresses[i].type == "1") {
-                    addresses[i].typeName = "Casa"; 
-                }
-                else if (addresses[i].type == "2") {
+                    addresses[i].typeName = "Casa";
+                } else if (addresses[i].type == "2") {
                     addresses[i].typeName = "Trabajo";
-                }
-                else if (addresses[i].type == "3") {
+                } else if (addresses[i].type == "3") {
                     addresses[i].typeName = "Otro";
                 }
             }
 
-            let host = req.get('host');
+            let host = req.get("host");
             let siteKey = reCaptchaKey.prod;
-            if (host.includes('localhost')){
+            if (host.includes("localhost")) {
                 siteKey = reCaptchaKey.dev;
             }
 
             res.render("user/detail", {
-                title: AppName
-                , type: 1
-                , addresses: addresses
-                , user: req.session.user
-                , message: req.query.m
-                , success: req.query.s
-                , siteKey: siteKey
+                title: AppName,
+                type: 1,
+                addresses: addresses,
+                user: req.session.user,
+                message: req.query.m,
+                success: req.query.s,
+                siteKey: siteKey,
             });
-        }
-        else {
+        } else {
             res.redirect("/");
         }
     })();
@@ -234,13 +224,11 @@ router.post("/add-address", function (req, res) {
             params.customerId = req.session.user.id;
             let response = await userService.postAddress(params);
             if (response.success) {
-                res.redirect('/view-account/?s=1')
+                res.redirect("/view-account/?s=1");
+            } else {
+                res.redirect(`/view-account?m=${response.message}`);
             }
-            else{
-                res.redirect(`/view-account?m=${response.message}`)
-            }
-        }
-        else {
+        } else {
             res.redirect("/");
         }
     })();
