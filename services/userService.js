@@ -97,6 +97,22 @@ class UserService {
             return error.response.data;
         }
     }
+
+    async forgotPassword(email){
+        try {
+            let response = await axios.post(`${this.host}/user/forgot`,{
+                email: email
+            });
+            let HttpResponse = response.data;
+            if (HttpResponse.success) {
+                console.log(HttpResponse.data)
+            }
+            return true;
+        } catch (error) {
+            console.log(error);
+            return error.response.data;
+        }
+    }
 }
 
 module.exports = new UserService();

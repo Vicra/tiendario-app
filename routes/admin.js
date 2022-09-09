@@ -130,6 +130,18 @@ router.get("/deliver-order/:id", function (req, res) {
     }
 });
 
+router.get("/print-order/:id", function (req, res) {
+    if(req.session.admin) {
+        let orderId = req.params.id;
+        (async () => {
+            
+        })();
+    }
+    else {
+        res.redirect('/authenticate');
+    }
+});
+
 router.get('/create-product', function (req, res) {
     if(req.session.admin) {
         let suppliers = [];

@@ -1,8 +1,8 @@
 {
   "name": "nodejs-shopping-cart",
   "version": "1.0.0",
-  "author": "George Tsopouridis",
-  "email": "gtsopour@gmail.com",
+  "author": "Guacamayan Software",
+  "email": "",
   "private": false,
   "scripts": {
     "start": "node ./bin/www",

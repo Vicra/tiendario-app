@@ -113,6 +113,38 @@ router.get("/order-detail/:orderid", function (req, res) {
     })();
 });
 
+router.get("/forgot-password", function (req, res) {
+    (async () => {
+        let host = req.get('host');
+        let siteKey = reCaptchaKey.prod;
+        if (host.includes('localhost')){
+            siteKey = reCaptchaKey.dev;
+        }
+
+        res.render("user/forgot-password", {
+            title: AppName
+            , type: 1
+            , siteKey: siteKey
+        });
+    })();
+});
+
+router.post("/forgot-password", function (req, res) {
+    (async () => {
+        let response = await userService.forgotPassword(req.body);
+        if (response.success){
+            res.redirect("/login?s=1");
+        }
+        else {
+            res.render("user/forgot-password", {
+                title: AppName
+                , type: 1
+                , message: response.message
+            });
+        }
+    })();
+});
+
 router.get("/register", function (req, res) {
     (async () => {
         let host = req.get('host');
