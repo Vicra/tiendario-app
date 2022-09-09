@@ -5,7 +5,7 @@ const productService = require("../services/productService");
 const orderService = require("../services/orderService");
 const categoryService = require("../services/categoryService");
 const userService = require("../services/userService");
-const AppName = "La Tiendita del Río";
+const appService = require("../services/appService");
 
 const reCaptchaKey = require("../reCaptcha.json");
 
@@ -175,7 +175,7 @@ router.get("/search", function (req, res) {
 router.get("/", function (req, res) {
     (async () => {
         let categories = await categoryService.getAvailableCategories();
-        // const app = await appService.getApp();
+        const app = await appService.getApp();
         for (let i = categories.length - 1; i >= 0; i--) {
             if (
                 categories[i].id != 1 &&
