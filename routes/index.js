@@ -10,8 +10,10 @@ const appService = require("../services/appService");
 const reCaptchaKey = require("../reCaptcha.json");
 
 let products = [];
+let app = {};
 (async () => {
     products = await productService.getProducts();
+    app = await appService.getApp();
 })();
 
 router.get("/shop", function (req, res) {
@@ -20,22 +22,24 @@ router.get("/shop", function (req, res) {
         products = await productService.getProducts();
 
         res.render("index", {
-            title: AppName,
+            title: app.name,
             products: products,
             type: 1,
             success: req.query.s,
             user: req.session.user,
             login: req.query.l,
             cart: 1,
+            app
         });
     })();
 });
 
 router.get("/cart", function (req, res) {
     res.render("cart", {
-        title: AppName,
+        title: app.name,
         type: 1,
         user: req.session.user,
+        app
         // ,deliveryType: req.body.deliveryRadio
         // ,params: JSON.stringify(req.body)
     });
@@ -52,11 +56,12 @@ router.get("/address", function (req, res) {
                 addresses = addressesResponse.data;
             }
             res.render("verify", {
-                title: AppName,
+                title: app.name,
                 type: 1,
                 user: req.session.user,
                 addresses: addresses,
                 message: req.query.m,
+                app
             });
         })();
     } else {
@@ -67,9 +72,10 @@ router.get("/address", function (req, res) {
         }
 
         res.render("address", {
-            title: AppName,
+            title: app.name,
             type: 1,
             siteKey: siteKey,
+            app
         });
     }
 });
@@ -106,11 +112,12 @@ router.get("/catalog", function (req, res) {
         let categories = await categoryService.getAvailableCategories();
 
         res.render("catalog", {
-            title: AppName,
+            title: app.name,
             categories: categories,
             type: 1,
             user: req.session.user,
             cart: 1,
+            app
         });
     })();
 });
@@ -121,12 +128,13 @@ router.get("/products-category/:id", function (req, res) {
         let products = await productService.getProductsByCategory(categoryId);
 
         res.render("products", {
-            title: AppName,
+            title: app.name,
             products: products,
             type: 1,
             user: req.session.user,
             name: products.length ? products[0].category : "",
             cart: 1,
+            app
         });
     })();
 });
@@ -134,9 +142,10 @@ router.get("/products-category/:id", function (req, res) {
 router.get("/contact", function (req, res) {
     (async () => {
         res.render("contact", {
-            title: AppName,
+            title: app.name,
             type: 1,
             user: req.session.user,
+            app
         });
     })();
 });
@@ -144,9 +153,10 @@ router.get("/contact", function (req, res) {
 router.get("/about", function (req, res) {
     (async () => {
         res.render("about", {
-            title: AppName,
+            title: app.name,
             type: 1,
             user: req.session.user,
+            app
         });
     })();
 });
@@ -161,12 +171,13 @@ router.get("/search", function (req, res) {
         } else {
             products = response.data;
             res.render("index", {
-                title: AppName,
+                title: app.name,
                 products: response.data,
                 type: 1,
                 success: req.query.s,
                 user: req.session.user,
                 keyword: params.keyword,
+                app
             });
         }
     })();
@@ -175,7 +186,6 @@ router.get("/search", function (req, res) {
 router.get("/", function (req, res) {
     (async () => {
         let categories = await categoryService.getAvailableCategories();
-        const app = await appService.getApp();
         for (let i = categories.length - 1; i >= 0; i--) {
             if (
                 categories[i].id != 1 &&
@@ -189,10 +199,11 @@ router.get("/", function (req, res) {
             }
         }
         res.render("main", {
-            title: AppName,
+            title: app.name,
             type: 1,
             user: req.session.user,
             categories: categories,
+            app
         });
     })();
 });

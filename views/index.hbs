@@ -1,158 +1,209 @@
 {{#if success}}
-    <div class="container">
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Orden creada!</h4>
-            <p>Nos pondremos en contacto contigo dentro de pronto.</p>
-            <hr>
-            <p class="mb-0">En caso de tener consultas puede llamar al +504 9947-5935</p>
-        </div>
+  <div class="container">
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">Orden creada!</h4>
+      <p>Nos pondremos en contacto contigo dentro de pronto.</p>
+      <hr />
+      <p class="mb-0">En caso de tener consultas puede llamar al +504 9947-5935</p>
     </div>
-    <div class="container" style="text-align: center;">
-        <img src="tiendario.png" onerror="hasError()" id="logo" width="35%">
-        <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Río Piedras</p>
-        <p>Consulta el catálogo aqui <a href="/catalog">Catálogo</a> o busca el producto.</p>
-    </div>
+  </div>
+  <div class="container" style="text-align: center;">
+    <img src="tiendario.png" onerror="hasError()" id="logo" width="35%" />
+    <p>Puede recoger sus pedidos en {{app.address}}</p>
+    <p>Consulta el catálogo aqui
+      <a href="/catalog">Catálogo</a>
+      o busca el producto.</p>
+  </div>
 {{else}}
-    <div class="container" style="text-align: center;">
-        <img src="tiendario.png" onerror="hasError()" id="logo" width="35%">
-        {{#if login}}
-            <div class="alert alert-success" role="alert">
-                <h4 class="alert-heading">Bienvenid@ {{user.name}}</h4>
-            </div>
-        {{/if}}
-        <p>Puede recoger sus pedidos en 7 calle 20 ave Bo Río Piedras</p>
-        <p>Consulta el catálogo aqui <a href="/catalog">Catálogo</a> o busca el producto.</p>
-    </div>
+  <div class="container" style="text-align: center;">
+    <img src="tiendario.png" onerror="hasError()" id="logo" width="35%" />
+    {{#if login}}
+      <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Bienvenid@ {{user.name}}</h4>
+      </div>
+    {{/if}}
+    <p>Puede recoger sus pedidos en {{app.address}}</p>
+    <p>Consulta el catálogo aqui
+      <a href="/catalog">Catálogo</a>
+      o busca el producto.</p>
+  </div>
 {{/if}}
 
 <div class="overlay" onclick="off()" id="overlay">
-	Producto Agregado
+  Producto Agregado
 </div>
 
 <div class="overlay" onclick="off()" id="overlay-fail">
-	No se pudo agregar producto
+  No se pudo agregar producto
 </div>
 
 <div class="searchBar">
-    <form class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2" action="/search"
-        name="searchProduct" method="GET" id="searchForm">
-        <input class="form-control" type="text" placeholder="Buscar" aria-label="Buscar" name="keyword"
-            value="{{keyword}}" style="width: 92%; display:inline-block; max-width:1400px;">
-        <a href="javascript:{}" onclick="document.getElementById('searchForm').submit();">
-            <i class="fa fa-search" aria-hidden="true"></i>
-        </a>
-    </form>
+  <form
+    class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2"
+    action="/search"
+    name="searchProduct"
+    method="GET"
+    id="searchForm"
+  >
+    <input
+      class="form-control"
+      type="text"
+      placeholder="Buscar"
+      aria-label="Buscar"
+      name="keyword"
+      value="{{keyword}}"
+      style="width: 92%; display:inline-block; max-width:1400px;"
+    />
+    <a
+      href="javascript:{}"
+      onclick="document.getElementById('searchForm').submit();"
+    >
+      <i class="fa fa-search" aria-hidden="true"></i>
+    </a>
+  </form>
 </div>
 
 {{#if products}}
-<div id="container" style="max-width: 1500px;">
+  <div id="container" style="max-width: 1500px;">
     <div class="buttons">
-        <ul class="grid">
-            {{#each products }}
-            <li class="grid-group-item bd-highlight">
-                {{#if this.available}}
-                <div>
-                    <img id="image{{id}}" src="{{ this.image }}" onerror="hasError({{this.id}}, '{{this.alt}}');" 
-                        style="background-size:cover;">
-                </div>
-                {{else}}
-                <div class="unavailableWrapper">
-                    <img class="unavailableImage" id="image{{id}}" src="{{ this.image }}"
-                        onerror="hasError({{this.id}}, '{{this.alt}}');" 
-                        style="background-size:cover;">
-                </div>
-                {{/if}}
-                <h6>{{ this.name }}</h6>
-                <i>{{this.description}}</i>
-                <strong>Lps. {{ this.price }}</strong>
-                {{#if this.available}}
-                    <form class="form-inline" name="form_{{this.id}}" action="/add/{{this.id}}/0" method="POST" style="display: block;">
-                        {{!-- Amount of products --}}
-                        <a onclick="subs({{ this.id }})" class="btn btn-default" 
-                            role="button" style="margin-bottom: 0;">-</a>
-                        <input type="text" class="form-control amount-input" value="1" name="count" 
-                            id="count_{{this.id}}" max="10" onchange="checkValue(this)">
-                        <a onclick="sum({{ this.id }})" class="btn btn-info" 
-                            role="button" style="margin-bottom: 0;">+</a>
-                    </form>
-                    
-                    <input type="hidden" id="name_{{this.id}}" value="{{this.name}}">
-                    <input type="hidden" id="description_{{this.id}}" value="{{this.description}}">
-                    <input type="hidden" id="price_{{this.id}}" value="{{this.price}}">
-                    <input type="hidden" id="image_{{this.id}}" value="{{this.image}}">
-                    
-                    {{!-- Add products --}}
-                    <a class="btn btn-success" role="button" onclick="add({{this.id}});" style="width: 100%;">
-                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> 
-                        Agregar
-                    </a>
-                {{else}}
-                <br>
-                <span class="badge badge-danger" style="margin-top: 1px;">Agotado</span>
-                {{/if}}
-            </li>
-            {{/each}}
-        </ul>
+      <ul class="grid">
+        {{#each products}}
+          <li class="grid-group-item bd-highlight">
+            {{#if this.available}}
+              <div>
+                <img
+                  id="image{{id}}"
+                  src="{{this.image}}"
+                  onerror="hasError({{this.id}}, '{{this.alt}}');"
+                  style="background-size:cover;"
+                />
+              </div>
+            {{else}}
+              <div class="unavailableWrapper">
+                <img
+                  class="unavailableImage"
+                  id="image{{id}}"
+                  src="{{this.image}}"
+                  onerror="hasError({{this.id}}, '{{this.alt}}');"
+                  style="background-size:cover;"
+                />
+              </div>
+            {{/if}}
+            <h6>{{this.name}}</h6>
+            <i>{{this.description}}</i>
+            <strong>Lps. {{this.price}}</strong>
+            {{#if this.available}}
+              <form
+                class="form-inline"
+                name="form_{{this.id}}"
+                action="/add/{{this.id}}/0"
+                method="POST"
+                style="display: block;"
+              >
+                {{! Amount of products }}
+                <a
+                  onclick="subs({{this.id}})"
+                  class="btn btn-default"
+                  role="button"
+                  style="margin-bottom: 0;"
+                >-</a>
+                <input
+                  type="text"
+                  class="form-control amount-input"
+                  value="1"
+                  name="count"
+                  id="count_{{this.id}}"
+                  max="10"
+                  onchange="checkValue(this)"
+                />
+                <a
+                  onclick="sum({{this.id}})"
+                  class="btn btn-info"
+                  role="button"
+                  style="margin-bottom: 0;"
+                >+</a>
+              </form>
+
+              <input
+                type="hidden"
+                id="name_{{this.id}}"
+                value="{{this.name}}"
+              />
+              <input
+                type="hidden"
+                id="description_{{this.id}}"
+                value="{{this.description}}"
+              />
+              <input
+                type="hidden"
+                id="price_{{this.id}}"
+                value="{{this.price}}"
+              />
+              <input
+                type="hidden"
+                id="image_{{this.id}}"
+                value="{{this.image}}"
+              />
+
+              {{! Add products }}
+              <a
+                class="btn btn-success"
+                role="button"
+                onclick="add({{this.id}});"
+                style="width: 100%;"
+              >
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                Agregar
+              </a>
+            {{else}}
+              <br />
+              <span
+                class="badge badge-danger"
+                style="margin-top: 1px;"
+              >Agotado</span>
+            {{/if}}
+          </li>
+        {{/each}}
+      </ul>
     </div>
-</div>
+  </div>
 
 {{else}}
-<div class="container">
+  <div class="container">
     {{#if keyword}}
-    <i>No hay productos en este momento para la busqueda: "{{keyword}}"</i>
+      <i>No hay productos en este momento para la busqueda: "{{keyword}}"</i>
     {{else}}
-    <i>No hay productos en este momento.</i>
+      <i>No hay productos en este momento.</i>
     {{/if}}
-</div>
+  </div>
 {{/if}}
 
 <div class="container" style="text-align: center;">
-    <p>Consulta el catálogo aqui <a href="/catalog">Catálogo</a></p>
-    <p>¿No encuentras lo que buscabas?
-        <a href="https://wa.me/50499475935?text=Buenas,%20tiene%20este%20producto?%20">
-            <img src="https://logodownload.org/wp-content/uploads/2015/04/whatsapp-logo-1.png" alt="" height="50">
-            Escríbenos a WhatsApp
-        </a>
-    </p>
+  <p>Consulta el catálogo aqui <a href="/catalog">Catálogo</a></p>
+  <p>¿No encuentras lo que buscabas?
+    <a
+      href="https://wa.me/50499475935?text=Buenas,%20tiene%20este%20producto?%20"
+    >
+      <img
+        src="https://logodownload.org/wp-content/uploads/2015/04/whatsapp-logo-1.png"
+        alt=""
+        height="50"
+      />
+      Escríbenos a WhatsApp
+    </a>
+  </p>
 </div>
 
 <script src="/scripts/cart.js"></script>
 <script>
-    const maxItems = 10;
-    function off(){
-        $('#overlay').fadeOut();
-    }
-
-    function hasError(id, source) {
-        // document.getElementById(`image${id}`).src = 'https://riopiedras.store/imagen no disponible.png';
-    }
-
-    function sum(id) {
-        let currentVal = parseInt($(`#count_${id}`).val());
-        if (currentVal >= maxItems) {
-            $(`#count_${id}`).val(currentVal);
-        }
-        else {
-            $(`#count_${id}`).val(currentVal + 1);
-        }
-    }
-
-    function subs(id) {
-        let currentVal = parseInt($(`#count_${id}`).val());
-        if (currentVal == 1) {
-            $(`#count_${id}`).val(currentVal);
-        }
-        else {
-            $(`#count_${id}`).val(currentVal - 1);
-        }
-    }
-
-    function checkValue(selfi) {
-        if (selfi.value > maxItems) {
-            selfi.value = maxItems;
-        }
-        else if (selfi.value < 1) {
-            selfi.value = 1;
-        }
-    }
+  const maxItems = 10; function off(){ $('#overlay').fadeOut(); } function
+  hasError(id, source) { // document.getElementById(`image${id}`).src =
+  'https://riopiedras.store/imagen no disponible.png'; } function sum(id) { let
+  currentVal = parseInt($(`#count_${id}`).val()); if (currentVal >= maxItems) {
+  $(`#count_${id}`).val(currentVal); } else { $(`#count_${id}`).val(currentVal +
+  1); } } function subs(id) { let currentVal =
+  parseInt($(`#count_${id}`).val()); if (currentVal == 1) {
+  $(`#count_${id}`).val(currentVal); } else { $(`#count_${id}`).val(currentVal -
+  1); } } function checkValue(selfi) { if (selfi.value > maxItems) { selfi.value
+  = maxItems; } else if (selfi.value < 1) { selfi.value = 1; } }
 </script>
